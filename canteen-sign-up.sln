@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "canteen-sign-up", "canteen-sign-up\canteen-sign-up.csproj", "{B0252C2C-C66C-4422-BE76-476F8C449A57}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "canteen-sign-up-admin", "canteen-sign-up-admin\canteen-sign-up-admin.csproj", "{E3CC65F2-FD76-456D-9F66-D337A8B22196}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B0252C2C-C66C-4422-BE76-476F8C449A57}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0252C2C-C66C-4422-BE76-476F8C449A57}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0252C2C-C66C-4422-BE76-476F8C449A57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3CC65F2-FD76-456D-9F66-D337A8B22196}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3CC65F2-FD76-456D-9F66-D337A8B22196}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3CC65F2-FD76-456D-9F66-D337A8B22196}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3CC65F2-FD76-456D-9F66-D337A8B22196}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
