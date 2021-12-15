@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "canteen-sign-up", "canteen-sign-up\canteen-sign-up.csproj", "{B0252C2C-C66C-4422-BE76-476F8C449A57}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B0252C2C-C66C-4422-BE76-476F8C449A57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0252C2C-C66C-4422-BE76-476F8C449A57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0252C2C-C66C-4422-BE76-476F8C449A57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0252C2C-C66C-4422-BE76-476F8C449A57}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {68D05C0A-66F7-4555-BB23-22270C78CFDB}
+	EndGlobalSection
+EndGlobal
