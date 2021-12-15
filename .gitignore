@@ -348,3 +348,9 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+# web.config files
+canteen-sign-up-admin/Web.Debug.config
+canteen-sign-up/Web.Debug.config
+canteen-sign-up/Web.Release.config
+canteen-sign-up-admin/Web.Release.config
