@@ -117,6 +117,23 @@ namespace DataBaseWrapper
             }
             return numRecs;
         }
+
+        public string TryToConnect()
+        {
+            try
+            {
+                Open();
+                return "Verbindung OK.";
+            }
+            catch (Exception)
+            {
+                return "Kann nicht zur Datenbank verbinden.";
+            }
+            finally
+            {
+                Close();
+            }
+        }
     }
 }
 

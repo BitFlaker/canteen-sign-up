@@ -9,6 +9,9 @@
 <body>
     <form id="form1" runat="server">
         <div>
+            <asp:Button ID="btnSend" runat="server" OnClick="btnSend_Click" Text="Button" />
+            <br />
+            <asp:Label ID="lblInfo" runat="server" ForeColor="Red"></asp:Label>
         </div>
     </form>
 </body>
