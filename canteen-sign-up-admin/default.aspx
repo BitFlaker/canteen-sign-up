@@ -9,6 +9,8 @@
 <body>
     <form id="form1" runat="server">
         <div>
+            <asp:Table ID="tblStudentData" runat="server">
+            </asp:Table>
         </div>
     </form>
 </body>

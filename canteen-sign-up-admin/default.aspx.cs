@@ -11,7 +11,7 @@ namespace canteen_sign_up_admin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            tblStudentData
         }
     }
 }
