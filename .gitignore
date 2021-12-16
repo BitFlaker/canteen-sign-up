@@ -354,3 +354,4 @@ canteen-sign-up-admin/Web.Debug.config
 canteen-sign-up/Web.Debug.config
 canteen-sign-up/Web.Release.config
 canteen-sign-up-admin/Web.Release.config
+Database/Thumbs.db
