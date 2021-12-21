@@ -29,7 +29,7 @@ namespace canteen_sign_up
             }
             else
             {
-                SendUserData(CreateRegistrationDataTable());
+                //SendUserData(CreateRegistrationDataTable());
             }
         }
 
@@ -38,7 +38,7 @@ namespace canteen_sign_up
 
         }
 
-        private DataTable CreateRegistrationDataTable()
+        /*private DataTable CreateRegistrationDataTable()
         {
             DataTable dt = new DataTable();
             dt.Columns.Add("email", typeof(string));
@@ -61,6 +61,6 @@ namespace canteen_sign_up
                                               "{txtBIC}", null};
 
             dt.Rows.Add(newRow);
-        }
+        }*/
     }
 }
