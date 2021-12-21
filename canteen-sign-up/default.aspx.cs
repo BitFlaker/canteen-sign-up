@@ -7,17 +7,18 @@ using System.Web.UI.WebControls;
 using System.Web.Configuration;
 using DataBaseWrapper;
 using System.Data;
+using IbanNet;
 
 namespace canteen_sign_up
 {
     public partial class _default : System.Web.UI.Page
     {
-        DataBase_Secure dbs = new DataBase_Secure(WebConfigurationManager.ConnectionStrings["AppDbInt"].ConnectionString);
+        DataBase db = new DataBase(WebConfigurationManager.ConnectionStrings["AppDbInt"].ConnectionString);
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
             {
-                lblInfo.Text = dbs.TryToConnect();
+                lblInfo.Text = db.TryToConnect();
             }
         }
 
@@ -35,7 +36,20 @@ namespace canteen_sign_up
 
         public void SendUserData(DataTable dt)
         {
+            string values = "'";
+            int affectedRows = 0;
+            string[] valuesArray = (string[]) dt.Rows[0].ItemArray;
 
+            for (int i = 0; i < valuesArray.Length - 1; i++)
+            {
+                values +=  values[i] + "', '";
+            }
+            values += $"{values[values.Length - 1]}'";
+
+            affectedRows = db.RunNonQuery($"INSERT INTO signed_up_users (email, revision, state_id, ao_firstname, ao_lastname, street, house_number, zipcode, city, IBAN, BIC, PDF_path)" +
+                            $"VALUES(?)", values);
+
+            lblInfo.Text = affectedRows.ToString();
         }
 
         private DataTable CreateRegistrationDataTable()
@@ -56,11 +70,36 @@ namespace canteen_sign_up
 
             DataRow newRow = dt.NewRow();
 
-            newRow.ItemArray = new string[] { "email", $"{GetHighestRevision()}", "1", "{txtfirstname}", "{txtlastname}",
-                                              "{txtStreet}", "{txtHN}", "{txtZip}", "{txtcity}", $"{VerifyIBAN()}",
-                                              "{txtBIC}", null};
+            newRow.ItemArray = new string[] { "email", $"{GetNextRevision()}", "1", $"{txtFirstname}", $"{txtLastname}",
+                                              $"{txtStreet}", $"{txtHouseNumber}", $"{txtZip}", $"{txtCity}", $"{VerifyIBAN()}",
+                                              $"{txtBIC}", null};
 
             dt.Rows.Add(newRow);
+
+            return dt;
+        }
+
+        private string VerifyIBAN()
+        {
+            IbanValidator validator = new IbanValidator();
+            ValidationResult validationResult = validator.Validate(txtIban.Text);
+            if (validationResult.IsValid) return txtIban.Text;
+            return null;
+        }
+
+        private string GetNextRevision()
+        {
+            string maxRevision = "0";
+            try
+            {
+                maxRevision = (string)db.RunQueryScalar("SELECT MAX(revision) FROM signed_up_students");
+            }
+            catch(Exception ex)
+            {
+                lblInfo.Text= ex.Message; 
+            }
+
+            return maxRevision + 1;
         }
     }
 }

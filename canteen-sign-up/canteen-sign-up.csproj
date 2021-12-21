@@ -43,6 +43,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="IbanNet, Version=5.3.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IbanNet.5.3.2\lib\net472\IbanNet.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
