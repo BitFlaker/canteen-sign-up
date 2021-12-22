@@ -1,5 +1,5 @@
 ﻿body {
-    background-color: indianred;
+    background-color: rgba(190, 80, 87);
     position: absolute;
     top: 0px;
     bottom: 0px;
@@ -33,8 +33,21 @@
 }
 
 .submitButton {
+    margin-top: 25px;
     margin-left: 5px;
     margin-right: 5px;
+    height: 40px;
+    background-color: rgb(40, 164, 255);
+    border-color: rgb(30, 150, 250);
+    color: white;
+    border-radius: 10px;
+    border-width: 1px;
+    border-style: solid;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-family: Gadugi, Arial, 'Times New Roman';
+    font-size: medium;
+    font-weight: normal;
 }
 
 .formDiv{
@@ -45,4 +58,40 @@
 .formField {
     margin-left: 5px;
     margin-right: 5px;
+    border-radius: 10px;
+    border-width: 1px;
+    border-style: solid;
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: larger;
+}
+
+input, select, textarea {
+    color: #000000;
+}
+
+    textarea::placeholder, input::placeholder {
+        color: #aaaaaa;
+    }
+
+.progressImage {
+    padding-left: 10%;
+    padding-right: 10%;
+    max-width: 768px;
+    max-height: 150px;
+    margin: auto;
+    display: flex;
+}
+
+#message {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    max-width: 512px;
+    display: flex;
+    background-color: rgb(40, 164, 255);
+    border-color: rgb(30, 150, 250);
+    border-radius: 10px;
 }

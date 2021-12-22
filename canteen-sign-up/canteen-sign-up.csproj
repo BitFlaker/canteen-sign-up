@@ -73,6 +73,7 @@
     <Content Include="default.aspx" />
     <Content Include="images\HTLVB_Logo.png" />
     <Content Include="images\MensaLogo.png" />
+    <Content Include="images\ProgressSymbol_Progress1.svg" />
     <Content Include="styles\styles.css" />
     <Content Include="Web.config" />
   </ItemGroup>
