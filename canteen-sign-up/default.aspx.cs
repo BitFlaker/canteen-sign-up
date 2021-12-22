@@ -46,7 +46,8 @@ namespace canteen_sign_up
             }
             values += $"{values[values.Length - 1]}'";
 
-            affectedRows = db.RunNonQuery($"INSERT INTO signed_up_users (email, revision, state_id, ao_firstname, ao_lastname, street, house_number, zipcode, city, IBAN, BIC, PDF_path)" +
+            affectedRows = db.RunNonQuery($"INSERT INTO signed_up_users " +
+                            $"(email, revision, state_id, ao_firstname, ao_lastname, street, house_number, zipcode, city, IBAN, BIC, PDF_path)" +
                             $"VALUES(?)", values);
 
             lblInfo.Text = affectedRows.ToString();
@@ -71,8 +72,8 @@ namespace canteen_sign_up
             DataRow newRow = dt.NewRow();
 
             newRow.ItemArray = new string[] { "email", $"{GetNextRevision()}", "1", $"{txtFirstname}", $"{txtLastname}",
-                                              $"{txtStreet}", $"{txtHouseNumber}", $"{txtZip}", $"{txtCity}", $"{VerifyIBAN()}",
-                                              $"{txtBIC}", null};
+                                              $"{txtStreet}", $"{txtHouseNumber}", $"{txtZipCode}", $"{txtCity}", $"{VerifyIBAN()}",
+                                              $"{txtBic}", null};
 
             dt.Rows.Add(newRow);
 

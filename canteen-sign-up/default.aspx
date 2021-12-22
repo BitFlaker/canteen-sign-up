@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div id="submitContainer">
-                <asp:Button runat="server" Text="Absenden und drucken" CssClass="submitButton"/>
+                <asp:Button runat="server" Text="Absenden und drucken" CssClass="submitButton" ID="btnSend" OnClick="btnSend_Click"/>
             </div>
         </div>
     </form>
