@@ -71,8 +71,8 @@ namespace canteen_sign_up
             DataRow newRow = dt.NewRow();
 
             newRow.ItemArray = new string[] { "email", $"{GetNextRevision()}", "1", $"{txtFirstname}", $"{txtLastname}",
-                                              $"{txtStreet}", $"{txtHouseNumber}", $"{txtZip}", $"{txtCity}", $"{VerifyIBAN()}",
-                                              $"{txtBIC}", null};
+                                              $"{txtStreet}", $"{txtHouseNumber}", $"{txtZipCode}", $"{txtCity}", $"{VerifyIBAN()}",
+                                              $"{txtBic}", null};
 
             dt.Rows.Add(newRow);
 
