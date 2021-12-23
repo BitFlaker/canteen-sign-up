@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="canteen_sign_up_admin._default" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="confirmed.aspx.cs" Inherits="canteen_sign_up_admin.confirmed" %>
 
 <!DOCTYPE html>
 
@@ -9,8 +9,6 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            <asp:Table ID="tblStudentData" runat="server">
-            </asp:Table>
         </div>
     </form>
 </body>

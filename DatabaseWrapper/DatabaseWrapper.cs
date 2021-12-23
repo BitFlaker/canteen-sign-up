@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Data.Odbc;
 using System.Data;
 
-namespace DataBaseWrapper
+namespace DatabaseWrapper
 {
     public class DataBase
     {

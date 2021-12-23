@@ -67,22 +67,36 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="default.aspx" />
+    <Content Include="confirmed.aspx" />
+    <Content Include="pending.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataFilter.cs" />
-    <Compile Include="default.aspx.cs">
-      <DependentUpon>default.aspx</DependentUpon>
+    <Compile Include="confirmed.aspx.cs">
+      <DependentUpon>confirmed.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="default.aspx.designer.cs">
-      <DependentUpon>default.aspx</DependentUpon>
+    <Compile Include="confirmed.aspx.designer.cs">
+      <DependentUpon>confirmed.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DataFilter.cs" />
+    <Compile Include="pending.aspx.cs">
+      <DependentUpon>pending.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pending.aspx.designer.cs">
+      <DependentUpon>pending.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DatabaseWrapper\DatabaseWrapper.csproj">
+      <Project>{82ddbba6-669c-4b8b-84b3-d1b3e60b88c0}</Project>
+      <Name>DatabaseWrapper</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

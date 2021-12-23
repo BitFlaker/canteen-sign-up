@@ -10,14 +10,17 @@
 <body>
     <form id="form1" runat="server">
         <div style="overflow: hidden;">
-            <asp:Image runat="server" CssClass="htlLogo" ImageUrl="~/images/HTLVB_Logo.png" Height="75px" />
-            <asp:Image runat="server" ImageUrl="~/images/MensaLogo.png" Height="100px" />
-            <h1 id="overallHeading">MENSA - Anmeldung</h1>
+            <div id="headingContainer">
+                <div id="gradientOverlay">
+                    <asp:Image runat="server" CssClass="htlLogo" ImageUrl="~/images/HTLVB_Logo.png" Height="75px" />
+                    <asp:Image runat="server" ImageUrl="~/images/MensaLogo.png" Height="100px" />
+                    <h1 id="overallHeading">MENSA - Anmeldung</h1>
+                </div>
+            </div>
             <asp:Image runat="server" CssClass="progressImage" ImageUrl="~/images/ProgressSymbol_Progress1.svg" />
             <div id="message">
                 <asp:Label runat="server" ForeColor="White" Text="Hallo --FANME-- --LNAME--,<br /><br />Fülle die nachfolgenden Daten aus, um dich bei der Mensa zu registrieren. Nach dem Absenden des Formulars muss eien Bestätigung gedruckt, unterschrieben und abschließend abgegeben werden."/>
             </div>
-            <!-- Info message -->
             <div id="formTable">
                 <div class="formDiv" style="display:flex; width: 100%;">
                     <asp:TextBox CssClass="formField" ID="txtFirstname" runat="server" Placeholder="Vorname des Kontoinhabers" Width="100%" SkinID="inputField"/>
