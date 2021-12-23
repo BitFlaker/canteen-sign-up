@@ -5,15 +5,25 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.Configuration;
-using DataBaseWrapper;
+using DatabaseWrapper;
 using System.Data;
 using IbanNet;
+using PdfSharp.Pdf;
+using PdfSharp.Drawing;
+using System.Diagnostics;
+using System.IO;
+using QRCoder;
+using System.Drawing;
+using System.Net;
+using System.Drawing.Imaging;
 
 namespace canteen_sign_up
 {
     public partial class _default : System.Web.UI.Page
     {
-        DataBase db = new DataBase(WebConfigurationManager.ConnectionStrings["AppDbInt"].ConnectionString);
+        Database db = new Database(WebConfigurationManager.ConnectionStrings["AppDbInt"].ConnectionString);
+        private XGraphicsState state;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
@@ -101,6 +111,49 @@ namespace canteen_sign_up
             }
 
             return maxRevision + 1;
+        }
+
+        protected void btnSendAndPrint_Click(object sender, EventArgs e)
+        {
+            PdfDocument document = new PdfDocument();
+            document.Info.Title = "HTLVB Mensa Registrierung";
+            PdfPage page = document.AddPage();
+            XGraphics gfx = XGraphics.FromPdfPage(page);
+            XFont font = new XFont("Arial", 14, XFontStyle.Regular);
+
+            gfx.DrawString("Hello, World!", font, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.Center);
+            
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode("41742720210095;rev=0", QRCodeGenerator.ECCLevel.H);
+            QRCode qrCode = new QRCode(qrCodeData);
+            Bitmap qrCodeImage = qrCode.GetGraphic(4);
+
+
+            MemoryStream memoryStream1 = new MemoryStream();
+            var test = Server.MapPath("images/HTLHeader.png");
+            using (WebClient webClient = new WebClient()) {
+                byte[] data = webClient.DownloadData(Server.MapPath("images/HTLHeader.png"));
+                using (MemoryStream mem = new MemoryStream(data)) {
+                    using (var yourImage = System.Drawing.Image.FromStream(mem)) {
+                        yourImage.Save(memoryStream1, ImageFormat.Png);
+                    }
+                }
+            }
+            XImage image1 = XImage.FromStream(memoryStream1);
+            double width1 = image1.PixelWidth * 40 / image1.HorizontalResolution;
+            double height1 = image1.PixelHeight * 40 / image1.HorizontalResolution;
+            gfx.DrawImage(image1, 10, 0, width1, height1);
+
+            MemoryStream memoryStream = new MemoryStream();
+            qrCodeImage.Save(memoryStream, ImageFormat.Png);
+            XImage image = XImage.FromStream(memoryStream);
+            double width = image.PixelWidth * 72 / image.HorizontalResolution;
+            double height = image.PixelHeight * 72 / image.HorizontalResolution;
+            gfx.DrawImage(image, page.Width - width, 200, width, height);
+
+            string filename = Path.GetTempPath() + "HelloWorld.pdf";
+            document.Save(filename);
+            Process.Start(filename);
         }
     }
 }

@@ -96,13 +96,13 @@ namespace canteen_sign_up
         protected global::System.Web.UI.WebControls.TextBox txtBic;
 
         /// <summary>
-        /// btnSend control.
+        /// btnSendAndPrint control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSend;
+        protected global::System.Web.UI.WebControls.Button btnSendAndPrint;
 
         /// <summary>
         /// lblInfo control.
