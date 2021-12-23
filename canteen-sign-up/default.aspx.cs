@@ -46,7 +46,8 @@ namespace canteen_sign_up
             }
             values += $"{values[values.Length - 1]}'";
 
-            affectedRows = db.RunNonQuery($"INSERT INTO signed_up_users (email, revision, state_id, ao_firstname, ao_lastname, street, house_number, zipcode, city, IBAN, BIC, PDF_path)" +
+            affectedRows = db.RunNonQuery($"INSERT INTO signed_up_users " +
+                            $"(email, revision, state_id, ao_firstname, ao_lastname, street, house_number, zipcode, city, IBAN, BIC, PDF_path)" +
                             $"VALUES(?)", values);
 
             lblInfo.Text = affectedRows.ToString();
