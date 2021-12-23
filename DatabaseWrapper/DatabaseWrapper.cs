@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 using System.Data.Odbc;
 using System.Data;
 
-namespace DataBaseWrapper
+namespace DatabaseWrapper
 {
-    public class DataBase_Secure
+    public class Database
     {
         OdbcConnection connection;
 
-        public DataBase_Secure(string connStrg)
+        public Database(string connStrg)
         {
             connection = new OdbcConnection(connStrg);
         }
