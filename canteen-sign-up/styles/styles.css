@@ -6,33 +6,33 @@
     left: 0px;
     right: 0px;
     margin: 0px;
+    background-image: url("../../images/htlvb.jpg");
 }
 
 .htlLogo {
     float: right;
+    margin-right: 20px;
+    margin-top: 20px;
+}
+
+.mensaLogo {
+    margin-left: 20px;
+    margin-top: 20px;
 }
 
 #overallHeading{
     color: white;
     text-align: center;
     font-family: Gadugi, Arial, 'Times New Roman';
-    font-size: 70px;
-    margin-bottom: 150px;
+    font-size: 50px;
+    margin-bottom: 25px;
+    margin-top: 5px;
 }
 
 #formTable {
-    padding-left: 10%;
-    padding-right: 10%;
-    max-width: 580px;
-    text-align:center;
-    margin: auto;
 }
 
 #submitContainer {
-    padding-left: 10%;
-    padding-right: 10%;
-    max-width: 580px;
-    margin: auto;
 }
 
 .submitButton {
@@ -78,8 +78,6 @@ input, select, textarea {
     }
 
 .progressImage {
-    padding-left: 10%;
-    padding-right: 10%;
     max-width: 300px;
     max-height: 100px;
     margin: auto;
@@ -101,12 +99,39 @@ input, select, textarea {
 
 #headingContainer {
     overflow: hidden;
-    margin-bottom: 50px;
-    background-image: url("../../images/htlvb.jpg");
+    margin-bottom: 10px;
 }
 
 #gradientOverlay {
-    background-color: rgba(160, 192, 224, 0.85);
+    overflow: hidden;
+}
+
+#content {
     overflow: hidden;
     backdrop-filter: blur(3px);
+    background-color: rgba(160, 192, 224, 0.85);
+}
+
+#formPaper {
+    background-color: rgb(228,235,241);
+    padding: 50px;
+    max-width: 580px;
+    text-align: center;
+    margin: auto;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    box-shadow: rgb(0,0,0,0.60) 0px 0px 20px;
+}
+
+#progressBar {
+    background-color: rgb(186, 73, 77);
+    margin-top: -50px;
+    padding-top: 50px;
+    margin-left: -50px;
+    padding-left: 50px;
+    margin-right: -50px;
+    padding-right: 50px;
+    padding-bottom: 50px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
 }
