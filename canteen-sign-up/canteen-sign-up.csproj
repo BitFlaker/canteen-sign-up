@@ -43,6 +43,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="IbanNet, Version=5.3.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IbanNet.5.3.2\lib\net472\IbanNet.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PdfSharp, Version=1.50.5147.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
       <HintPath>..\packages\PDFsharp.1.50.5147\lib\net20\PdfSharp.dll</HintPath>
@@ -80,6 +83,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="default.aspx" />
+    <Content Include="images\htlvb.jpg" />
+    <Content Include="images\HTLVB_Logo.png" />
+    <Content Include="images\MensaLogo.png" />
+    <Content Include="images\ProgressSymbol_Progress1.svg" />
+    <Content Include="styles\styles.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -93,7 +101,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Themes\defaultTheme\Skin1.skin" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DatabaseWrapper\DatabaseWrapper.csproj">
+      <Project>{82ddbba6-669c-4b8b-84b3-d1b3e60b88c0}</Project>
+      <Name>DatabaseWrapper</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -8,11 +8,11 @@ using System.Data;
 
 namespace DatabaseWrapper
 {
-    public class Database
+    public class DataBase
     {
         OdbcConnection connection;
 
-        public Database(string connStrg)
+        public DataBase(string connStrg)
         {
             connection = new OdbcConnection(connStrg);
         }
@@ -116,6 +116,23 @@ namespace DatabaseWrapper
                 }
             }
             return numRecs;
+        }
+
+        public string TryToConnect()
+        {
+            try
+            {
+                Open();
+                return "Verbindung OK.";
+            }
+            catch (Exception)
+            {
+                return "Kann nicht zur Datenbank verbinden.";
+            }
+            finally
+            {
+                Close();
+            }
         }
     }
 }

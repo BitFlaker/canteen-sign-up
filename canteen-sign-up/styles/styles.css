@@ -1,0 +1,112 @@
+﻿body {
+    background-color: rgba(231, 239, 241);
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    margin: 0px;
+}
+
+.htlLogo {
+    float: right;
+}
+
+#overallHeading{
+    color: white;
+    text-align: center;
+    font-family: Gadugi, Arial, 'Times New Roman';
+    font-size: 70px;
+    margin-bottom: 150px;
+}
+
+#formTable {
+    padding-left: 10%;
+    padding-right: 10%;
+    max-width: 580px;
+    text-align:center;
+    margin: auto;
+}
+
+#submitContainer {
+    padding-left: 10%;
+    padding-right: 10%;
+    max-width: 580px;
+    margin: auto;
+}
+
+.submitButton {
+    margin-top: 25px;
+    margin-left: 5px;
+    margin-right: 5px;
+    height: 40px;
+    background-color: rgb(40, 164, 255);
+    border-color: rgb(30, 150, 250);
+    color: white;
+    border-radius: 10px;
+    border-width: 1px;
+    border-style: solid;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-family: Gadugi, Arial, 'Times New Roman';
+    font-size: medium;
+    font-weight: normal;
+}
+
+.formDiv{
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+.formField {
+    margin-left: 5px;
+    margin-right: 5px;
+    border-radius: 10px;
+    border-width: 1px;
+    border-style: solid;
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: larger;
+}
+
+input, select, textarea {
+    color: #000000;
+}
+
+    textarea::placeholder, input::placeholder {
+        color: #aaaaaa;
+    }
+
+.progressImage {
+    padding-left: 10%;
+    padding-right: 10%;
+    max-width: 300px;
+    max-height: 100px;
+    margin: auto;
+    display: flex;
+}
+
+#message {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    max-width: 512px;
+    display: flex;
+    background-color: rgb(40, 164, 255);
+    border-color: rgb(30, 150, 250);
+    border-radius: 10px;
+}
+
+#headingContainer {
+    overflow: hidden;
+    margin-bottom: 50px;
+    background-image: url("../../images/htlvb.jpg");
+}
+
+#gradientOverlay {
+    background-color: rgba(160, 192, 224, 0.85);
+    overflow: hidden;
+    backdrop-filter: blur(3px);
+}
