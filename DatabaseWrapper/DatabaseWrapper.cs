@@ -8,11 +8,11 @@ using System.Data;
 
 namespace DatabaseWrapper
 {
-    public class DataBase
+    public class Database
     {
         OdbcConnection connection;
 
-        public DataBase(string connStrg)
+        public Database(string connStrg)
         {
             connection = new OdbcConnection(connStrg);
         }

@@ -23,12 +23,12 @@ namespace canteen_sign_up_admin
             if (Page.IsPostBack == false)
             {
                 DataFilter filter = new DataFilter();
-                gvStudentsData.DataSource = filter.FillUpStudentsDataTable();
+                gvStudentsData.DataSource = filter.GetPending();
                 gvStudentsData.DataBind();
             }
             else
             {
-                AddTextboxesToGV(gvStudentsData.Rows[0]);
+                AddTextboxesToGV(gvStudentsData);
             }
         }
 
@@ -39,18 +39,17 @@ namespace canteen_sign_up_admin
                 if (e.Row.RowIndex == 0 && gvDataBoundRecently == false)
                 {
                     AddEmtpyRow((GridView)sender);
-                    AddTextboxesToGV(gvStudentsData.Rows[0]);
+                    AddTextboxesToGV(gvStudentsData);
                 }
             }
         }
 
-        private void AddTextboxesToGV(GridViewRow row)
+        private void AddTextboxesToGV(GridView gv)
         {
-            string[] txtIDs = new string[] {"txtstudents.email", "txtstudent_id", "txtfirstname", "txtlastname", "txtclass",
-            "txtrevision", "txtstates.description", "txtao_firstname", "txtao_lastname", "txtstreet", "txthouse_number",
-            "txtzipcode", "txtcity", "txtIBAN", "txtBIC", "txtPDF_path"};
-
+            List<string> txtIDs = GetColumnNames(gv);
+            GridViewRow row = gv.Rows[0];
             TableCell tc = null;
+
             for (int i = 0; i < row.Cells.Count; i++)
             {
                 tc = row.Cells[i];
@@ -63,6 +62,21 @@ namespace canteen_sign_up_admin
                 txt.TextChanged += new System.EventHandler(this.Txt_Changed);
                 tc.Controls.Add(txt);
             }
+        }
+
+        /// <summary>
+        /// Runs through the gridview data and formats all column names to textbox names.
+        /// </summary>
+        /// <param name="gv">GridView to read data from.</param>
+        /// <returns>String-Type List containing all formated names.</returns>
+        private List<string> GetColumnNames(GridView gv)
+        {
+            List<string> txtIDs = new List<string>();
+            foreach (DataColumn dc in gv.Columns)       //???
+            {
+                txtIDs.Add("txt" + dc.ColumnName);
+            }
+            return txtIDs;
         }
 
         private void AddEmtpyRow([Optional] GridView sender)

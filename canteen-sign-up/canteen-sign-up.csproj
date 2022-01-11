@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="default.aspx" />
+    <Content Include="images\HTLHeader.png" />
     <Content Include="images\htlvb.jpg" />
     <Content Include="images\HTLVB_Logo.png" />
     <Content Include="images\MensaLogo.png" />

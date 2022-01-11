@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <div id="submitContainer">
-                    <asp:Button runat="server" Text="Absenden und drucken" CssClass="submitButton"/>
+                    <asp:Button runat="server" Text="Absenden und drucken" CssClass="submitButton" ID="btnSendAndPrint" OnClick="btnSendAndPrint_Click"/>
                 </div>
                 <asp:Label ID="lblInfo" runat="server" ForeColor="Orange" Visible="false"></asp:Label>
             </div>
