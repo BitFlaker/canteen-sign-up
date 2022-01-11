@@ -5,9 +5,10 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.Configuration;
-using DataBaseWrapper;
+using DatabaseWrapper;
 using System.Data;
 using IbanNet;
+
 
 namespace canteen_sign_up
 {
@@ -19,7 +20,21 @@ namespace canteen_sign_up
             if (!Page.IsPostBack)
             {
                 lblInfo.Text = db.TryToConnect();
+                WritingUsernameInStartPage();
             }
+        }
+
+        private void WritingUsernameInStartPage()
+        {
+            string getName = System.Environment.UserName;
+            string[] username = getName.Split('.');
+
+            string firstname = username[0][0].ToString().ToUpper() + username[0].Substring(1);
+            string lastname = username[1][0].ToString().ToUpper() + username[1].Substring(1);
+
+            lblMessage.Text = ($"Hallo {firstname} {lastname},<br /><br />Fülle die nachfolgenden Daten aus, " +
+                "um dich bei der Mensa zu registrieren. Nach dem Absenden des Formulars muss eien Bestätigung " +
+                "gedruckt, unterschrieben und abschließend abgegeben werden.");
         }
 
         private void btnSend_Click(object sender, EventArgs e)
