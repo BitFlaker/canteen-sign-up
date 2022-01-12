@@ -100,6 +100,7 @@
       <DependentUpon>default.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserData.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Themes\defaultTheme\Skin1.skin" />
@@ -109,6 +110,10 @@
     <ProjectReference Include="..\DatabaseWrapper\DatabaseWrapper.csproj">
       <Project>{82ddbba6-669c-4b8b-84b3-d1b3e60b88c0}</Project>
       <Name>DatabaseWrapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HttpDataSharp\HttpDataSharp.csproj">
+      <Project>{D981D540-F26A-4831-9108-7623B2E9B7E8}</Project>
+      <Name>HttpDataSharp</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
