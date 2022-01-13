@@ -10,6 +10,7 @@ using DatabaseWrapper;
 using System.Web.Configuration;
 using System.Runtime.InteropServices;
 using System.Drawing;
+using System.Web.UI.HtmlControls;
 
 namespace canteen_sign_up_admin
 {
@@ -26,10 +27,10 @@ namespace canteen_sign_up_admin
                 gvStudentsData.DataSource = filter.GetPending();
                 gvStudentsData.DataBind();
             }
-            else
+            /*else
             {
                 AddTextboxesToGV(gvStudentsData);
-            }
+            }*/
         }
 
         protected void GridViewStudentsData_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -39,12 +40,12 @@ namespace canteen_sign_up_admin
                 if (e.Row.RowIndex == 0 && gvDataBoundRecently == false)
                 {
                     AddEmtpyRow((GridView)sender);
-                    AddTextboxesToGV(gvStudentsData);
+                    //AddTextboxesToGV(gvStudentsData);
                 }
             }
         }
 
-        private void AddTextboxesToGV(GridView gv)
+        /*private void AddTextboxesToGV(GridView gv)
         {
             List<string> txtIDs = GetColumnNames(gv);
             GridViewRow row = gv.Rows[0];
@@ -62,7 +63,7 @@ namespace canteen_sign_up_admin
                 txt.TextChanged += new System.EventHandler(this.Txt_Changed);
                 tc.Controls.Add(txt);
             }
-        }
+        }*/
 
         /// <summary>
         /// Runs through the gridview data and formats all column names to textbox names.
@@ -130,8 +131,37 @@ namespace canteen_sign_up_admin
             {
                 throw ex;
             }
+        }
 
+        protected void btnUploadFile_Click(object sender, EventArgs e)
+        {
+            DialogBox dbox = (DialogBox)Page.LoadControl("DialogBox.ascx");
+            dbox.Title = "Anmeldeformulare hochladen";
+            Control body = FindControlRecursive(Page, "form1");
+            body.Controls.Add(dbox);
+            dbox.setFileUploadSelect("Wählen Sie ein .pdf Dokument aus, in welchem<br/>sich die eingescannten Anmeldungsformulare befinden.");
+            dbox.DialogFinished += FormUploadFinished;
+        }
 
+        private void FormUploadFinished(object sender, DialogEventArgs e)
+        {
+            if (e.Result == DialogEventArgs.EventResults.Ok) {
+                Console.WriteLine("ok");
+            }
+            else {
+                Console.WriteLine("cancel");
+            }
+        }
+
+        private Control FindControlRecursive(Control rootControl, string controlID)
+        {
+            if (rootControl.ID == controlID) return rootControl;
+
+            foreach (Control controlToSearch in rootControl.Controls) {
+                Control controlToReturn = FindControlRecursive(controlToSearch, controlID);
+                if (controlToReturn != null) return controlToReturn;
+            }
+            return null;
         }
     }
 }

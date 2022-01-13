@@ -6,9 +6,10 @@
 <head runat="server">
     <title></title>
 </head>
-<body>
+<body id="bodyNode">
     <form id="form1" runat="server">
         <div>
+            <asp:Button runat="server" ID="btnUploadFile" OnClick="btnUploadFile_Click" Text="Upload File"/>
             <asp:GridView ID="gvStudentsData" runat="server" OnRowDataBound="GridViewStudentsData_RowDataBound">
             </asp:GridView>
             <asp:Label ID="lblInfo" runat="server"></asp:Label>

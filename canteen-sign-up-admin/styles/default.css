@@ -1,0 +1,25 @@
+﻿#background {
+	position: absolute;
+	background-color: rgba(0,0,0,0.4);
+	backdrop-filter: blur(2px);
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#dialogWindow {
+	background-color: white;
+	width: auto;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 10px;
+	min-width: 200px;
+	padding-left: 50px;
+	padding-right: 50px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
