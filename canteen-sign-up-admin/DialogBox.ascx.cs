@@ -14,9 +14,14 @@ namespace canteen_sign_up_admin
         public event DialogEventHandler DialogFinished;
         private FileUpload fu;
 
-        protected void Page_Load(object sender, EventArgs e)
+        public DialogBox()
         {
             ID = Guid.NewGuid().ToString();
+        }
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            
         }
 
         public string Title { 
@@ -30,8 +35,7 @@ namespace canteen_sign_up_admin
             lblDesc.Text = description;
             lblDesc.Attributes["style"] = "margin-bottom: 20px;";
             fu = new FileUpload();
-
-            Control content = FindControlRecursive(FindControlRecursive(Page, ID), "dialogContent");
+            Control content = FindControlRecursive(this, "dialogContent");
             content.Controls.Add(lblDesc);
             content.Controls.Add(fu);
         }
@@ -40,7 +44,7 @@ namespace canteen_sign_up_admin
 
         private Control FindControlRecursive(Control rootControl, string controlID)
         {
-            if (rootControl.ID == controlID) return rootControl;
+            if (rootControl.ID == controlID) { return rootControl; }
 
             foreach (Control controlToSearch in rootControl.Controls) {
                 Control controlToReturn = FindControlRecursive(controlToSearch, controlID);
@@ -52,11 +56,13 @@ namespace canteen_sign_up_admin
         protected void btnOk_Click(object sender, EventArgs e)
         {
             DialogFinished(this, new DialogEventArgs(DialogEventArgs.EventResults.Ok));
+            Parent.Controls.Remove(this);
         }
 
         protected void btnCancel_Click(object sender, EventArgs e)
         {
             DialogFinished(this, new DialogEventArgs(DialogEventArgs.EventResults.Cancel));
+            Parent.Controls.Remove(this);
         }
     }
 
