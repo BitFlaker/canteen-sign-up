@@ -10,6 +10,7 @@ using DatabaseWrapper;
 using System.Web.Configuration;
 using System.Runtime.InteropServices;
 using System.Drawing;
+using System.Web.UI.HtmlControls;
 
 namespace canteen_sign_up_admin
 {
@@ -28,8 +29,33 @@ namespace canteen_sign_up_admin
             }
             else
             {
-                AddTextboxesToGV(gvStudentsData);
+                if (ViewState["UploadDialogID"] != null) {
+                    GenUploadDialog((string)ViewState["UploadDialogID"]);
+                }
             }
+        }
+
+        public static Control GetPostBackControl(Page page)
+        {
+            Control control = null;
+            string ctrlname = page.Request.Params.Get("__EVENTTARGET");
+            if (ctrlname != null && ctrlname != String.Empty)
+            {
+                control = page.FindControl(ctrlname);
+            }
+            else
+            {
+                foreach (string ctl in page.Request.Form)
+                {
+                    Control c = page.FindControl(ctl);
+                    if (c != null)
+                    {
+                        control = c;
+                        break;
+                    }
+                }
+            }
+            return control;
         }
 
         protected void GridViewStudentsData_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -74,7 +100,6 @@ namespace canteen_sign_up_admin
                 tc.Controls.Add(txt);
             }
         }
-
         private List<string> GetColumnNames(DataTable dt)
         {
             List<string> txtIDs = new List<string>();
@@ -141,6 +166,41 @@ namespace canteen_sign_up_admin
             {
                 throw ex;
             }
+        }
+
+        protected void btnUploadFile_Click(object sender, EventArgs e)
+        {
+            GenUploadDialog();
+        }
+
+        private void GenUploadDialog(string id = null)
+        {
+            DialogBox dbox = (DialogBox)Page.LoadControl("DialogBox.ascx");
+            if (id != null) { dbox.ID = id; }
+            dbox.Title = "Anmeldeformulare hochladen";
+            dbox.setFileUploadSelect("Wählen Sie ein .pdf Dokument aus, in welchem<br/>sich die eingescannten Anmeldungsformulare befinden.");
+            dbox.DialogFinished += FormUploadFinished;
+            form1.Controls.Add(dbox);
+            ViewState["UploadDialogID"] = dbox.ID;
+        }
+
+        private void FormUploadFinished(object sender, DialogEventArgs e)
+        {
+            if (e.Result == DialogEventArgs.EventResults.Ok) {
+                DialogBox dbox = sender as DialogBox;
+                string uploadedFile = dbox.FileUpload.FileName;
+            }
+        }
+
+        private Control FindControlRecursive(Control rootControl, string controlID)
+        {
+            if (rootControl.ID == controlID) return rootControl;
+
+            foreach (Control controlToSearch in rootControl.Controls) {
+                Control controlToReturn = FindControlRecursive(controlToSearch, controlID);
+                if (controlToReturn != null) return controlToReturn;
+            }
+            return null;
         }
 
     }
