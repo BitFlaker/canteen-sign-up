@@ -71,9 +71,18 @@
     <Content Include="DialogBox.ascx" />
     <Content Include="pending.aspx" />
     <Content Include="styles\default.css" />
+    <Content Include="styles\master.css" />
+    <Content Include="styles\pending.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="admin.Master.cs">
+      <DependentUpon>admin.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin.Master.designer.cs">
+      <DependentUpon>admin.Master</DependentUpon>
+    </Compile>
     <Compile Include="confirmed.aspx.cs">
       <DependentUpon>confirmed.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -99,6 +108,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Themes\ControlTheme\Skin1.skin" />
+    <Content Include="admin.Master" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

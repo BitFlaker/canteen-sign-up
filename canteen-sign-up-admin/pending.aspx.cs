@@ -170,7 +170,7 @@ namespace canteen_sign_up_admin
             dbox.Title = "Anmeldeformulare hochladen";
             dbox.setFileUploadSelect("Wählen Sie ein .pdf Dokument aus, in welchem<br/>sich die eingescannten Anmeldungsformulare befinden.");
             dbox.DialogFinished += FormUploadFinished;
-            form1.Controls.Add(dbox);
+            //form1.Controls.Add(dbox);
             ViewState["UploadDialogID"] = dbox.ID;
         }
 

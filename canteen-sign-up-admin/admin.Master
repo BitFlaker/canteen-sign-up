@@ -1,0 +1,26 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="admin.master.cs" Inherits="canteen_sign_up_admin.admin" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title></title>
+    <link href="styles/master.css" rel="stylesheet" type="text/css" />
+    <link href="styles/pending.css" rel="stylesheet" type="text/css" />
+    <link href="styles/default.css" rel="stylesheet" type="text/css" />
+    <asp:ContentPlaceHolder ID="head" runat="server" />
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="Navigation">
+            <asp:Button ID="btnOrder" runat="server" Text="Order" Width="80%" OnClick="btnOrder_Click"/>
+            <br />
+            <asp:Button ID="btnReports" runat="server" Text="Reports" Width="80%"/>
+        </div>
+
+        <div class="PageContent">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"/>
+        </div>
+    </form>
+</body>
+</html>
