@@ -33,22 +33,22 @@ namespace canteen_sign_up_admin
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// btnOrder control.
+        /// btnPending control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnOrder;
+        protected global::System.Web.UI.WebControls.Button btnPending;
 
         /// <summary>
-        /// btnReports control.
+        /// btnConfirmed control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnReports;
+        protected global::System.Web.UI.WebControls.Button btnConfirmed;
 
         /// <summary>
         /// ContentPlaceHolder1 control.

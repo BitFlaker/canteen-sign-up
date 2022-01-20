@@ -13,9 +13,11 @@
 <body>
     <form id="form1" runat="server">
         <div class="Navigation">
-            <asp:Button ID="btnOrder" runat="server" Text="Order" Width="80%" OnClick="btnOrder_Click"/>
+            <asp:Image runat="server" ImageUrl="~/images/MensaLogo.png" CssClass="imageItem" />
             <br />
-            <asp:Button ID="btnReports" runat="server" Text="Reports" Width="80%"/>
+            <asp:Button ID="btnPending" runat="server" Text="Pending" Width="80%" OnClick="btnPending_Click"/>
+            <br />
+            <asp:Button ID="btnConfirmed" runat="server" Text="Confirmed" Width="80%" OnClick="btnConfirmed_Click"/>
         </div>
 
         <div class="PageContent">

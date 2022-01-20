@@ -1,4 +1,9 @@
-﻿.Navigation {
+﻿.imageItem {
+	width: 80%;
+	margin-bottom: 30px;
+}
+
+.Navigation {
 	background-color: #505a64;
 	text-align: center;
 	position: absolute;

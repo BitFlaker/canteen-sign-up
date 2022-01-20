@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" AutoEventWireup="true" MasterPageFile="~/admin.Master" CodeBehind="pending.aspx.cs" Inherits="canteen_sign_up_admin._default" Theme="ControlTheme" %>
 
-<asp:Content runat="server" ContentPlaceHolderID="ContentPlaceHolder1" ID="Content2">
+<asp:Content ID="cttPage" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
     <div id="dTop">
         <asp:Button runat="server" ID="btnUploadFile" OnClick="btnUploadFile_Click" Text="Upload File" SkinID="controlButton" />
     </div>
