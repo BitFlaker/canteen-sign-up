@@ -1,0 +1,13 @@
+﻿body{
+	margin: 0px;
+}
+
+#dTop {
+	background-color: slategray;
+	margin-bottom: 20px;
+	height: 40px;
+	display: flex;
+	align-items: center;
+	padding-left: 15px;
+	padding-right: 15px;
+}

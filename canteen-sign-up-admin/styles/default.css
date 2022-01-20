@@ -23,3 +23,17 @@
 	padding-top: 10px;
 	padding-bottom: 10px;
 }
+
+.cornerRadius {
+	border-radius: 5px;
+	border: 1px solid #A1DCF2;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+	overflow: hidden;
+}
+
+.centerContainer {
+	display: flex;
+	justify-content: center;
+}
