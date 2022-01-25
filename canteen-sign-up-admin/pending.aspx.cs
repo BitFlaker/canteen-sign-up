@@ -10,9 +10,14 @@ using DatabaseWrapper;
 using System.Web.Configuration;
 using System.Runtime.InteropServices;
 using System.Drawing;
-using System.IO;
+using System.Web.UI.HtmlControls;
+using ImageMagick;
+using System.Diagnostics;
 using PdfSharp.Pdf;
+using PdfSharp.Pdf.Advanced;
 using PdfSharp.Pdf.IO;
+using System.IO;
+using System.Drawing.Imaging;
 using ZXing;
 
 namespace canteen_sign_up_admin
@@ -20,197 +25,178 @@ namespace canteen_sign_up_admin
     public partial class _default : System.Web.UI.Page
     {
         Database db = new Database(WebConfigurationManager.ConnectionStrings["AppDbInt"].ConnectionString);
+        DataFilter filter = new DataFilter();
         bool gvDataBoundRecently = false;
+        
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Page.IsPostBack == false)
             {
-                DataFilter filter = new DataFilter();
-                gvStudentsData.DataSource = filter.GetPending();
+                gvStudentsData.DataSource = filter.GetStateFilteredInfo(DataFilter.GetSqlCmd(DataFilter.tableColumnNamesEnglish,
+                                                                                             DataFilter.tableColumnNamesGerman), 
+                                                                                             1 /*(pending)*/);
                 gvStudentsData.DataBind();
             }
-            //else
-            //{
-            //    AddTextboxesToGV(gvStudentsData);
-            //}
+            else
+            {
+                //get the event target name and find the control
+                string ctrlName = Page.Request.Params.Get("__EVENTTARGET");
+                string txtContent = Page.Request.Form[ctrlName];
+
+                filter.AddTextboxesToGV(gvStudentsData, this.Txt_Changed, 1);
+
+                if (ctrlName != "" && Page.FindControl(ctrlName).ID.StartsWith("txt"))
+                {
+                    if (txtContent.Trim() == "")
+                    {
+                        Txt_Changed(Page.FindControl(ctrlName), null);
+                    }
+                }
+
+                if (ViewState["UploadDialogID"] != null)
+                {
+                    GenUploadDialog((string)ViewState["UploadDialogID"]);
+                }
+            }
         }
 
         protected void GridViewStudentsData_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-            //if (e.Row.RowType == DataControlRowType.DataRow)
-            //{
-            //    if (e.Row.RowIndex == 0 && gvDataBoundRecently == false)
-            //    {
-            //        AddEmtpyRow((GridView)sender);
-            //        AddTextboxesToGV(gvStudentsData);
-            //    }
-            //}
+            GridView gridView = (GridView)sender;
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                if (e.Row.RowIndex == 0 && gvDataBoundRecently == false)
+                {
+                    gvDataBoundRecently = true; //gehört zu AddEmptyRow
+                    filter.AddEmtpyRow(ref gridView);
+
+                    filter.AddTextboxesToGV(gridView, this.Txt_Changed, 1);
+                }
+            }
         }
 
-        //private void AddTextboxesToGV(GridView gv)
-        //{
-        //    List<string> txtIDs = GetColumnNames(gv);
-        //    GridViewRow row = gv.Rows[0];
-        //    TableCell tc = null;
-
-        //    for (int i = 0; i < row.Cells.Count; i++)
-        //    {
-        //        tc = row.Cells[i];
-        //        TextBox txt = new TextBox();
-        //        tc.Text = "";
-        //        txt.Text = tc.Text;
-        //        txt.ID = txtIDs[i];
-        //        txt.EnableViewState = true;
-        //        txt.AutoPostBack = true;
-        //        txt.TextChanged += new System.EventHandler(this.Txt_Changed);
-        //        tc.Controls.Add(txt);
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Runs through the gridview data and formats all column names to textbox names.
-        ///// </summary>
-        ///// <param name="gv">GridView to read data from.</param>
-        ///// <returns>String-Type List containing all formated names.</returns>
-        //private List<string> GetColumnNames(GridView gv)
-        //{
-        //    List<string> txtIDs = new List<string>();
-        //    foreach (DataColumn dc in gv.Columns)       //???
-        //    {
-        //        txtIDs.Add("txt" + dc.ColumnName);
-        //    }
-        //    return txtIDs;
-        //}
-
-        //private void AddEmtpyRow([Optional] GridView sender)
-        //{
-        //    DataTable dt = (DataTable)sender.DataSource;
-        //    dt.Rows.InsertAt(dt.NewRow(), 0);
-        //    gvStudentsData.DataSource = dt;
-        //    gvDataBoundRecently = true;
-        //    gvStudentsData.DataBind();
-        //}
-
-        //protected void Txt_Changed(object sender, EventArgs e)
-        //{
-        //    TextBox txt = (TextBox)sender;
-
-        //    try
-        //    {
-        //        DataTable filtered = db.RunQuery("SELECT students.email AS 'E-Mail', " +
-        //        $"students.student_id AS 'Schülerkennzahl', " +
-        //        $"students.firstname AS 'Vorname', " +
-        //        $"students.lastname AS 'Nachname', students.class AS 'Klasse', " +
-        //        $"revision AS 'Überarbeitungsnummer', " +
-        //        $"states.description AS 'Status', " +
-        //        $"ao_firstname AS 'Vorname / Kontoinhaber', " +
-        //        $"ao_lastname AS 'Nachname / Kontoinhaber', " +
-        //        $"street AS 'Straße', " +
-        //        $"house_number AS 'Hausnummer', " +
-        //        $"zipcode AS 'PLZ', " +
-        //        $"city AS 'Ort', " +
-        //        $"IBAN, " +
-        //        $"BIC, " +
-        //        $"PDF_path AS 'PDF-Pfad' " +
-        //        $"FROM signed_up_users " +
-        //        $"LEFT JOIN students " +
-        //        $"ON signed_up_users.email = students.email " +
-        //        $"LEFT JOIN states " +
-        //        $"ON signed_up_users.state_id = states.state_id " +
-        //        $"WHERE {txt.ID.Substring(3)} LIKE ?; ", "%"+txt.Text+"%");
-
-        //        if (filtered.Rows.Count == 0)
-        //        {
-        //            lblInfo.Text = "Keine Datensätze";
-        //            lblInfo.ForeColor = Color.Gray;
-        //            lblInfo.Font.Italic = true;
-        //        }
-
-        //        gvStudentsData.DataSource = filtered;
-        //        gvStudentsData.DataBind();
-        //    }
-        //    catch(Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-
-
-        //}
-
-        protected void btnPdfUpload_Click(object sender, EventArgs e)
+        protected void Txt_Changed(object sender, EventArgs e)
         {
-            string outputFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\_Mensa-Anmeldungen";
+            TextBox txt = (TextBox)sender;
+            List<string> columnsEng = DataFilter.tableColumnNamesEnglish;
+            string columnName = null;
+            int IDNumber = Convert.ToInt32(txt.ID.Substring(txt.ID.Length - 2));
+            DataTable filtered = new DataTable();
+
+            if (txt.ID.Substring(3, txt.ID.Length - 5) == columnsEng[IDNumber])
+            {
+                columnName = columnsEng[IDNumber];
+            }
             try
             {
-                if (!Directory.Exists(outputFolder))
+                string pattern = txt.Text.Replace('*', '%') + "%";
+                string sqlCmd = "SELECT " + DataFilter.ColumnsEngToGer(DataFilter.tableColumnNamesEnglish, DataFilter.tableColumnNamesGerman) +
+                                                $" FROM signed_up_users " +
+                                                $"LEFT JOIN students " +
+                                                $"ON signed_up_users.email = students.email " +
+                                                $"LEFT JOIN states " +
+                                                $"ON signed_up_users.state_id = states.state_id " +
+                                                $"WHERE signed_up_users.state_id = 1 ";
+
+                if (columnName == "students.student_id" && pattern == "%%")
                 {
-                    Directory.CreateDirectory(outputFolder);
-                }
-
-                string extension = "";
-                Guid uuid = Guid.NewGuid();
-                string filename = uuid.ToString() + ".pdf";
-
-                string inputPdfFilePath = Path.GetTempPath() + filename;
-
-                if (btnPdfBrowse.HasFile)
-                {
-                    extension = System.IO.Path.GetExtension(btnPdfBrowse.PostedFile.FileName);
+                    filtered = db.RunQuery(sqlCmd);
                 }
                 else
                 {
-                    throw new ArgumentException($"Bitte wählen Sie eine Datei aus!");
+                    filtered = db.RunQuery(sqlCmd + $" AND {columnName} LIKE ?", pattern);
                 }
 
-                if (extension.ToLower() == ".pdf")
+                if (filtered.Rows.Count == 0)
                 {
-                    btnPdfBrowse.SaveAs(inputPdfFilePath);
+                    filtered.Rows.Add(filtered.NewRow());
+                    if (filtered.Columns[IDNumber].DataType == typeof(int))
+                    {
+                        filtered.Rows[0][IDNumber] = -1;
+                    }
+                    else if (filtered.Columns[IDNumber].DataType == typeof(string))
+                    {
+                        filtered.Rows[0][IDNumber] = txt.Text + " not found";
+                    }
+                    else
+                    {
+                        filtered.Rows[0][IDNumber] = DBNull.Value;
+                    }
                 }
-                else
-                {
-                    throw new ArgumentException($"Die hochgeladene Datei muss ein .pdf Dokument sein.");
-                }
 
-                PdfDocument inputPdfFile = PdfReader.Open(inputPdfFilePath, PdfDocumentOpenMode.Import);
-                int totalPagesInInputPdfFile = inputPdfFile.PageCount;
+                
 
-                while (totalPagesInInputPdfFile != 0)
-                {
-                    //Create new uuid
-                    uuid = Guid.NewGuid();
-
-                    //Create an instance of the PDF document in memory
-                    PdfDocument outputPdfDocument = new PdfDocument();
-
-                    // Add a specific page to the PdfDocument instance
-                    outputPdfDocument.AddPage(inputPdfFile.Pages[totalPagesInInputPdfFile - 1]);
-
-                    //save the PDF document
-                    // Output file path
-                    string outputPdfFilePath = Path.Combine(outputFolder, uuid + ".pdf");
-
-                    //Save the document
-                    outputPdfDocument.Save(outputPdfFilePath);
-
-                    totalPagesInInputPdfFile--;
-
-                }
+                gvStudentsData.DataSource = filtered;
+                gvStudentsData.DataBind();
             }
             catch (Exception ex)
             {
-                lblErrorMessage.Text = ex.Message;
+                throw ex;
             }
+        }
 
-            IBarcodeReader reader = new BarcodeReader();
+        protected void btnUploadFile_Click(object sender, EventArgs e)
+        {
+            GenUploadDialog();
+        }
 
-            Bitmap barcodeBitmap = (Bitmap)Bitmap.FromFile(outputFolder + @"\GenerationExample.pdf");
-            // detect and decode the barcode inside the bitmap
-            string result = reader.Decode(barcodeBitmap).ToString();
-            if(result == null)  //Just placeholder
-            {
+        private void GenUploadDialog(string id = null)
+        {
+            DialogBox dbox = (DialogBox)Page.LoadControl("DialogBox.ascx");
+            if (id != null) { dbox.ID = id; }
+            dbox.Title = "Anmeldeformulare hochladen";
+            dbox.setFileUploadSelect("Wählen Sie ein .pdf Dokument aus, in welchem<br/>sich die eingescannten Anmeldungsformulare befinden.");
+            dbox.DialogFinished += FormUploadFinished;
+            ((admin)this.Master).Form.Controls.Add(dbox);
+            ViewState["UploadDialogID"] = dbox.ID;
+        }
 
+        private void FormUploadFinished(object sender, DialogEventArgs e)
+        {
+            if (e.Result == DialogEventArgs.EventResults.Ok) {
+                DialogBox dbox = sender as DialogBox;
+                string uploadedFile = dbox.FileUpload.FileName;
+                string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                string tempPath = Path.GetTempPath();
+                string baseDir = appData + @"\CanteenRegistrations\";
+                if (!Directory.Exists(baseDir)){
+                    Directory.CreateDirectory(baseDir);
+                }
+                dbox.FileUpload.SaveAs(baseDir + uploadedFile);
+
+                string ghostScriptPath = appData + @"\GSWIN";
+                if (!Directory.Exists(ghostScriptPath)) {
+                    // TODO: ERROR: inform user GhostScript is missing
+                    return;
+                }
+                MagickNET.SetGhostscriptDirectory(ghostScriptPath);
+                MagickReadSettings settings = new MagickReadSettings();
+                settings.Density = new Density(300);
+                string tempImageName = Guid.NewGuid().ToString() + ".png";
+
+                using (MagickImageCollection images = new MagickImageCollection()) {
+                    images.Read(baseDir + uploadedFile, settings);
+                    using (var vertical = images.AppendVertically()) {
+                        vertical.Write(tempPath + @"\CaReSc_" + tempImageName);
+                    }
+                }
+
+                // scan qr code and assign pdf location here
+
+                File.Delete(tempPath + @"\CaReSc_" + tempImageName);
             }
+        }
+
+        private Control FindControlRecursive(Control rootControl, string controlID)
+        {
+            if (rootControl.ID == controlID) return rootControl;
+
+            foreach (Control controlToSearch in rootControl.Controls) {
+                Control controlToReturn = FindControlRecursive(controlToSearch, controlID);
+                if (controlToReturn != null) return controlToReturn;
+            }
+            return null;
         }
     }
 }

@@ -16,7 +16,11 @@ using QRCoder;
 using System.Drawing;
 using System.Net;
 using System.Drawing.Imaging;
-
+using PdfSharp.Drawing.Layout;
+using System.Text;
+using System.Net.Sockets;
+using System.Net.Security;
+using HttpData;
 
 namespace canteen_sign_up
 {
@@ -130,20 +134,23 @@ namespace canteen_sign_up
 
         protected void btnSendAndPrint_Click(object sender, EventArgs e)
         {
+            double pageIndent = 70;
+            double qrIndent = 40;
+
+            UserData user = new UserData(Environment.UserName + "@htlvb.at");
             PdfDocument document = new PdfDocument();
             document.Info.Title = "HTLVB Mensa Registrierung";
             PdfPage page = document.AddPage();
             XGraphics gfx = XGraphics.FromPdfPage(page);
-            XFont font = new XFont("Arial", 14, XFontStyle.Regular);
+            XFont font = new XFont("Calibri", 12, XFontStyle.Regular);
+            XFont fontBold = new XFont("Calibri", 14, XFontStyle.Bold);
+            XFont fontBoldSmaller = new XFont("Calibri", 12, XFontStyle.Bold);
+            XTextFormatter tf = new XTextFormatter(gfx);
+            double regularLineHeight = font.CellSpace * 12 / font.Metrics.UnitsPerEm;
+            double regularLineAscend = font.CellAscent * 12 / font.Metrics.UnitsPerEm;
+            double boldLineHeight = fontBold.CellSpace * 14 / fontBold.Metrics.UnitsPerEm;
 
-            gfx.DrawString("Hello, World!", font, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.Center);
-            
-            QRCodeGenerator qrGenerator = new QRCodeGenerator();
-            QRCodeData qrCodeData = qrGenerator.CreateQrCode("41742720210095;rev=0", QRCodeGenerator.ECCLevel.H);
-            QRCode qrCode = new QRCode(qrCodeData);
-            Bitmap qrCodeImage = qrCode.GetGraphic(4);
-
-
+            // Get and draw top heading graphic
             MemoryStream memoryStream1 = new MemoryStream();
             var test = Server.MapPath("images/HTLHeader.png");
             using (WebClient webClient = new WebClient()) {
@@ -155,20 +162,200 @@ namespace canteen_sign_up
                 }
             }
             XImage image1 = XImage.FromStream(memoryStream1);
-            double width1 = image1.PixelWidth * 40 / image1.HorizontalResolution;
-            double height1 = image1.PixelHeight * 40 / image1.HorizontalResolution;
-            gfx.DrawImage(image1, 10, 0, width1, height1);
+            double width1 = image1.PixelWidth * 11.5 / image1.HorizontalResolution;
+            double height1 = image1.PixelHeight * 10.5 / image1.VerticalResolution;
+            double spaceWidth = (gfx.PageSize.Width - width1) / 2;
+            gfx.DrawImage(image1, spaceWidth, 0, width1, height1);
 
+            // Generate and draw QR-Code
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(user.UserNumber + ";rev=0", QRCodeGenerator.ECCLevel.H);
+            QRCode qrCode = new QRCode(qrCodeData);
+            Bitmap qrCodeImage = qrCode.GetGraphic(4);
             MemoryStream memoryStream = new MemoryStream();
             qrCodeImage.Save(memoryStream, ImageFormat.Png);
             XImage image = XImage.FromStream(memoryStream);
-            double width = image.PixelWidth * 72 / image.HorizontalResolution;
-            double height = image.PixelHeight * 72 / image.HorizontalResolution;
-            gfx.DrawImage(image, page.Width - width, 200, width, height);
+            double width = image.PixelWidth * 40 / image.HorizontalResolution;
+            double height = image.PixelHeight * 40 / image.HorizontalResolution;
+            gfx.DrawImage(image, page.Width - width - qrIndent, 185, width, height);
 
-            string filename = Path.GetTempPath() + "HelloWorld.pdf";
+            // Get and draw Creditor-ID and Mandate Reference
+            string mandateReference = "Mandatsreferenz: " + GetNextUniqueMandateReference();
+            string creditor = "Creditor-ID: AT09HTL00000011802";
+            double mandateReferenceWidth = gfx.MeasureString(mandateReference, font).Width;
+            double creditorWidth = gfx.MeasureString(creditor, font).Width;
+            double longestText = mandateReferenceWidth > creditorWidth ? mandateReferenceWidth : creditorWidth;
+
+            tf.DrawString(creditor, font, XBrushes.Black, new XRect(page.Width - qrIndent - longestText, 140, page.Width - 2 * qrIndent, 0), XStringFormats.TopLeft);
+            tf.DrawString(mandateReference, font, XBrushes.Black, new XRect(page.Width - qrIndent - longestText, 140 + regularLineHeight, page.Width - 2 * qrIndent, 0), XStringFormats.TopLeft);
+
+            // Draw text
+            tf.DrawString("SEPA Lastschrift-Mandat", fontBold, XBrushes.Black, new XRect(pageIndent, 180, page.Width - 2 * pageIndent, 0), XStringFormats.TopLeft);
+            tf.DrawString("für die HTL-Ausspeisung", fontBold, XBrushes.Black, new XRect(pageIndent, 180 + boldLineHeight, page.Width - 2 * pageIndent, 0), XStringFormats.TopLeft);
+
+            double topMargin = 270;
+            double spaceHeight = 20;
+            string textBlock1 = "Ich ermächtige/ Wir ermächtigen die HTL Vöcklabruck, Zahlungen von meinem/ unserem Konto mittels SEPA-Lastschrift einzuziehen. Zugleich weise ich mein/ weisen wir unser Kreditinstitut an, die von dem Bildungszentrum HTL-Vöcklabruck auf mein/ unser Konto gezogenen SEPA-Lastschriften einzulösen.";
+            string textBlock2 = "Ich kann/ Wir können innerhalb von acht Wochen, beginnend mit dem Belastungsdatum, die Erstattung des belasteten Betrages verlangen. Es gelten dabei die mit meinem/ unserem Kreditinstitut vereinbarten Bedingungen.";
+            string textBlock3 = "Der Betrag für die bestellten Essen wird im Nachhinein für die vergangenen 4 Wochen, eingezogen.";
+            
+            string textHeadingName = "Name des Schülers:";
+            string textHeadingClass = "Klasse:";
+            string textHeadingNumber = "Schülerausweisnummer (falls bereits bekannt):";
+            string textHeadingBankAccountOwnerName = "Name des Kontoinhabers:";
+            string textHeadingBankAccountOwnerAddress = "Adresse des Kontoinhabers:";
+            string textHeadingIBAN = "IBAN:";
+            string textHeadingBIC = "BIC (nur für Auslandskonten):";
+
+            double inset;
+            double space = 5;
+            double largerSpace = 15;
+
+            // Draw static info text
+            tf.DrawString(textBlock1, font, XBrushes.Black, new XRect(pageIndent, topMargin, page.Width.Value - 2*pageIndent, page.Height - topMargin), XStringFormats.TopLeft);
+            topMargin += GetSplittedLineCount(gfx, textBlock1, font, page.Width - 2 * pageIndent) * regularLineHeight + spaceHeight;
+            tf.DrawString(textBlock2, font, XBrushes.Black, new XRect(pageIndent, topMargin, page.Width.Value - 2 * pageIndent, page.Height - topMargin), XStringFormats.TopLeft);
+            topMargin += GetSplittedLineCount(gfx, textBlock2, font, page.Width - 2 * pageIndent) * regularLineHeight + spaceHeight;
+            tf.DrawString(textBlock3, font, XBrushes.Black, new XRect(pageIndent, topMargin, page.Width.Value - 2 * pageIndent, page.Height - topMargin), XStringFormats.TopLeft);
+            topMargin += GetSplittedLineCount(gfx, textBlock3, font, page.Width - 2 * pageIndent) * regularLineHeight + spaceHeight;
+            topMargin += 15;
+
+            // Draw user data
+            tf.DrawString(textHeadingName, font, XBrushes.Black, new XRect(pageIndent, topMargin, page.Width.Value - 2 * pageIndent, page.Height - topMargin), XStringFormats.TopLeft);
+            inset = gfx.MeasureString(textHeadingName, font).Width;
+            tf.DrawString(user.Firstname + " " + user.Lastname, fontBoldSmaller, XBrushes.Black, new XRect(pageIndent + inset + space, topMargin, page.Width.Value - 2 * pageIndent, page.Height - topMargin), XStringFormats.TopLeft);
+            topMargin += regularLineHeight + largerSpace;
+
+            tf.DrawString(textHeadingClass, font, XBrushes.Black, new XRect(pageIndent, topMargin, page.Width.Value - 2 * pageIndent, page.Height - topMargin), XStringFormats.TopLeft);
+            inset = gfx.MeasureString(textHeadingClass, font).Width;
+            tf.DrawString(user.Class, fontBoldSmaller, XBrushes.Black, new XRect(pageIndent + inset + space, topMargin, page.Width.Value - 2 * pageIndent, page.Height - topMargin), XStringFormats.TopLeft);
+            topMargin += regularLineHeight + largerSpace;
+
+            tf.DrawString(textHeadingNumber, font, XBrushes.Black, new XRect(pageIndent, topMargin, page.Width.Value - 2 * pageIndent, page.Height - topMargin), XStringFormats.TopLeft);
+            inset = gfx.MeasureString(textHeadingNumber, font).Width;
+            tf.DrawString(user.UserNumber, fontBoldSmaller, XBrushes.Black, new XRect(pageIndent + inset + space, topMargin, page.Width.Value - 2 * pageIndent, page.Height - topMargin), XStringFormats.TopLeft);
+            topMargin += regularLineHeight + largerSpace;
+
+            tf.DrawString(textHeadingBankAccountOwnerName, font, XBrushes.Black, new XRect(pageIndent, topMargin, page.Width.Value - 2 * pageIndent, page.Height - topMargin), XStringFormats.TopLeft);
+            inset = gfx.MeasureString(textHeadingBankAccountOwnerName, font).Width;
+            tf.DrawString(txtFirstname.Text + " " + txtLastname.Text, fontBoldSmaller, XBrushes.Black, new XRect(pageIndent + inset + space, topMargin, page.Width.Value - 2 * pageIndent, page.Height - topMargin), XStringFormats.TopLeft);
+            topMargin += regularLineHeight + largerSpace;
+
+            tf.DrawString(textHeadingBankAccountOwnerAddress, font, XBrushes.Black, new XRect(pageIndent, topMargin, page.Width.Value - 2 * pageIndent, page.Height - topMargin), XStringFormats.TopLeft);
+            inset = gfx.MeasureString(textHeadingBankAccountOwnerAddress, font).Width;
+            string address = txtZipCode.Text + " " + txtCity.Text + "\r\n" +  txtStreet.Text + " " + txtHouseNumber.Text;
+            tf.DrawString(address, fontBoldSmaller, XBrushes.Black, new XRect(pageIndent + inset + space, topMargin, page.Width.Value - 2 * pageIndent - inset, page.Height - topMargin), XStringFormats.TopLeft);
+            topMargin += GetSplittedLineCount(gfx, address, fontBold, page.Width.Value - 2 * pageIndent - inset) * regularLineHeight + largerSpace + largerSpace;
+
+            tf.DrawString(textHeadingIBAN, font, XBrushes.Black, new XRect(pageIndent, topMargin, page.Width.Value - 2 * pageIndent, page.Height - topMargin), XStringFormats.TopLeft);
+            inset = gfx.MeasureString(textHeadingIBAN, font).Width;
+            tf.DrawString(txtIban.Text, fontBoldSmaller, XBrushes.Black, new XRect(pageIndent + inset + space, topMargin, page.Width.Value - 2 * pageIndent, page.Height - topMargin), XStringFormats.TopLeft);
+            topMargin += regularLineHeight + largerSpace;
+
+            tf.DrawString(textHeadingBIC, font, XBrushes.Black, new XRect(pageIndent, topMargin, page.Width.Value - 2 * pageIndent, page.Height - topMargin), XStringFormats.TopLeft);
+            inset = gfx.MeasureString(textHeadingBIC, font).Width;
+            tf.DrawString(txtBic.Text, fontBoldSmaller, XBrushes.Black, new XRect(pageIndent + inset + space, topMargin, page.Width.Value - 2 * pageIndent, page.Height - topMargin), XStringFormats.TopLeft);
+
+            double dateLineWidth = 130;
+            double signatureLineWidth = 200;
+            double spaceBetween = 30;
+            double marginBottom = 80;
+            double blockWidth = dateLineWidth + spaceBetween + signatureLineWidth;
+            double sideMargin = (page.Width - blockWidth) / 2.0;
+            string dateText = "Ort, Datum";
+            string signatureText = "Unterschrift Kontoinhaber";
+
+            // Draw date and signature fields
+            gfx.DrawString(dateText, font, XBrushes.Black, new XRect(sideMargin, page.Height - marginBottom, dateLineWidth, 0), XStringFormats.Center);
+            gfx.DrawString(signatureText, font, XBrushes.Black, new XRect(sideMargin + dateLineWidth + spaceBetween, page.Height - marginBottom, signatureLineWidth, 0), XStringFormats.Center);
+            gfx.DrawLine(XPens.Black, new XPoint(sideMargin, page.Height - marginBottom - regularLineAscend), new XPoint(sideMargin + dateLineWidth, page.Height - marginBottom - regularLineAscend));
+            gfx.DrawLine(XPens.Black, new XPoint(sideMargin + dateLineWidth + spaceBetween, page.Height - marginBottom - regularLineAscend), new XPoint(sideMargin + dateLineWidth + spaceBetween + signatureLineWidth, page.Height - marginBottom - regularLineAscend));
+
+            string filename = Path.GetTempPath() + Guid.NewGuid() + ".pdf";
             document.Save(filename);
+
+            // TODO starts at server? if so, change to send to user
             Process.Start(filename);
+        }
+
+        private string GetNextUniqueMandateReference()
+        {
+            string envelope = "<?xml version='1.0' encoding='utf-8'?>\n" +
+                             "<soap:Envelope xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' " +
+                             "xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'>\n" +
+                             "<soap:Header>\n" +
+                             "<WSHeader xmlns='MensaWebservice_MolJware'>\n" +
+                             "<Username>anonymous</Username>\n" +
+                             "<Password>string</Password>\n" +
+                             "</WSHeader>\n" +
+                             "</soap:Header>\n" +
+                             "<soap:Body>\n" +
+                             "<NextUniqueMandatsrefrenz xmlns='MensaWebservice_MolJware' />\n" +
+                             "</soap:Body>\n" +
+                             "</soap:Envelope>\n";
+            return HttpsPost("www.htlvb.at", 443, "/MensaWebservice/MensaWebService.asmx", envelope);
+        }
+
+        private static string HttpsPost(string host, int port, string path, string requestBody)
+        {
+            using (TcpClient httpClient = new TcpClient()) {
+                httpClient.Connect(host, port);
+                using (NetworkStream httpStream = httpClient.GetStream()) {
+                    using (SslStream secureHttpsStream = new SslStream(httpStream)) {
+                        secureHttpsStream.AuthenticateAsClient(host);
+                        SendPostRequest(secureHttpsStream, host, path, requestBody);
+                        return ReadResponse(secureHttpsStream);
+                    }
+                }
+            }
+        }
+
+        private static void SendPostRequest(Stream stream, string host, string path, string requestBody)
+        {
+            Encoding bodyEncoding = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
+
+            using (StreamWriter headerWriter = new StreamWriter(stream, Encoding.ASCII, Int16.MaxValue, leaveOpen: true)) {
+                headerWriter.NewLine = "\r\n";
+                headerWriter.WriteLine("POST " + path + " HTTP/1.1");
+                headerWriter.WriteLine("Host: " + host);
+                headerWriter.WriteLine("Content-Length: " + bodyEncoding.GetByteCount(requestBody));
+                headerWriter.WriteLine("Content-Type: text/xml; charset=" + bodyEncoding.WebName);
+                headerWriter.WriteLine();
+            }
+
+            using (StreamWriter bodyWriter = new StreamWriter(stream, bodyEncoding, Int16.MaxValue, leaveOpen: true)) {
+                bodyWriter.WriteLine(requestBody);
+            }
+        }
+
+        private static string ReadResponse(Stream stream)
+        {
+            HttpRequestMessage httpResonse = HttpRequestMessage.ReadFrom(stream);
+            string mandate = httpResonse.Body;
+            mandate = mandate.Substring(mandate.IndexOf("<NextUniqueMandatsrefrenzResult>") + "<NextUniqueMandatsrefrenzResult>".Length, mandate.IndexOf("</NextUniqueMandatsrefrenzResult>") - mandate.IndexOf("<NextUniqueMandatsrefrenzResult>") - +"<NextUniqueMandatsrefrenzResult>".Length);
+            return mandate;
+        }
+
+        /// <summary>
+        /// Calculate the number of soft line breaks
+        /// Copied from: https://www.py4u.net/discuss/740567
+        /// </summary>
+        private static int GetSplittedLineCount(XGraphics gfx, string content, XFont font, double maxWidth)
+        {
+            Func<string, IList<string>> listFor = val => new List<string> { val };
+            Func<string, bool> nOe = str => string.IsNullOrEmpty(str);
+            Func<string, string> sIe = str => nOe(str) ? " " : str;
+            Func<string, string, bool> canFitText = (t1, t2) => gfx.MeasureString($"{(nOe(t1) ? "" : $"{t1} ")}{sIe(t2)}", font).Width <= maxWidth;
+            Func<IList<string>, string, IList<string>> appendtoLast =
+                    (list, val) => list.Take(list.Count - 1)
+                                       .Concat(listFor($"{(nOe(list.Last()) ? "" : $"{list.Last()} ")}{sIe(val)}"))
+                                       .ToList();
+            var splitted = content.Split(' ');
+            var lines = splitted.Aggregate(listFor(""),
+                    (lfeed, next) => canFitText(lfeed.Last(), next) ? appendtoLast(lfeed, next) : lfeed.Concat(listFor(next)).ToList(),
+                    list => list.Count());
+
+            return lines;
         }
     }
 }

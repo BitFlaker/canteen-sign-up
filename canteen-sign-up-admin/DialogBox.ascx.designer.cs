@@ -11,61 +11,43 @@ namespace canteen_sign_up_admin
 {
 
 
-    public partial class _default
+    public partial class DialogBox
     {
 
         /// <summary>
-        /// btnUploadFile control.
+        /// txtTitle control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnUploadFile;
+        protected global::System.Web.UI.WebControls.Label txtTitle;
 
         /// <summary>
-        /// btnPdfBrowse control.
+        /// dialogContent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload btnPdfBrowse;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dialogContent;
 
         /// <summary>
-        /// btnPdfUpload control.
+        /// btnOk control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnPdfUpload;
+        protected global::System.Web.UI.WebControls.Button btnOk;
 
         /// <summary>
-        /// lblErrorMessage control.
+        /// btnCancel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblErrorMessage;
-
-        /// <summary>
-        /// gvStudentsData control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvStudentsData;
-
-        /// <summary>
-        /// lblInfo control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblInfo;
+        protected global::System.Web.UI.WebControls.Button btnCancel;
     }
 }
