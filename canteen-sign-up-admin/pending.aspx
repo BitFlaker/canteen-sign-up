@@ -8,7 +8,16 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <div>
+        <div> <table>  
+            <tr>  
+                <td>  
+                    <asp:FileUpload ID="btnPdfBrowse" runat="server" ToolTip="Wähle nur PDF-Dokumente" /> </td>  
+                <td>  
+                    <asp:Button ID="btnPdfUpload" runat="server" Text="Hochladen" onclick="btnPdfUpload_Click" /> </td>  
+            </tr>  
+        </table>  
+            <asp:Label ID="lblErrorMessage" runat="server" ForeColor="Red"></asp:Label>
+            <br />
             <asp:GridView ID="gvStudentsData" runat="server" OnRowDataBound="GridViewStudentsData_RowDataBound">
             </asp:GridView>
             <asp:Label ID="lblInfo" runat="server"></asp:Label>
