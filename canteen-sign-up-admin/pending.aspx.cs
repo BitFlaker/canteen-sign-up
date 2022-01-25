@@ -45,9 +45,12 @@ namespace canteen_sign_up_admin
 
                 filter.AddTextboxesToGV(gvStudentsData, this.Txt_Changed, 1);
 
-                if (txtContent.Trim() == "")
+                if (ctrlName != "" && Page.FindControl(ctrlName).ID.StartsWith("txt"))
                 {
-                    Txt_Changed(Page.FindControl(ctrlName), null);
+                    if (txtContent.Trim() == "")
+                    {
+                        Txt_Changed(Page.FindControl(ctrlName), null);
+                    }
                 }
 
                 if (ViewState["UploadDialogID"] != null)
