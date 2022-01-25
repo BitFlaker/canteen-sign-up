@@ -11,3 +11,9 @@
 	padding-left: 15px;
 	padding-right: 15px;
 }
+
+.centerObject{
+	margin-left: auto;
+	margin-right: auto;
+	width: max-content;
+}

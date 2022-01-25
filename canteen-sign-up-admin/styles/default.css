@@ -31,9 +31,23 @@
 	-moz-border-radius: 8px;
 	border-radius: 8px;
 	overflow: hidden;
+	width: max-content;
 }
+
+	table.cornerRadius {
+		margin-left: auto;
+		margin-right: auto;
+	}
 
 .centerContainer {
 	display: flex;
 	justify-content: center;
+}
+
+td {
+	word-wrap: break-word;
+}
+
+th {
+	word-wrap: break-word;
 }
