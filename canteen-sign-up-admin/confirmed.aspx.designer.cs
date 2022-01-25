@@ -13,7 +13,6 @@ namespace canteen_sign_up_admin
 
     public partial class confirmed
     {
-
         /// <summary>
         /// form1 control.
         /// </summary>

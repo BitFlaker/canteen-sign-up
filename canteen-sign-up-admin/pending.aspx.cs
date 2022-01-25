@@ -11,6 +11,13 @@ using System.Web.Configuration;
 using System.Runtime.InteropServices;
 using System.Drawing;
 using System.Web.UI.HtmlControls;
+using ImageMagick;
+using System.Diagnostics;
+using PdfSharp.Pdf;
+using PdfSharp.Pdf.Advanced;
+using PdfSharp.Pdf.IO;
+using System.IO;
+using System.Drawing.Imaging;
 
 namespace canteen_sign_up_admin
 {
@@ -137,7 +144,7 @@ namespace canteen_sign_up_admin
             dbox.Title = "Anmeldeformulare hochladen";
             dbox.setFileUploadSelect("Wählen Sie ein .pdf Dokument aus, in welchem<br/>sich die eingescannten Anmeldungsformulare befinden.");
             dbox.DialogFinished += FormUploadFinished;
-            form1.Controls.Add(dbox);
+            ((admin)this.Master).Form.Controls.Add(dbox);
             ViewState["UploadDialogID"] = dbox.ID;
         }
 
@@ -146,6 +153,34 @@ namespace canteen_sign_up_admin
             if (e.Result == DialogEventArgs.EventResults.Ok) {
                 DialogBox dbox = sender as DialogBox;
                 string uploadedFile = dbox.FileUpload.FileName;
+                string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                string tempPath = Path.GetTempPath();
+                string baseDir = appData + @"\CanteenRegistrations\";
+                if (!Directory.Exists(baseDir)){
+                    Directory.CreateDirectory(baseDir);
+                }
+                dbox.FileUpload.SaveAs(baseDir + uploadedFile);
+
+                string ghostScriptPath = appData + @"\GSWIN";
+                if (!Directory.Exists(ghostScriptPath)) {
+                    // TODO: ERROR: inform user GhostScript is missing
+                    return;
+                }
+                MagickNET.SetGhostscriptDirectory(ghostScriptPath);
+                MagickReadSettings settings = new MagickReadSettings();
+                settings.Density = new Density(300);
+                string tempImageName = Guid.NewGuid().ToString() + ".png";
+
+                using (MagickImageCollection images = new MagickImageCollection()) {
+                    images.Read(baseDir + uploadedFile, settings);
+                    using (var vertical = images.AppendVertically()) {
+                        vertical.Write(tempPath + @"\CaReSc_" + tempImageName);
+                    }
+                }
+
+                // scan qr code and assign pdf location here
+
+                File.Delete(tempPath + @"\CaReSc_" + tempImageName);
             }
         }
 

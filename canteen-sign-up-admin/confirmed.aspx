@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="confirmed.aspx.cs" Inherits="canteen_sign_up_admin.confirmed" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="confirmed.aspx.cs" MasterPageFile="~/admin.Master" Inherits="canteen_sign_up_admin.confirmed" %>
 
 <!DOCTYPE html>
 
