@@ -13,8 +13,6 @@
             <asp:GridView ID="gvStudentsData" runat="server" OnRowDataBound="GridViewStudentsData_RowDataBound">
             </asp:GridView>
             <asp:Label ID="lblInfo" runat="server"></asp:Label>
-            <br />
-            <asp:Button ID="Button1" runat="server" Text="Button" />
         </div>
     </form>
 </body>

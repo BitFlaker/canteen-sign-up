@@ -17,45 +17,37 @@ namespace canteen_sign_up_admin
     public partial class _default : System.Web.UI.Page
     {
         Database db = new Database(WebConfigurationManager.ConnectionStrings["AppDbInt"].ConnectionString);
+        DataFilter filter = new DataFilter();
         bool gvDataBoundRecently = false;
+        
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Page.IsPostBack == false)
             {
-                DataFilter filter = new DataFilter();
-                gvStudentsData.DataSource = filter.GetStateFilteredInfo(DataFilter.GetSqlCmd(DataFilter.pendingColumnNamesEnglish, DataFilter.pendingColumnNamesGerman), 1);
+                gvStudentsData.DataSource = filter.GetStateFilteredInfo(DataFilter.GetSqlCmd(DataFilter.tableColumnNamesEnglish,
+                                                                                             DataFilter.tableColumnNamesGerman), 
+                                                                                             1 /*(pending)*/);
                 gvStudentsData.DataBind();
             }
             else
             {
-                if (ViewState["UploadDialogID"] != null) {
+                //get the event target name and find the control
+                string ctrlName = Page.Request.Params.Get("__EVENTTARGET");
+                string txtContent = Page.Request.Form[ctrlName];
+
+                filter.AddTextboxesToGV(gvStudentsData, this.Txt_Changed, 1);
+
+                if (txtContent.Trim() == "")
+                {
+                    Txt_Changed(Page.FindControl(ctrlName), null);
+                }
+
+                if (ViewState["UploadDialogID"] != null)
+                {
                     GenUploadDialog((string)ViewState["UploadDialogID"]);
                 }
             }
-        }
-
-        public static Control GetPostBackControl(Page page)
-        {
-            Control control = null;
-            string ctrlname = page.Request.Params.Get("__EVENTTARGET");
-            if (ctrlname != null && ctrlname != String.Empty)
-            {
-                control = page.FindControl(ctrlname);
-            }
-            else
-            {
-                foreach (string ctl in page.Request.Form)
-                {
-                    Control c = page.FindControl(ctl);
-                    if (c != null)
-                    {
-                        control = c;
-                        break;
-                    }
-                }
-            }
-            return control;
         }
 
         protected void GridViewStudentsData_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -65,65 +57,21 @@ namespace canteen_sign_up_admin
             {
                 if (e.Row.RowIndex == 0 && gvDataBoundRecently == false)
                 {
-                    AddEmtpyRow(gridView);
-                    AddTextboxesToGV(gridView);
+                    gvDataBoundRecently = true; //gehört zu AddEmptyRow
+                    filter.AddEmtpyRow(ref gridView);
+
+                    filter.AddTextboxesToGV(gridView, this.Txt_Changed, 1);
                 }
             }
         }
 
-        private void AddEmtpyRow(GridView sender)
-        {
-            DataTable dt = (DataTable)sender.DataSource;
-            dt.Rows.InsertAt(dt.NewRow(), 0);
-            gvStudentsData.DataSource = dt;
-            ViewState["DataSource"] = dt;
-            gvDataBoundRecently = true;
-            gvStudentsData.DataBind();
-        }
-
-        private void AddTextboxesToGV(GridView gv)
-        {
-            DataFilter filter = new DataFilter();
-            List<string> txtIDs = GetColumnNames(filter.GetStateFilteredInfo(DataFilter.GetSqlCmd(DataFilter.pendingColumnNamesEnglish, DataFilter.pendingColumnNamesEnglish), 1)); 
-            GridViewRow row = gv.Rows[0];
-            TableCell tc = null;
-
-            for (int i = 0; i < row.Cells.Count; i++)
-            {
-                tc = row.Cells[i];
-                tc.Text = "";
-
-                TextBox txt = new TextBox();
-                txt.ID = txtIDs[i];
-                txt.EnableViewState = true;
-                txt.TextChanged += new System.EventHandler(this.Txt_Changed);
-                tc.Controls.Add(txt);
-            }
-        }
-        private List<string> GetColumnNames(DataTable dt)
-        {
-            List<string> txtIDs = new List<string>();
-            int count = 0;
-            int zeros = 2;
-            foreach (DataColumn dc in dt.Columns)
-            {
-                txtIDs.Add("txt" + dc.ColumnName + count.ToString("D" + zeros));
-                count++;
-            }
-            return txtIDs;
-        }
-
-        /// <summary>
-        /// Runs through the gridview data and formats all column names to textbox names.
-        /// </summary>
-        /// <param name="gv">GridView to read data from.</param>
-        /// <returns>String-Type List containing all formated names.</returns>
         protected void Txt_Changed(object sender, EventArgs e)
         {
             TextBox txt = (TextBox)sender;
-            List<string> columnsEng = DataFilter.columnNamesEnglish;
+            List<string> columnsEng = DataFilter.tableColumnNamesEnglish;
             string columnName = null;
             int IDNumber = Convert.ToInt32(txt.ID.Substring(txt.ID.Length - 2));
+            DataTable filtered = new DataTable();
 
             if (txt.ID.Substring(3, txt.ID.Length - 5) == columnsEng[IDNumber])
             {
@@ -132,13 +80,22 @@ namespace canteen_sign_up_admin
             try
             {
                 string pattern = txt.Text.Replace('*', '%') + "%";
-                DataTable filtered = db.RunQuery("SELECT " + DataFilter.ColumnsEngToGer(DataFilter.pendingColumnNamesEnglish, DataFilter.pendingColumnNamesGerman) + 
+                string sqlCmd = "SELECT " + DataFilter.ColumnsEngToGer(DataFilter.tableColumnNamesEnglish, DataFilter.tableColumnNamesGerman) +
                                                 $" FROM signed_up_users " +
                                                 $"LEFT JOIN students " +
                                                 $"ON signed_up_users.email = students.email " +
                                                 $"LEFT JOIN states " +
                                                 $"ON signed_up_users.state_id = states.state_id " +
-                                                $"WHERE {columnName} LIKE ? AND signed_up_users.state_id = 1 ",  pattern );
+                                                $"WHERE signed_up_users.state_id = 1 ";
+
+                if (columnName == "students.student_id" && pattern == "%%")
+                {
+                    filtered = db.RunQuery(sqlCmd);
+                }
+                else
+                {
+                    filtered = db.RunQuery(sqlCmd + $" AND {columnName} LIKE ?", pattern);
+                }
 
                 if (filtered.Rows.Count == 0)
                 {
@@ -202,6 +159,5 @@ namespace canteen_sign_up_admin
             }
             return null;
         }
-
     }
 }

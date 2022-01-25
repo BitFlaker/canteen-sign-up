@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Configuration;
+using System.Web.UI.WebControls;
 using DatabaseWrapper;
 
 namespace canteen_sign_up_admin
@@ -17,13 +18,14 @@ namespace canteen_sign_up_admin
                                                                             "signed_up_users.street", "signed_up_users.house_number", "signed_up_users.zipcode", "signed_up_users.city",
                                                                             "signed_up_users.IBAN", "signed_up_users.BIC", "signed_up_users.PDF_path"};
 
-        public static List<string> pendingColumnNamesEnglish = new List<string>() { "students.email", "students.student_id", "students.firstname", "students.lastname", "students.class", "signed_up_users.revision" };
+        public static List<string> tableColumnNamesEnglish = new List<string>() { "students.email", "students.student_id", "students.firstname", 
+                                                                                    "students.lastname", "students.class", "signed_up_users.revision" };
 
         public static List<string> columnNamesGerman = new List<string>() { "EMail", "Schülerkennzahl", "Vorname", "Nachname", "Klasse",
                                                                             "Überarbeitungsnummer", "Status", "Vorname des Kontoinhaber", "Nachname des Kontoinhabers",
                                                                             "Straße", "Hausnummer", "PLZ", "Ort", "IBAN", "BIC", "PDF-Pfad"};
-        
-        public static List<string> pendingColumnNamesGerman = new List<string>() { "EMail", "Schülerkennzahl", "Vorname", "Nachname", "Klasse", "Überarbeitungsnummer"};
+
+        public static List<string> tableColumnNamesGerman = new List<string>() { "EMail", "Schülerkennzahl", "Vorname", "Nachname", "Klasse", "Überarbeitungsnummer" };
 
         #endregion
 
@@ -71,7 +73,7 @@ namespace canteen_sign_up_admin
         /// <returns>All student info inside a DataTable.</returns>
         public DataTable GetAllStudentInfo()
         {
-            DataTable studentsData = db.RunQuery(GetSqlCmd(columnNamesEnglish, pendingColumnNamesGerman) +
+            DataTable studentsData = db.RunQuery(GetSqlCmd(columnNamesEnglish, tableColumnNamesGerman) +
                 $"WHERE states.state_id > 0");
 
             return studentsData;
@@ -91,5 +93,54 @@ namespace canteen_sign_up_admin
 
             return studentsData;
         }
+
+        #region Filters for different aspx
+
+
+        public void AddEmtpyRow(ref GridView sender)
+        {
+            DataTable dt = (DataTable)sender.DataSource;
+            dt.Rows.InsertAt(dt.NewRow(), 0);
+            sender.DataSource = dt;
+            sender.DataBind();
+        }
+
+        public void AddTextboxesToGV(GridView gv, EventHandler handler, int stateID)
+        
+        {
+            List<string> txtIDs = GetColumnNames(tableColumnNamesEnglish);
+            GridViewRow row = gv.Rows[0];
+            TableCell tc = null;
+
+            for (int i = 0; i < row.Cells.Count; i++)
+            {
+                tc = row.Cells[i];
+                tc.Text = "";
+
+                TextBox txt = new TextBox();
+                txt.ID = txtIDs[i];
+                txt.EnableViewState = true;
+                txt.AutoPostBack = true;
+                txt.TextChanged += new System.EventHandler(handler);
+                tc.Controls.Add(txt);
+            }
+        }
+
+        private List<string> GetColumnNames(List<string> columnNames)
+        {
+            List<string> txtIDs = new List<string>();
+            int count = 0;
+            int zeros = 2;
+            foreach (string s in columnNames)
+            {
+                txtIDs.Add("txt" + s + count.ToString("D" + zeros));
+                count++;
+            }
+            return txtIDs;
+        }
+
+
+        #endregion
+
     }
 }
