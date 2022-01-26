@@ -1,4 +1,8 @@
-﻿.imageItem {
+﻿body {
+	font-family: Gadugi, sans-serif, Arial;
+}
+
+.imageItem {
 	width: 80%;
 	margin-bottom: 30px;
 }
@@ -16,8 +20,25 @@
 .PageContent {
 	background-color: white;
 	position: absolute;
-	top: 0px;
+	top: 50px;
 	left: 170px;
 	right: 0px;
 	bottom: 0px;
+}
+
+.Heading {
+	background-color: #505a64;
+	position: absolute;
+	top: 0px;
+	left: 170px;
+	right: 0px;
+	height: 50px;
+}
+
+.sideNavButton {
+	height: 40px;
+	margin-top: 5px;
+	cursor: pointer;
+	background-color: white;
+	border-radius: 10px;
 }

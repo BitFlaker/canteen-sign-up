@@ -13,5 +13,5 @@ Default skin template. The following skins are provided as examples only.
 
 <asp:Image runat="server" ImageUrl="~/images/image1.jpg" />
 --%>
-<asp:Button SkinId="controlButton" Height="25" runat="server" BackColor="#49595F" BorderStyle="None" ForeColor="White" CssClass="cornerRadius"/>
+<asp:Button SkinId="controlButton" Height="25" runat="server" BackColor="#a3a7ad" BorderStyle="None" ForeColor="White" CssClass="cornerRadius"/>
 <asp:GridView SkinId="controlGridView" runat="server" BorderColor="#7e8182" CssClass="cornerRadius" />

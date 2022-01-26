@@ -7,8 +7,8 @@
         <asp:Label runat="server" ID="txtTitle" Font-Bold="True" Font-Size="Large">Title</asp:Label>
         <div id="dialogContent" runat="server" style="margin-top: 30px;margin-bottom: 30px; display: grid; justify-items: center;"></div>
         <div style="display: block;">
-            <asp:Button ID="btnOk" runat="server" Text="Ok" OnClick="btnOk_Click" />
-            <asp:Button ID="btnCancel" runat="server" Text="Cancel" OnClick="btnCancel_Click" />
+            <asp:Button ID="btnOk" runat="server" Text="Ok" OnClick="btnOk_Click" CssClass="cornerRadius" Height="25" />
+            <asp:Button ID="btnCancel" runat="server" Text="Abbrechen" OnClick="btnCancel_Click" CssClass="cornerRadius" Height="25"/>
         </div>
     </div>
 </div>
