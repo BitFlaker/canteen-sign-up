@@ -27,13 +27,24 @@ namespace canteen_sign_up
     public partial class _default : System.Web.UI.Page
     {
         Database db = new Database(WebConfigurationManager.ConnectionStrings["AppDbInt"].ConnectionString);
-        private XGraphicsState state;
+        RegState currentState = RegState.WaitingForConfirmation;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
             {
+                ((user)this.Master).ProgressImage = "~/images/Progress1.svg";
                 lblInfo.Text = db.TryToConnect();
+                // TODO: also redirect correctly if different page is called (link manually entered)
+                switch (currentState) {
+                    case RegState.WaitingForConfirmation:
+                        Response.Redirect("inprogress.aspx");
+                        break;
+                    case RegState.Confirmed:
+                        ((user)this.Master).ProgressImage = "~/images/Progress3.svg";
+                        Response.Redirect("confirmed.aspx");
+                        break;
+                }
                 WritingUsernameInStartPage();
             }
         }
@@ -169,7 +180,8 @@ namespace canteen_sign_up
 
             // Generate and draw QR-Code
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
-            QRCodeData qrCodeData = qrGenerator.CreateQrCode(user.UserNumber + ";rev=0", QRCodeGenerator.ECCLevel.H);
+            // TODO: change hardcoded revision number
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(user.UserMail + ";rev=0", QRCodeGenerator.ECCLevel.H);
             QRCode qrCode = new QRCode(qrCodeData);
             Bitmap qrCodeImage = qrCode.GetGraphic(4);
             MemoryStream memoryStream = new MemoryStream();
@@ -356,6 +368,13 @@ namespace canteen_sign_up
                     list => list.Count());
 
             return lines;
+        }
+
+        enum RegState
+        {
+            NotRegistered,
+            WaitingForConfirmation,
+            Confirmed
         }
     }
 }

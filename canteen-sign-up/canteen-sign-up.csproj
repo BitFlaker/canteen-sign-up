@@ -17,7 +17,7 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort>44320</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
@@ -82,29 +82,48 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="default.aspx" />
+    <Content Include="inprogress.aspx" />
+    <Content Include="register.aspx" />
     <Content Include="images\HTLHeader.png" />
     <Content Include="images\htlvb.jpg" />
     <Content Include="images\HTLVB_Logo.png" />
     <Content Include="images\MensaLogo.png" />
+    <Content Include="images\Progress1.svg" />
+    <Content Include="images\Progress2.svg" />
+    <Content Include="images\Progress3.svg" />
     <Content Include="images\ProgressSymbol_Progress1.svg" />
     <Content Include="styles\styles.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="default.aspx.cs">
-      <DependentUpon>default.aspx</DependentUpon>
+    <Compile Include="inprogress.aspx.cs">
+      <DependentUpon>inprogress.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="default.aspx.designer.cs">
-      <DependentUpon>default.aspx</DependentUpon>
+    <Compile Include="inprogress.aspx.designer.cs">
+      <DependentUpon>inprogress.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="register.aspx.cs">
+      <DependentUpon>register.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="register.aspx.designer.cs">
+      <DependentUpon>register.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="user.Master.cs">
+      <DependentUpon>user.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="user.Master.designer.cs">
+      <DependentUpon>user.Master</DependentUpon>
+    </Compile>
     <Compile Include="UserData.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Themes\defaultTheme\Skin1.skin" />
     <None Include="packages.config" />
+    <Content Include="user.Master" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DatabaseWrapper\DatabaseWrapper.csproj">
