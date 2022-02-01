@@ -82,6 +82,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="confirmed.aspx" />
     <Content Include="inprogress.aspx" />
     <Content Include="register.aspx" />
     <Content Include="images\HTLHeader.png" />
@@ -96,6 +97,14 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EditablePresetData.cs" />
+    <Compile Include="confirmed.aspx.cs">
+      <DependentUpon>confirmed.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="confirmed.aspx.designer.cs">
+      <DependentUpon>confirmed.aspx</DependentUpon>
+    </Compile>
     <Compile Include="inprogress.aspx.cs">
       <DependentUpon>inprogress.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -103,6 +112,7 @@
     <Compile Include="inprogress.aspx.designer.cs">
       <DependentUpon>inprogress.aspx</DependentUpon>
     </Compile>
+    <Compile Include="PageSelector.cs" />
     <Compile Include="register.aspx.cs">
       <DependentUpon>register.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

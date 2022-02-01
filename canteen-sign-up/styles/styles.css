@@ -86,6 +86,29 @@ input, select, textarea {
     border-radius: 10px;
 }
 
+.activeAccount {
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    display: flex;
+    background-color: rgb(10, 255, 100);
+    border-color: rgb(10, 255, 100);
+    border-radius: 10px;
+}
+
+.inactiveAccount {
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    max-width: 512px;
+    display: flex;
+    background-color: rgb(255, 40, 30);
+    border-color: rgb(30, 150, 250);
+    border-radius: 10px;
+}
+
 #headingContainer {
     overflow: hidden;
     margin-bottom: 10px;

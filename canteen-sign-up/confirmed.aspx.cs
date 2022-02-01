@@ -3,15 +3,15 @@ using System.Web.UI;
 
 namespace canteen_sign_up
 {
-    public partial class inprogress : Page
+    public partial class confirmed : Page
     {
         EditablePresetData registeredUserData;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack) {
-                ((user)this.Master).ProgressImage = "~/images/Progress2.svg";
-                PageSelector.RedirectToCorrectPage(PageSelector.RegState.WaitingForConfirmation, this);
+                ((user)this.Master).ProgressImage = "~/images/Progress3.svg";
+                PageSelector.RedirectToCorrectPage(PageSelector.RegState.Confirmed, this);
                 GetUserRegistrationData();
                 WritingUsernameInStartPage();
                 DisplayStoredData();
@@ -31,6 +31,13 @@ namespace canteen_sign_up
             registeredUserData.IBAN = "AT00 0000 0000 0000 0000";
             registeredUserData.BIC = "-";
             ViewState["RegisteredUserData"] = registeredUserData;
+            if (true) // check if user is active
+            {
+                activeAccountField.Attributes.Add("class", "activeAccount");
+            }
+            else {
+                activeAccountField.Attributes.Add("class", "inactiveAccount");
+            }
         }
 
         private void DisplayStoredData()
@@ -50,15 +57,8 @@ namespace canteen_sign_up
             string firstname = username[0][0].ToString().ToUpper() + username[0].Substring(1);
             string lastname = username[1][0].ToString().ToUpper() + username[1].Substring(1);
 
-            lblMessage.Text = ($"Hallo {firstname} {lastname},<br /><br />die Registrierung wurde gespeichert! " +
-                $"Lasse nun das gedruckte Formular vom Kontoinhaber unterschreiben und gib es in der Schule ab. " +
-                $"Weiters besteht die Möglichkeit, die eingegebenen Daten zu bearbeiten und erneut zu drucken.");
-        }
-
-        protected void btnEdit_Click(object sender, EventArgs e)
-        {
-            Session["EditData"] = ViewState["RegisteredUserData"];
-            Response.Redirect("register.aspx");
+            lblMessage.Text = ($"Hallo {firstname} {lastname},<br /><br />die Registrierung ist abgeschlossen! " +
+                $"Alle erfassten Daten wurden erfolgreich gespeichert und bestätigt.");
         }
     }
 }
