@@ -18,6 +18,7 @@
     </div>
 
     <div id="activeAccountField" runat="server">
-        <asp:Label runat="server" Font-Names="Gadugi, Arial" Font-Size="Small" ForeColor="White" ID="lblAccountStatus"/>
+        <asp:Image runat="server" ID="imgCheckOrCross" ImageUrl="~/images/Check.svg" />
+        <asp:Label runat="server" Font-Names="Gadugi, Arial" ID="lblAccountStatus" CssClass="centerWhite"/>
     </div>
 </asp:Content>

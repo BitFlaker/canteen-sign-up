@@ -83,6 +83,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="confirmed.aspx" />
+    <Content Include="images\Check.svg" />
+    <Content Include="images\Disabled.svg" />
     <Content Include="inprogress.aspx" />
     <Content Include="register.aspx" />
     <Content Include="images\HTLHeader.png" />

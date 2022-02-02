@@ -76,73 +76,34 @@ namespace canteen_sign_up
             lblMessage.Text = ($"Hallo {firstname} {lastname},<br /><br />" + textBelow);
         }
 
-        public void SendUserData(DataTable dt)
+        public void SendUserData()
         {
-            string values = "'";
-            int affectedRows = 0;
-            string[] valuesArray = (string[]) dt.Rows[0].ItemArray;
-
-            for (int i = 0; i < valuesArray.Length - 1; i++)
-            {
-                values +=  values[i] + "', '";
-            }
-            values += $"{values[values.Length - 1]}'";
-
-            affectedRows = db.RunNonQuery($"INSERT INTO signed_up_users " +
+            UserData user = new UserData(Environment.UserName + "@htlvb.at");
+            // TODO: iban check!
+            db.RunNonQuery($"INSERT INTO signed_up_users " +
                             $"(email, revision, state_id, ao_firstname, ao_lastname, street, house_number, zipcode, city, IBAN, BIC, PDF_path)" +
-                            $"VALUES(?)", values);
-
-            lblInfo.Text = affectedRows.ToString();
+                            $"VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)", user.UserMail, GetNextRevision(user).ToString(), 1.ToString(), txtFirstname.Text, txtLastname.Text, txtStreet.Text, txtHouseNumber.Text, txtZipCode.Text, txtCity.Text, txtIban.Text, txtBic.Text);
         }
 
-        private DataTable CreateRegistrationDataTable()
-        {
-            DataTable dt = new DataTable();
-            dt.Columns.Add("email", typeof(string));
-            dt.Columns.Add("revision", typeof(int));
-            dt.Columns.Add("state_id", typeof(int));
-            dt.Columns.Add("ao_firstname", typeof(string));
-            dt.Columns.Add("ao_lastname", typeof(string));
-            dt.Columns.Add("street", typeof(string));
-            dt.Columns.Add("house_number", typeof(string));
-            dt.Columns.Add("zipcode", typeof(string));
-            dt.Columns.Add("city", typeof(string));
-            dt.Columns.Add("IBAN", typeof(string));
-            dt.Columns.Add("BIC", typeof(string));
-            dt.Columns.Add("PDF_path", typeof(string));
-
-            DataRow newRow = dt.NewRow();
-
-            newRow.ItemArray = new string[] { "email", $"{GetNextRevision()}", "1", $"{txtFirstname.Text}", $"{txtLastname.Text}",
-                                              $"{txtStreet.Text}", $"{txtHouseNumber.Text}", $"{txtZipCode.Text}", $"{txtCity.Text}", $"{VerifyIBAN()}",
-                                              $"{txtBic.Text}", null};
-
-            dt.Rows.Add(newRow);
-
-            return dt;
-        }
-
-        private string VerifyIBAN()
+        private bool isIbanValid()
         {
             IbanValidator validator = new IbanValidator();
             ValidationResult validationResult = validator.Validate(txtIban.Text);
-            if (validationResult.IsValid) return txtIban.Text;
-            return null;
+            if (validationResult.IsValid) { return true; }
+            return false;
         }
 
-        private string GetNextRevision()
+        private Int32 GetNextRevision(UserData user)
         {
-            string maxRevision = "0";
-            try
-            {
-                maxRevision = (string)db.RunQueryScalar("SELECT MAX(revision) FROM signed_up_students");
+            try {
+                object revNum = db.RunQueryScalar($"SELECT MAX(revision) FROM signed_up_users WHERE email = '{user.UserMail}'");
+                return revNum.GetType() != typeof(Int32) ? 0 : (Int32)revNum + 1;
             }
-            catch(Exception ex)
-            {
+            catch(Exception ex) {
                 lblInfo.Text= ex.Message; 
             }
 
-            return maxRevision + 1;
+            return -1;
         }
 
         protected void btnSendAndPrint_Click(object sender, EventArgs e)
@@ -292,10 +253,12 @@ namespace canteen_sign_up
             string filename = Path.GetTempPath() + Guid.NewGuid() + ".pdf";
             document.Save(filename);
 
-            SendUserData(CreateRegistrationDataTable());
+            SendUserData();
 
             // TODO starts at server? if so, change to send to user
             Process.Start(filename);
+
+            PageSelector.RedirectToCorrectPage(PageSelector.RegState.NotRegistered, this);
         }
 
         private string GetNextUniqueMandateReference()

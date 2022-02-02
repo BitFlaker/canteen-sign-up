@@ -92,9 +92,10 @@ input, select, textarea {
     margin-right: auto;
     padding: 10px;
     display: flex;
-    background-color: rgb(10, 255, 100);
-    border-color: rgb(10, 255, 100);
+    background-color: rgb(51, 215, 98);
+    border-width: 0px;
     border-radius: 10px;
+    width: fit-content;
 }
 
 .inactiveAccount {
@@ -107,6 +108,16 @@ input, select, textarea {
     background-color: rgb(255, 40, 30);
     border-color: rgb(30, 150, 250);
     border-radius: 10px;
+    width: fit-content;
+}
+
+.centerWhite{
+    color: white;
+    font-size: medium;
+    margin-bottom: auto;
+    margin-top: auto;
+    margin-left: 20px;
+    margin-right: 10px;
 }
 
 #headingContainer {
