@@ -169,7 +169,7 @@ namespace canteen_sign_up
 
             // Generate and draw QR-Code
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
-            QRCodeData qrCodeData = qrGenerator.CreateQrCode(user.UserNumber + ";rev=0", QRCodeGenerator.ECCLevel.H);
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(user.UserMail + ";rev=0", QRCodeGenerator.ECCLevel.H);
             QRCode qrCode = new QRCode(qrCodeData);
             Bitmap qrCodeImage = qrCode.GetGraphic(4);
             MemoryStream memoryStream = new MemoryStream();
