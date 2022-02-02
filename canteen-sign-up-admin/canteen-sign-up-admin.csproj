@@ -88,6 +88,7 @@
     <Content Include="confirmed.aspx" />
     <Content Include="DialogBox.ascx" />
     <Content Include="images\MensaLogo.png" />
+    <Content Include="images\UploadFileIcon.svg" />
     <Content Include="pending.aspx" />
     <Content Include="styles\default.css" />
     <Content Include="styles\master.css" />

@@ -3,17 +3,33 @@
 }
 
 #dTop {
-	background-color: slategray;
-	margin-bottom: 20px;
-	height: 40px;
+	margin-bottom: 10px;
 	display: flex;
 	align-items: center;
-	padding-left: 15px;
-	padding-right: 15px;
 }
 
 .centerObject{
 	margin-left: auto;
 	margin-right: auto;
 	width: max-content;
+}
+
+.dataHeading {
+	text-align: center;
+	margin-top: 70px;
+	font-size: xx-large;
+	font-weight: bolder;
+	display: block;
+}
+
+.dataInfo {
+	text-align: center;
+	margin-bottom: 25px;
+	display: block;
+}
+
+#gridContainer {
+	width: fit-content;
+	margin-left: auto;
+	margin-right: auto;
 }

@@ -29,10 +29,10 @@ namespace canteen_sign_up
         {
             DataTable dt = db.RunQuery("SELECT firstname, lastname, class, student_id FROM students WHERE email = ?", UserMail);
             if (dt.Rows.Count > 0 && dt.Columns.Count == 4) {
-                Firstname = (string)dt.Rows[0][0];
-                Lastname = (string)dt.Rows[0][1];
-                Class = (string)dt.Rows[0][2];
-                UserNumber = (string)dt.Rows[0][3];
+                Firstname = dt.Rows[0][0] == null ? null : (string)dt.Rows[0][0];
+                Lastname = dt.Rows[0][1] == null ? null : (string)dt.Rows[0][1];
+                Class = dt.Rows[0][2] == null ? null : (string)dt.Rows[0][2];
+                UserNumber = dt.Rows[0][3] == null ? null : (string)dt.Rows[0][3];
             }
         }
     }

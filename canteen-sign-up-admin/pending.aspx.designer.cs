@@ -15,6 +15,33 @@ namespace canteen_sign_up_admin
     {
 
         /// <summary>
+        /// btnUploadFileYY control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnUploadFileYY;
+
+        /// <summary>
+        /// lblDataHeading control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblDataHeading;
+
+        /// <summary>
+        /// lblDataInfo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblDataInfo;
+
+        /// <summary>
         /// btnUploadFile control.
         /// </summary>
         /// <remarks>

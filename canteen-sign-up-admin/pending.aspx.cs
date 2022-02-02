@@ -46,9 +46,11 @@ namespace canteen_sign_up_admin
 
                 filter.AddTextboxesToGV(gvStudentsData, this.Txt_Changed, 1);
 
-                if (ctrlName != "" && Page.FindControl(ctrlName).ID.StartsWith("txt"))
+                Control ctrl = Page.FindControl(ctrlName);
+
+                if (ctrlName != "" && ctrl.ID.StartsWith("txt"))
                 {
-                    if (txtContent.Trim() == "")
+                    if (txtContent == "")
                     {
                         Txt_Changed(Page.FindControl(ctrlName), null);
                     }
@@ -90,7 +92,7 @@ namespace canteen_sign_up_admin
             }
             try
             {
-                string pattern = txt.Text.Replace('*', '%') + "%";
+                string pattern = txt.Text.Trim().Replace('*', '%') + "%";
                 string sqlCmd = "SELECT " + DataFilter.ColumnsEngToGer(DataFilter.tableColumnNamesEnglish, DataFilter.tableColumnNamesGerman) +
                                                 $" FROM signed_up_users " +
                                                 $"LEFT JOIN students " +
@@ -126,13 +128,16 @@ namespace canteen_sign_up_admin
                 }
 
 
-
                 gvStudentsData.DataSource = filtered;
                 gvStudentsData.DataBind();
             }
             catch (Exception ex)
             {
                 throw ex;
+            }
+            finally
+            {
+                DataFilter.ChangeTBContent(this);
             }
         }
 

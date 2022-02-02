@@ -37,6 +37,14 @@
 	table.cornerRadius {
 		margin-left: auto;
 		margin-right: auto;
+		box-shadow: rgba(0,0,0,0.2) 2px 2px 10px;
+		border-width: 0px;
+	}
+
+	input.cornerRadius {
+		background-color: #E7E9ED !important;
+		border: 1px solid #C7CACF !important;
+		color: #5E5F65 !important;
 	}
 
 .centerContainer {

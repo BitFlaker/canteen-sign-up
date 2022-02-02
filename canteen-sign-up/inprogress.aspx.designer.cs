@@ -7,65 +7,74 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace canteen_sign_up_admin
+namespace canteen_sign_up
 {
 
 
-    public partial class admin
+    public partial class inprogress
     {
 
         /// <summary>
-        /// head control.
+        /// lblMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder head;
+        protected global::System.Web.UI.WebControls.Label lblMessage;
 
         /// <summary>
-        /// form1 control.
+        /// txtAccountOwner control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.WebControls.Label txtAccountOwner;
 
         /// <summary>
-        /// btnPending control.
+        /// txtZipCodeCity control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnPending;
+        protected global::System.Web.UI.WebControls.Label txtZipCodeCity;
 
         /// <summary>
-        /// btnConfirmed control.
+        /// txtStreetHouseNr control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnConfirmed;
+        protected global::System.Web.UI.WebControls.Label txtStreetHouseNr;
 
         /// <summary>
-        /// btnActive control.
+        /// txtIBAN control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnActive;
+        protected global::System.Web.UI.WebControls.Label txtIBAN;
 
         /// <summary>
-        /// ContentPlaceHolder1 control.
+        /// txtBIC control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder1;
+        protected global::System.Web.UI.WebControls.Label txtBIC;
+
+        /// <summary>
+        /// btnEdit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnEdit;
     }
 }

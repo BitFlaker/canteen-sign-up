@@ -1,0 +1,31 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="user.master.cs" Inherits="canteen_sign_up.user"%>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title></title>
+    <link href="styles/styles.css" rel="stylesheet" type="text/css" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div id="formPaper">
+            <div id="gradientOverlay">
+                <asp:Image runat="server" CssClass="htlLogo" ImageUrl="~/images/HTLVB_Logo.png" Height="40px" />
+                <asp:Image runat="server" CssClass="mensaLogo" ImageUrl="~/images/MensaLogo.png" Height="50px" />
+            </div>
+            <div id="progressBar">
+                <h1 id="overallHeading">MENSA - Anmeldung</h1>
+                <asp:Image ID="imgProgressImage" runat="server" CssClass="progressImage" />
+            </div>
+            
+            <div>
+                <asp:ContentPlaceHolder ID="cphUser" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

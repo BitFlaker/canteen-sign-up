@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Configuration;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 using DatabaseWrapper;
 
@@ -139,7 +140,18 @@ namespace canteen_sign_up_admin
             return txtIDs;
         }
 
+        public static void ChangeTBContent(Page page)
+        {
+            string ctrlName = page.Request.Params.Get("__EVENTTARGET");
+            string txtContent = page.Request.Form[ctrlName];
+            Control ctrl = page.FindControl(ctrlName);
 
+            if (ctrlName != "" && ctrl.ID.StartsWith("txt"))
+            {
+                TextBox text = (TextBox)ctrl;
+                text.Text = txtContent.Trim();
+            }
+        }
         #endregion
 
     }

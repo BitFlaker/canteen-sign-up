@@ -6,7 +6,6 @@
     left: 0px;
     right: 0px;
     margin: 0px;
-    background-image: url("../../images/htlvb.jpg");
 }
 
 .htlLogo {
@@ -21,36 +20,27 @@
 }
 
 #overallHeading{
-    color: white;
+    color: black;
     text-align: center;
     font-family: Gadugi, Arial, 'Times New Roman';
-    font-size: 50px;
-    margin-bottom: 25px;
-    margin-top: 5px;
-}
-
-#formTable {
-}
-
-#submitContainer {
+    font-size: larger;
+    margin-bottom: 10px;
 }
 
 .submitButton {
     margin-top: 25px;
     margin-left: 5px;
     margin-right: 5px;
-    height: 40px;
+    height: 35px;
     background-color: rgb(40, 164, 255);
-    border-color: rgb(30, 150, 250);
     color: white;
     border-radius: 10px;
-    border-width: 1px;
+    border-width: 0px;
     border-style: solid;
     padding-left: 15px;
     padding-right: 15px;
     font-family: Gadugi, Arial, 'Times New Roman';
     font-size: medium;
-    font-weight: normal;
 }
 
 .formDiv{
@@ -61,12 +51,12 @@
 .formField {
     margin-left: 5px;
     margin-right: 5px;
-    border-radius: 10px;
+    border-radius: 7px;
     border-width: 1px;
     border-style: solid;
     padding-left: 8px;
     padding-right: 8px;
-    font-size: larger;
+    font-size: small;
 }
 
 input, select, textarea {
@@ -78,8 +68,7 @@ input, select, textarea {
     }
 
 .progressImage {
-    max-width: 300px;
-    max-height: 100px;
+    max-width: 400px;
     margin: auto;
     display: flex;
 }
@@ -97,41 +86,73 @@ input, select, textarea {
     border-radius: 10px;
 }
 
+.activeAccount {
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    display: flex;
+    background-color: rgb(10, 255, 100);
+    border-color: rgb(10, 255, 100);
+    border-radius: 10px;
+}
+
+.inactiveAccount {
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    max-width: 512px;
+    display: flex;
+    background-color: rgb(255, 40, 30);
+    border-color: rgb(30, 150, 250);
+    border-radius: 10px;
+}
+
 #headingContainer {
     overflow: hidden;
     margin-bottom: 10px;
 }
 
 #gradientOverlay {
-    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    margin-left: -30px;
+    margin-right: -30px;
+    margin-bottom: -40px;
+    align-items: center;
 }
 
 #content {
     overflow: hidden;
-    backdrop-filter: blur(3px);
-    background-color: rgba(160, 192, 224, 0.85);
 }
 
 #formPaper {
-    background-color: rgb(228,235,241);
-    padding: 50px;
+    margin-top: 55px;
+    background-color: white;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 50px;
     max-width: 580px;
     text-align: center;
-    margin: auto;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
     box-shadow: rgb(0,0,0,0.60) 0px 0px 20px;
 }
 
 #progressBar {
-    background-color: rgb(186, 73, 77);
-    margin-top: -50px;
-    padding-top: 50px;
+    padding-top: 10px;
     margin-left: -50px;
     padding-left: 50px;
     margin-right: -50px;
     padding-right: 50px;
-    padding-bottom: 50px;
+    padding-bottom: 15px;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
+    border-bottom: 1px solid rgba(120,120,120,0.2);
+}
+
+#checkActions {
+    margin-top: 30px;
 }
