@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.UI;
@@ -71,11 +72,18 @@ namespace canteen_sign_up_admin
         /// <summary>
         /// Connects to the Database and gets all signed up users, with state_id > 0.
         /// </summary>
+        /// <param name="sqlLimit">Set Limit to get from the DB.</param>
         /// <returns>All student info inside a DataTable.</returns>
-        public DataTable GetAllStudentInfo()
+        public DataTable GetAllStudentInfo([Optional] string sqlLimit)
         {
-            DataTable studentsData = db.RunQuery(GetSqlCmd(columnNamesEnglish, tableColumnNamesGerman) +
-                $"WHERE states.state_id > 0");
+            string fullSqlCmd = GetSqlCmd(columnNamesEnglish, tableColumnNamesGerman) +
+                                $"WHERE states.state_id > 0 ";
+            if(sqlLimit != null)
+            {
+                fullSqlCmd += $"{sqlLimit}";
+            }
+
+            DataTable studentsData = db.RunQuery(fullSqlCmd);
 
             return studentsData;
         }
@@ -85,10 +93,15 @@ namespace canteen_sign_up_admin
         /// </summary>
         /// <param name="sqlCmd"></param>
         /// <param name="stateID">The state_id, to filter</param>
+        /// <param name="sqlLimit">Set Limit to get from the DB.</param>
         /// <returns>DataTable with all the students found in the DB.</returns>
-        public DataTable GetStateFilteredInfo(string sqlCmd, int stateID)
+        public DataTable GetStateFilteredInfo(string sqlCmd, int stateID, [Optional] string sqlLimit)
         {
             sqlCmd += $"WHERE signed_up_users.state_id = {stateID} ";
+            if (sqlLimit != null)
+            {
+                sqlCmd += $"{sqlLimit}";
+            }
 
             DataTable studentsData = db.RunQuery(sqlCmd);
 
@@ -138,19 +151,6 @@ namespace canteen_sign_up_admin
                 count++;
             }
             return txtIDs;
-        }
-
-        public static void ChangeTBContent(Page page)
-        {
-            string ctrlName = page.Request.Params.Get("__EVENTTARGET");
-            string txtContent = page.Request.Form[ctrlName];
-            Control ctrl = page.FindControl(ctrlName);
-
-            if (ctrlName != "" && ctrl.ID.StartsWith("txt"))
-            {
-                TextBox text = (TextBox)ctrl;
-                text.Text = txtContent.Trim();
-            }
         }
         #endregion
 

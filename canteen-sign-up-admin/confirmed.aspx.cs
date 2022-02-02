@@ -15,14 +15,25 @@ namespace canteen_sign_up_admin
         Database db = new Database(WebConfigurationManager.ConnectionStrings["AppDbInt"].ConnectionString);
         DataFilter filter = new DataFilter();
         bool gvDataBoundRecently = false;
+        int entryLimit = 2;
+        int page = 0;
         
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Page.IsPostBack == false)
             {
-                gvStudentsData.DataSource = filter.GetStateFilteredInfo(DataFilter.GetSqlCmd(DataFilter.tableColumnNamesEnglish,
-                                                                        DataFilter.tableColumnNamesGerman),
-                                                                        2 /*(confirmed)*/);
+                string limit = $"LIMIT {entryLimit * page}, {entryLimit}";
+                string sqlCmd = DataFilter.GetSqlCmd(DataFilter.tableColumnNamesEnglish, DataFilter.tableColumnNamesGerman);
+                ViewState["CurrLimit"] = limit;
+                ViewState["Limitpage"] = page;
+
+                DataTable filteredTable = filter.GetStateFilteredInfo(sqlCmd, 2 /*(confirmed)*/, (string)ViewState["CurrLimit"]);
+                DataTable originalTable = filter.GetStateFilteredInfo(sqlCmd, 2 /*(confirmed)*/);
+
+                gvStudentsData.DataSource = filteredTable;
+
+                lblDataInfo.Text = GetInfoText(originalTable, filteredTable);
+
                 gvStudentsData.DataBind();
             }
             else
@@ -33,13 +44,14 @@ namespace canteen_sign_up_admin
 
                 filter.AddTextboxesToGV(gvStudentsData, this.Txt_Changed, 2);
 
+
                 Control ctrl = Page.FindControl(ctrlName);
 
                 if (ctrlName != "" && ctrl.ID.StartsWith("txt"))
                 {
                     if (txtContent == "")
                     {
-                        Txt_Changed(Page.FindControl(ctrlName), null);
+                        Txt_Changed(ctrl, null);
                     }
                 }
             }
@@ -116,9 +128,60 @@ namespace canteen_sign_up_admin
             {
                 throw ex;
             }
-            finally
+        }
+
+        protected void btnNextEntries_Click(object sender, EventArgs e)
+        {
+            page = (int)ViewState["Limitpage"];
+            string newLimit = $"LIMIT {entryLimit * ++page}, {entryLimit}";
+            string sqlCmd = DataFilter.GetSqlCmd(DataFilter.tableColumnNamesEnglish, DataFilter.tableColumnNamesGerman);
+            DataTable filteredTable = filter.GetStateFilteredInfo(sqlCmd, 2 /*(confirmed)*/, newLimit);
+            DataTable originalTable = filter.GetStateFilteredInfo(sqlCmd, 2 /*(confirmed)*/);
+
+            if(filteredTable.Rows.Count == 0)
             {
-                DataFilter.ChangeTBContent(this);
+                gvStudentsData.DataSource = filter.GetStateFilteredInfo(sqlCmd, 2 /*(confirmed)*/, (string)ViewState["CurrLimit"]);
+                gvStudentsData.DataBind();
+                return;
+            }
+            ViewState["CurrLimit"] = newLimit;
+            ViewState["Limitpage"] = page;
+
+            gvStudentsData.DataSource = filteredTable;
+
+            lblDataInfo.Text = GetInfoText(originalTable, filteredTable);
+
+            gvStudentsData.DataBind();
+        }
+
+        /// <summary>
+        /// Checks for identical primarykeys to create an info text.
+        /// </summary>
+        /// <param name="original">The original table, to check from.</param>
+        /// <param name="filtered">The filtere table, to check with.</param>
+        /// <returns>A detailed info concerning entries shown in the GridView.</returns>
+        private string GetInfoText(DataTable original, DataTable filtered)
+        {
+            DataRow dataRow = null;
+            string email = (string)filtered.Rows[filtered.Rows.Count - 1][0];
+            int revision = (int)filtered.Rows[filtered.Rows.Count - 1][5];
+
+            foreach (DataRow dr in original.Rows)
+            {
+                if (dr[0].Equals(email) && dr[5].Equals(revision))
+                {
+                    dataRow = dr;
+                    break;
+                }
+            }
+            if (dataRow != null)
+            {
+                return $"Einträge {entryLimit * page + 1} bis {original.Rows.IndexOf(dataRow) + 1} " +
+                                   $"von {original.Rows.Count} Einträgen werden angezeigt.";
+            }
+            else
+            {
+                return $"Email {email} und Überarbeitungsnummer {revision} müssten vorhanden sein, fehlen aber";
             }
         }
     }

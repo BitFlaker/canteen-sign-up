@@ -1,13 +1,13 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="confirmed.aspx.cs" MasterPageFile="~/admin.Master" Inherits="canteen_sign_up_admin.confirmed" Theme="ControlTheme" %>
+﻿<%@ Page Title="" Language="C#" AutoEventWireup="true" MasterPageFile="~/admin.Master" CodeBehind="active.aspx.cs" Inherits="canteen_sign_up_admin.active" Theme="ControlTheme" %>
 
 <asp:Content ID="cttPage" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
-    <asp:Label ID="lblDataHeading" runat="server" CssClass="dataHeading" Text="Angemeldeten und Inaktivliste"/>
-    <asp:Label ID="lblDataInfo" runat="server" CssClass="dataInfo" Text="InfoLabel"/>
+    <asp:Label ID="lblDataHeading" runat="server" CssClass="dataHeading" Text="Ausstehende Bestätigungen"/>
+    <asp:Label ID="lblDataInfo" runat="server" CssClass="dataInfo" Text="Infolabel"/>
     <div id="gridContainer">
         <div id="dTop">
             <asp:Button runat="server" ID="btnNextEntries" OnClick="btnNextEntries_Click" Text="Nächste Einträge"/>
         </div>
-        <asp:GridView ID="gvStudentsData" runat="server" OnRowDataBound="GridViewStudentsData_RowDataBound" HeaderStyle-Wrap="true" RowStyle-Wrap="true" CellPadding="4" ForeColor="#333333" GridLines="None" SkinID="controlGridView">
+        <asp:GridView ID="gvStudentsData" runat="server" OnRowDataBound="GridViewStudentsData_RowDataBound" HeaderStyle-Wrap="true" RowStyle-Wrap="true" SkinID="controlGridView" CellPadding="4" ForeColor="#333333" GridLines="None">
             <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
             <EditRowStyle BackColor="#999999" />
             <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
@@ -21,4 +21,5 @@
             <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
         </asp:GridView>
     </div>
+    <asp:Label ID="lblInfo" runat="server" />
 </asp:Content>

@@ -22,7 +22,7 @@ using ZXing;
 
 namespace canteen_sign_up_admin
 {
-    public partial class pending : System.Web.UI.Page
+    public partial class active : System.Web.UI.Page
     {
         Database db = new Database(WebConfigurationManager.ConnectionStrings["AppDbInt"].ConnectionString);
         DataFilter filter = new DataFilter();
@@ -39,8 +39,8 @@ namespace canteen_sign_up_admin
                 ViewState["CurrLimit"] = limit;
                 ViewState["Limitpage"] = page;
 
-                DataTable filteredTable = filter.GetStateFilteredInfo(sqlCmd, 1 /*(confirmed)*/, (string)ViewState["CurrLimit"]);
-                DataTable originalTable = filter.GetStateFilteredInfo(sqlCmd, 1 /*(confirmed)*/);
+                DataTable filteredTable = filter.GetStateFilteredInfo(sqlCmd, 3 /*(confirmed)*/, (string)ViewState["CurrLimit"]);
+                DataTable originalTable = filter.GetStateFilteredInfo(sqlCmd, 3 /*(confirmed)*/);
 
                 gvStudentsData.DataSource = filteredTable;
 
@@ -54,7 +54,7 @@ namespace canteen_sign_up_admin
                 string ctrlName = Page.Request.Params.Get("__EVENTTARGET");
                 string txtContent = Page.Request.Form[ctrlName];
 
-                filter.AddTextboxesToGV(gvStudentsData, this.Txt_Changed, 1);
+                filter.AddTextboxesToGV(gvStudentsData, this.Txt_Changed, 3);
 
                 Control ctrl = Page.FindControl(ctrlName);
 
@@ -64,11 +64,6 @@ namespace canteen_sign_up_admin
                     {
                         Txt_Changed(ctrl, null);
                     }
-                }
-
-                if (ViewState["UploadDialogID"] != null)
-                {
-                    GenUploadDialog((string)ViewState["UploadDialogID"]);
                 }
             }
         }
@@ -108,7 +103,7 @@ namespace canteen_sign_up_admin
                     gvDataBoundRecently = true; //gehört zu AddEmptyRow
                     filter.AddEmtpyRow(ref gridView);
 
-                    filter.AddTextboxesToGV(gridView, this.Txt_Changed, 1);
+                    filter.AddTextboxesToGV(gridView, this.Txt_Changed, 3);
                 }
             }
         }
@@ -134,7 +129,7 @@ namespace canteen_sign_up_admin
                                                 $"ON signed_up_users.email = students.email " +
                                                 $"LEFT JOIN states " +
                                                 $"ON signed_up_users.state_id = states.state_id " +
-                                                $"WHERE signed_up_users.state_id = 1 ";
+                                                $"WHERE signed_up_users.state_id = 3 ";
 
                 if (columnName == "students.student_id" && pattern == "%%")
                 {
@@ -172,80 +167,17 @@ namespace canteen_sign_up_admin
             }
         }
 
-        protected void btnUploadFile_Click(object sender, EventArgs e)
-        {
-            GenUploadDialog();
-        }
-
-        private void GenUploadDialog(string id = null)
-        {
-            DialogBox dbox = (DialogBox)Page.LoadControl("DialogBox.ascx");
-            if (id != null) { dbox.ID = id; }
-            dbox.Title = "Anmeldeformulare hochladen";
-            dbox.setFileUploadSelect("Wählen Sie ein .pdf Dokument aus, in welchem<br/>sich die eingescannten Anmeldungsformulare befinden.");
-            dbox.DialogFinished += FormUploadFinished;
-            ((admin)this.Master).Form.Controls.Add(dbox);
-            ViewState["UploadDialogID"] = dbox.ID;
-        }
-
-        private void FormUploadFinished(object sender, DialogEventArgs e)
-        {
-            if (e.Result == DialogEventArgs.EventResults.Ok) {
-                DialogBox dbox = sender as DialogBox;
-                string uploadedFile = dbox.FileUpload.FileName;
-                string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-                string tempPath = Path.GetTempPath();
-                string baseDir = appData + @"\CanteenRegistrations\";
-                if (!Directory.Exists(baseDir)){
-                    Directory.CreateDirectory(baseDir);
-                }
-                dbox.FileUpload.SaveAs(baseDir + uploadedFile);
-
-                string ghostScriptPath = appData + @"\GSWIN";
-                if (!Directory.Exists(ghostScriptPath)) {
-                    // TODO: ERROR: inform user GhostScript is missing
-                    return;
-                }
-                MagickNET.SetGhostscriptDirectory(ghostScriptPath);
-                MagickReadSettings settings = new MagickReadSettings();
-                settings.Density = new Density(300);
-                string tempImageName = Guid.NewGuid().ToString() + ".png";
-
-                using (MagickImageCollection images = new MagickImageCollection()) {
-                    images.Read(baseDir + uploadedFile, settings);
-                    using (var vertical = images.AppendVertically()) {
-                        vertical.Write(tempPath + @"\CaReSc_" + tempImageName);
-                    }
-                }
-
-                // scan qr code and assign pdf location here
-
-                File.Delete(tempPath + @"\CaReSc_" + tempImageName);
-            }
-        }
-
-        private Control FindControlRecursive(Control rootControl, string controlID)
-        {
-            if (rootControl.ID == controlID) return rootControl;
-
-            foreach (Control controlToSearch in rootControl.Controls) {
-                Control controlToReturn = FindControlRecursive(controlToSearch, controlID);
-                if (controlToReturn != null) return controlToReturn;
-            }
-            return null;
-        }
-
         protected void btnNextEntries_Click(object sender, EventArgs e)
         {
             page = (int)ViewState["Limitpage"];
             string newLimit = $"LIMIT {entryLimit * ++page}, {entryLimit}";
             string sqlCmd = DataFilter.GetSqlCmd(DataFilter.tableColumnNamesEnglish, DataFilter.tableColumnNamesGerman);
-            DataTable filteredTable = filter.GetStateFilteredInfo(sqlCmd, 1 /*(confirmed)*/, newLimit);
-            DataTable originalTable = filter.GetStateFilteredInfo(sqlCmd, 1 /*(confirmed)*/);
+            DataTable filteredTable = filter.GetStateFilteredInfo(sqlCmd, 3 /*(confirmed)*/, newLimit);
+            DataTable originalTable = filter.GetStateFilteredInfo(sqlCmd, 3 /*(confirmed)*/);
 
             if (filteredTable.Rows.Count == 0)
             {
-                gvStudentsData.DataSource = filter.GetStateFilteredInfo(sqlCmd, 1 /*(confirmed)*/, (string)ViewState["CurrLimit"]);
+                gvStudentsData.DataSource = filter.GetStateFilteredInfo(sqlCmd, 3 /*(confirmed)*/, (string)ViewState["CurrLimit"]);
                 gvStudentsData.DataBind();
                 return;
             }

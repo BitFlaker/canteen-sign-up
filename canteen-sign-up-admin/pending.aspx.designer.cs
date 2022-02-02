@@ -11,7 +11,7 @@ namespace canteen_sign_up_admin
 {
 
 
-    public partial class _default
+    public partial class pending
     {
 
         /// <summary>
@@ -49,6 +49,15 @@ namespace canteen_sign_up_admin
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnUploadFile;
+
+        /// <summary>
+        /// btnNextEntries control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnNextEntries;
 
         /// <summary>
         /// gvStudentsData control.

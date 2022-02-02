@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" AutoEventWireup="true" MasterPageFile="~/admin.Master" CodeBehind="pending.aspx.cs" Inherits="canteen_sign_up_admin._default" Theme="ControlTheme" %>
+﻿<%@ Page Title="" Language="C#" AutoEventWireup="true" MasterPageFile="~/admin.Master" CodeBehind="pending.aspx.cs" Inherits="canteen_sign_up_admin.pending" Theme="ControlTheme" %>
 
 <asp:Content ID="cttPage" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
     <!--<div id="dTop">
@@ -9,6 +9,7 @@
     <div id="gridContainer">
         <div id="dTop">
             <asp:Button runat="server" ID="btnUploadFile" OnClick="btnUploadFile_Click" Text="Anmeldeformulare hochladen" SkinId="controlButton" />
+            <asp:Button runat="server" ID="btnNextEntries" OnClick="btnNextEntries_Click" Text="Nächste Einträge"/>
         </div>
         <asp:GridView ID="gvStudentsData" runat="server" OnRowDataBound="GridViewStudentsData_RowDataBound" HeaderStyle-Wrap="true" RowStyle-Wrap="true" SkinID="controlGridView" CellPadding="4" ForeColor="#333333" GridLines="None">
             <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
