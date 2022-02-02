@@ -13,4 +13,4 @@ Default skin template. The following skins are provided as examples only.
 
 <asp:Image runat="server" ImageUrl="~/images/image1.jpg" />
 --%>
-<asp:TextBox SkinId="inputField" Height="35" runat="server"/>
+<asp:TextBox SkinId="inputField" Height="25" runat="server"/>

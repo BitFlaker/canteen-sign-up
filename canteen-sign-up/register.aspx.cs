@@ -27,18 +27,45 @@ namespace canteen_sign_up
     public partial class _default : System.Web.UI.Page
     {
         Database db = new Database(WebConfigurationManager.ConnectionStrings["AppDbInt"].ConnectionString);
-        private XGraphicsState state;
+        bool isInEditMode = false;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!Page.IsPostBack)
-            {
+            if (!Page.IsPostBack) {
                 lblInfo.Text = db.TryToConnect();
-                WritingUsernameInStartPage();
+                FillDataIfInEditMode();
+                ViewState["EditMode"] = isInEditMode;
+                if (!isInEditMode) { 
+                    ((user)this.Master).ProgressImage = "~/images/Progress1.svg";
+                    PageSelector.RedirectToCorrectPage(PageSelector.RegState.NotRegistered, this);
+                    WritingUsernameInStartPage("fülle die nachfolgenden Daten aus, " +
+                    "um dich bei der Mensa zu registrieren. Nach dem Absenden des Formulars muss eien Bestätigung " +
+                    "gedruckt, unterschrieben und abschließend abgegeben werden.");
+                }
             }
         }
 
-        private void WritingUsernameInStartPage()
+        private void FillDataIfInEditMode()
+        {
+            if (Session["EditData"] != null) {
+                isInEditMode = true;
+                EditablePresetData registeredData = (EditablePresetData)Session["EditData"];
+                txtFirstname.Text = registeredData.Firstname;
+                txtLastname.Text = registeredData.Lastname;
+                txtZipCode.Text = registeredData.ZipCode;
+                txtCity.Text = registeredData.City;
+                txtStreet.Text = registeredData.Street;
+                txtHouseNumber.Text = registeredData.HouseNumber;
+                txtIban.Text = registeredData.IBAN;
+                txtBic.Text = registeredData.BIC;
+                ((user)this.Master).ProgressImage = "~/images/Progress2.svg";
+                WritingUsernameInStartPage("ändere die nachfolgenden Daten und drucke das Formular erneut aus. " +
+                    "Das alte Formular kann vernichtet werden. Gib dann nur das neu gedruckte Formular unterschriben ab. " +
+                    "Falls doch nichts geändert werden sollte, kann dieses Fenster einfach geschlossen werden.");
+            }
+        }
+
+        private void WritingUsernameInStartPage(string textBelow)
         {
             string getName = System.Environment.UserName;
             string[] username = getName.Split('.');
@@ -46,21 +73,7 @@ namespace canteen_sign_up
             string firstname = username[0][0].ToString().ToUpper() + username[0].Substring(1);
             string lastname = username[1][0].ToString().ToUpper() + username[1].Substring(1);
 
-            lblMessage.Text = ($"Hallo {firstname} {lastname},<br /><br />Fülle die nachfolgenden Daten aus, " +
-                "um dich bei der Mensa zu registrieren. Nach dem Absenden des Formulars muss eien Bestätigung " +
-                "gedruckt, unterschrieben und abschließend abgegeben werden.");
-        }
-
-        private void btnSend_Click(object sender, EventArgs e)
-        {
-            if (!Page.IsValid)
-            {
-                lblInfo.Text = "Bitte fülle alle markierten Felder aus.";
-            }
-            else
-            {
-                SendUserData(CreateRegistrationDataTable());
-            }
+            lblMessage.Text = ($"Hallo {firstname} {lastname},<br /><br />" + textBelow);
         }
 
         public void SendUserData(DataTable dt)
@@ -100,9 +113,9 @@ namespace canteen_sign_up
 
             DataRow newRow = dt.NewRow();
 
-            newRow.ItemArray = new string[] { "email", $"{GetNextRevision()}", "1", $"{txtFirstname}", $"{txtLastname}",
-                                              $"{txtStreet}", $"{txtHouseNumber}", $"{txtZipCode}", $"{txtCity}", $"{VerifyIBAN()}",
-                                              $"{txtBic}", null};
+            newRow.ItemArray = new string[] { "email", $"{GetNextRevision()}", "1", $"{txtFirstname.Text}", $"{txtLastname.Text}",
+                                              $"{txtStreet.Text}", $"{txtHouseNumber.Text}", $"{txtZipCode.Text}", $"{txtCity.Text}", $"{VerifyIBAN()}",
+                                              $"{txtBic.Text}", null};
 
             dt.Rows.Add(newRow);
 
@@ -134,6 +147,11 @@ namespace canteen_sign_up
 
         protected void btnSendAndPrint_Click(object sender, EventArgs e)
         {
+            if (!Page.IsValid) {
+                lblInfo.Text = "Bitte fülle alle markierten Felder aus.";
+                return;
+            }
+
             double pageIndent = 70;
             double qrIndent = 40;
 
@@ -169,7 +187,7 @@ namespace canteen_sign_up
 
             // Generate and draw QR-Code
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
-            QRCodeData qrCodeData = qrGenerator.CreateQrCode(user.UserNumber + ";rev=0", QRCodeGenerator.ECCLevel.H);
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(user.UserMail + ";rev=0", QRCodeGenerator.ECCLevel.H);
             QRCode qrCode = new QRCode(qrCodeData);
             Bitmap qrCodeImage = qrCode.GetGraphic(4);
             MemoryStream memoryStream = new MemoryStream();
@@ -273,6 +291,8 @@ namespace canteen_sign_up
 
             string filename = Path.GetTempPath() + Guid.NewGuid() + ".pdf";
             document.Save(filename);
+
+            SendUserData(CreateRegistrationDataTable());
 
             // TODO starts at server? if so, change to send to user
             Process.Start(filename);
