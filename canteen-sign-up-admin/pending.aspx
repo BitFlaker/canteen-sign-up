@@ -3,11 +3,9 @@
 <asp:Content ID="cttPage" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
     <div style="width:fit-content;margin-left:auto;margin-right:auto;margin-top:40px;">
         <asp:Label ID="lblDataHeading" runat="server" CssClass="dataHeading" Text="Ausstehende Bestätigungen"/>
-        <asp:Label ID="lblDataInfo" runat="server" CssClass="dataInfo" Text="467 von 10000 Einträgen werden aufgelistet"/>
-        <asp:Button runat="server" ID="btnUploadFile" OnClick="btnUploadFile_Click" Text="Anmeldeformulare hochladen" SkinId="controlButton" />
-        <div style="display:flex;justify-content:space-between;">
+        <div style="display:flex;justify-content:space-between;margin-top:50px;">
             <div>
-                <asp:Button runat="server" ID="btnActivate" Text="Aktiv setzen" OnClick="btnAvtivate_Click" CssClass="ActionButton"/>
+                <asp:Button runat="server" ID="btnUploadFile" Text="Anmeldeformulare hochladen" OnClick="btnUploadFile_Click" CssClass="ActionButton" />
             </div>
             <div>
                 <asp:DropDownList runat="server" ID="ddlEntriesPerPage" AutoPostBack="True" OnSelectedIndexChanged="ddlEntriesPerPage_SelectedIndexChanged" CssClass="ActionSelect">
@@ -22,7 +20,7 @@
                 <asp:Button runat="server" ID="btnNext" Text="Nächste Seite" OnClick="btnNext_Click" CssClass="ActionButton"/>
             </div>
         </div>
-        <asp:GridView runat="server" ID="grdData" AutoGenerateColumns="true" AutoGenerateSelectButton="true" CssClass="DynTable"/>
+        <asp:GridView runat="server" ID="grdData" AutoGenerateColumns="true" AutoGenerateSelectButton="true" CssClass="DynTable" BackColor="White"/>
         <asp:Label runat="server" ID="lblPageInfo" CssClass="PageInfo" />
         <asp:Label ID="lblInfo" runat="server" />
     </div>
