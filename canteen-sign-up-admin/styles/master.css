@@ -39,7 +39,7 @@
 	height: 40px;
 	margin-top: 5px;
 	cursor: pointer;
-	background-color: white;
+	background-color: rgba(245,245,255,0.6);
 	border-radius: 10px;
 	margin-right: 10px;
 	width: calc(100% - 10px);
@@ -49,4 +49,8 @@
 	border-bottom-left-radius: 0px;
 	text-align: start;
 	padding-left: 20px;
+}
+
+.sideNavButtonActive {
+	background-color: white;
 }

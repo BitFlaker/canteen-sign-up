@@ -20,7 +20,7 @@
                 <asp:Button runat="server" ID="btnNext" Text="Nächste Seite" OnClick="btnNext_Click" CssClass="ActionButton"/>
             </div>
         </div>
-        <asp:GridView runat="server" ID="grdData" AutoGenerateColumns="true" AutoGenerateSelectButton="true" CssClass="DynTable"/>
+        <asp:GridView runat="server" ID="grdData" AutoGenerateColumns="true" AutoGenerateSelectButton="true" CssClass="DynTable" BackColor="White"/>
         <asp:Label runat="server" ID="lblPageInfo" CssClass="PageInfo" />
         <asp:Label ID="lblInfo" runat="server" />
     </div>

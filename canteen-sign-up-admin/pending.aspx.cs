@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using DatabaseWrapper;
@@ -28,6 +25,7 @@ namespace canteen_sign_up_admin
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack) {
+                ((admin)this.Master).PendingButton.Attributes["class"] = "sideNavButton sideNavButtonActive";
                 SelectedColumns dataColumns = new SelectedColumns();
                 dataColumns.Add("signed_up_users.email", "E-Mail");
                 dataColumns.Add("students.student_id", "Schülerausweis-Nr.");

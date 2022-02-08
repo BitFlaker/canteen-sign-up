@@ -17,25 +17,33 @@ namespace canteen_sign_up_admin
 
         protected void btnPending_Click(object sender, EventArgs e)
         {
+            DeactivateÁllNavButtons(sender);
             Response.Redirect("pending.aspx");
         }
 
         protected void btnConfirmed_Click(object sender, EventArgs e)
         {
+            DeactivateÁllNavButtons(sender);
             Response.Redirect("confirmed.aspx");
         }
         
         protected void btnActive_Click(object sender, EventArgs e)
         {
+            DeactivateÁllNavButtons(sender);
             Response.Redirect("active.aspx");
         }
 
-        protected void btnDeactivated_Click(object sender, EventArgs e)
+        private void DeactivateÁllNavButtons(object sender)
         {
-            Response.Redirect("deactivated.aspx");
+            Button navButton = sender as Button;
+            btnActive.Attributes["class"] = "sideNavButton";
+            btnConfirmed.Attributes["class"] = "sideNavButton";
+            btnPending.Attributes["class"] = "sideNavButton";
+            btnInactive.Attributes["class"] = "sideNavButton";
         }
 
         public HtmlForm Form { get { return form1; } }
+        public Button PendingButton { get { return btnPending; } }
 
     }
 }
