@@ -28,7 +28,7 @@ namespace canteen_sign_up_admin
                                                                             "Straße", "Hausnummer", "PLZ", "Ort", "IBAN", "BIC", "PDF-Pfad"};
 
         public static List<string> tableColumnNamesGerman = new List<string>() { "EMail", "Schülerkennzahl", "Vorname", "Nachname", "Klasse", "Überarbeitungsnummer" };
-
+        
         #endregion
 
         public DataFilter()
@@ -95,9 +95,12 @@ namespace canteen_sign_up_admin
         /// <param name="stateID">The state_id, to filter</param>
         /// <param name="sqlLimit">Set Limit to get from the DB.</param>
         /// <returns>DataTable with all the students found in the DB.</returns>
-        public DataTable GetStateFilteredInfo(string sqlCmd, int stateID, [Optional] string sqlLimit)
+        public DataTable GetStateFilteredInfo(string sqlCmd, int stateID, [Optional] string sqlLimit, [Optional] string constraint)
         {
-            sqlCmd += $"WHERE signed_up_users.state_id = {stateID} ";
+            if (constraint == null)
+                sqlCmd += $"WHERE signed_up_users.state_id = {stateID} ";
+            else
+                sqlCmd += constraint;
             if (sqlLimit != null)
             {
                 sqlCmd += $"{sqlLimit}";

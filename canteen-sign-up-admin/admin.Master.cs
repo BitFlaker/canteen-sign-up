@@ -24,6 +24,11 @@ namespace canteen_sign_up_admin
         {
             Response.Redirect("confirmed.aspx");
         }
+        
+        protected void btnActive_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("active.aspx");
+        }
 
         public HtmlForm Form { get { return form1; } }
 

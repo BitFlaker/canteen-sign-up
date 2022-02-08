@@ -2,8 +2,7 @@
 
 <asp:Content ID="cttPage" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
     <div style="width:fit-content;margin-left:auto;margin-right:auto;margin-top:40px;">
-        <asp:Label ID="lblDataHeading" runat="server" CssClass="dataHeading" Text="Ausstehende Bestätigungen"/>
-        <asp:Label ID="lblDataInfo" runat="server" CssClass="dataInfo" Text="467 von 10000 Einträgen werden aufgelistet"/>
+        <asp:Label ID="lblDataHeading" runat="server" CssClass="dataHeading" Text="Ausstehende Registrierungen"/>
         <asp:Button runat="server" ID="btnUploadFile" OnClick="btnUploadFile_Click" Text="Anmeldeformulare hochladen" SkinId="controlButton" />
         <div style="display:flex;justify-content:space-between;">
             <div>

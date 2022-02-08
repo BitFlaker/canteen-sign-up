@@ -21,7 +21,9 @@ namespace canteen_sign_up_admin
     {
         DynamicTable dynTable;
         Database db = new Database(WebConfigurationManager.ConnectionStrings["AppDbInt"].ConnectionString);
-        string baseSql = " FROM signed_up_users INNER JOIN(SELECT email, ao_firstname, ao_lastname, MAX(revision) AS revision FROM signed_up_users GROUP BY email) b ON signed_up_users.email = b.email AND signed_up_users.revision = b.revision LEFT JOIN students ON signed_up_users.email = students.email";
+        string baseSql = " FROM signed_up_users INNER JOIN(SELECT email, ao_firstname, ao_lastname, MAX(revision) AS revision " +
+                         "FROM signed_up_users GROUP BY email) b ON signed_up_users.email = b.email AND signed_up_users.revision = b.revision " +
+                         "LEFT JOIN students ON signed_up_users.email = students.email WHERE signed_up_users.state_id = 1";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -29,8 +31,8 @@ namespace canteen_sign_up_admin
                 SelectedColumns dataColumns = new SelectedColumns();
                 dataColumns.Add("signed_up_users.email", "E-Mail");
                 dataColumns.Add("students.student_id", "Schülerausweis-Nr.");
-                dataColumns.Add("signed_up_users.ao_firstname", "Ko.-Inhaber Vorname");
-                dataColumns.Add("signed_up_users.ao_lastname", "Ko.-Inhaber Nachname");
+                dataColumns.Add("students.firstname", "Vorname");
+                dataColumns.Add("students.lastname", "Nachname");
                 dataColumns.Add("signed_up_users.revision", "Überarbeitungsnummer");
                 dynTable = new DynamicTable(dataColumns, baseSql, int.Parse(ddlEntriesPerPage.SelectedValue), grdData, ViewState);
             }
