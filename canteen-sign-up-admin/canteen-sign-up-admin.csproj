@@ -17,8 +17,10 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort>44381</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
@@ -144,6 +146,10 @@
     <ProjectReference Include="..\DatabaseWrapper\DatabaseWrapper.csproj">
       <Project>{82ddbba6-669c-4b8b-84b3-d1b3e60b88c0}</Project>
       <Name>DatabaseWrapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DynamicTable\DynamicTable.csproj">
+      <Project>{497543b7-308d-498a-9443-ad77358e7ad3}</Project>
+      <Name>DynamicTable</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

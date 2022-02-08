@@ -9,6 +9,33 @@
     <link href="styles/pending.css" rel="stylesheet" type="text/css" />
     <link href="styles/default.css" rel="stylesheet" type="text/css" />
     <asp:ContentPlaceHolder ID="head" runat="server" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(window).on('load', function () {
+            $('.chkRowAll')[0].childNodes[0].addEventListener('change', e => {
+                $('.chkRow').each(function () {
+                    $(this)[0].childNodes[0].checked = $('.chkRowAll')[0].childNodes[0].checked;
+                })
+            });
+            $('.chkRow').each(function () {
+                $(this)[0].childNodes[0].addEventListener('change', e => {
+                    if (!e.target.checked) {
+                        $('.chkRowAll')[0].childNodes[0].checked = false;
+                    }
+                    else {
+                        var allChecked = true;
+                        $('.chkRow').each(function () {
+                            if ($(this)[0].childNodes[0].checked == false) {
+                                allChecked = false;
+                                return false;
+                            }
+                        });
+                        if (allChecked) { $('.chkRowAll')[0].childNodes[0].checked = true; }
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 <body>
     <form id="form1" runat="server">
