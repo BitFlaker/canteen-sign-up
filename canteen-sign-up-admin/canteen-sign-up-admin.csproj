@@ -92,6 +92,7 @@
     <Content Include="DialogBox.ascx" />
     <Content Include="images\MensaLogo.png" />
     <Content Include="images\UploadFileIcon.svg" />
+    <Content Include="deactivated.aspx" />
     <Content Include="pending.aspx" />
     <Content Include="styles\default.css" />
     <Content Include="styles\master.css" />
@@ -127,6 +128,13 @@
     </Compile>
     <Compile Include="DialogBox.ascx.designer.cs">
       <DependentUpon>DialogBox.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="deactivated.aspx.cs">
+      <DependentUpon>deactivated.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="deactivated.aspx.designer.cs">
+      <DependentUpon>deactivated.aspx</DependentUpon>
     </Compile>
     <Compile Include="pending.aspx.cs">
       <DependentUpon>pending.aspx</DependentUpon>

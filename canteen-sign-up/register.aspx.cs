@@ -81,7 +81,7 @@ namespace canteen_sign_up
             UserData user = new UserData(Environment.UserName + "@htlvb.at");
             // TODO: iban check!
             db.RunNonQuery($"INSERT INTO signed_up_users " +
-                            $"(email, revision, state_id, ao_firstname, ao_lastname, street, house_number, zipcode, city, IBAN, BIC, PDF_path)" +
+                            $"(email, revision, state_id, ao_firstname, ao_lastname, street, house_number, zipcode, city, IBAN, BIC, PDF_name)" +
                             $"VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)", user.UserMail, GetNextRevision(user).ToString(), 1.ToString(), txtFirstname.Text, txtLastname.Text, txtStreet.Text, txtHouseNumber.Text, txtZipCode.Text, txtCity.Text, txtIban.Text, txtBic.Text);
         }
 

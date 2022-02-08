@@ -45,7 +45,7 @@
             <asp:Button ID="btnPending" runat="server" Text="Ausstehend" OnClick="btnPending_Click" CssClass="sideNavButton" BorderStyle="None"/>
             <asp:Button ID="btnConfirmed" runat="server" Text="Bestätigt" OnClick="btnConfirmed_Click" CssClass="sideNavButton" BorderStyle="None"/>
             <asp:Button ID="btnActive" runat="server" Text="Aktiv" OnClick="btnActive_Click" CssClass="sideNavButton" BorderStyle="None"/>
-            <asp:Button ID="btnInactive" runat="server" Text="Inaktiv" CssClass="sideNavButton" BorderStyle="None"/>
+            <asp:Button ID="btnDeactivated" runat="server" Text="Deaktiviert" OnClick="btnDeactivated_Click" CssClass="sideNavButton" BorderStyle="None"/>
         </div>
 
         <!--<div class="Heading">

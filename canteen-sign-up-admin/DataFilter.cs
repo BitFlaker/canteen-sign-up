@@ -18,7 +18,7 @@ namespace canteen_sign_up_admin
         public static List<string> columnNamesEnglish= new List<string>() { "students.email", "students.student_id", "students.firstname", "students.lastname", "students.class",
                                                                             "signed_up_users.revision", "states.description", "signed_up_users.ao_firstname", "signed_up_users.ao_lastname",
                                                                             "signed_up_users.street", "signed_up_users.house_number", "signed_up_users.zipcode", "signed_up_users.city",
-                                                                            "signed_up_users.IBAN", "signed_up_users.BIC", "signed_up_users.PDF_path"};
+                                                                            "signed_up_users.IBAN", "signed_up_users.BIC", "signed_up_users.PDF_name"};
 
         public static List<string> tableColumnNamesEnglish = new List<string>() { "students.email", "students.student_id", "students.firstname", 
                                                                                     "students.lastname", "students.class", "signed_up_users.revision" };

@@ -63,13 +63,6 @@ namespace canteen_sign_up_admin
             dynTable.PreviousPage();
         }
 
-        protected void btnAvtivate_Click(object sender, EventArgs e)
-        {
-            List<string> selectedEmails = dynTable.GetSelectedEntries(columnIndex: 0);
-            // TODO activate user in db
-            dynTable.LoadData();
-        }
-
         private void DynTableLinkButtonClick(object sender, EventArgs e)
         {
             LinkButton lbGetDetails = sender as LinkButton;
@@ -193,7 +186,7 @@ namespace canteen_sign_up_admin
                         string result = reader.Decode(barcodeBitmap).ToString();
 
                         db.RunNonQuery("UPDATE signed_up_users " +
-                            "SET PDF_path = ? " +
+                            "SET PDF_name = ? " +
                             "WHERE email = ?; ", outputPdfFilePath, result);
                     }
                 }

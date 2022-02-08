@@ -30,6 +30,11 @@ namespace canteen_sign_up_admin
             Response.Redirect("active.aspx");
         }
 
+        protected void btnDeactivated_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("deactivated.aspx");
+        }
+
         public HtmlForm Form { get { return form1; } }
 
     }

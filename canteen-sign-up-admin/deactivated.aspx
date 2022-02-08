@@ -1,8 +1,8 @@
-﻿<%@ Page Title="" Language="C#" AutoEventWireup="true" MasterPageFile="~/admin.Master" CodeBehind="confirmed.aspx.cs" Inherits="canteen_sign_up_admin.confirmed" Theme="ControlTheme" %>
+﻿<%@ Page Title="" Language="C#" AutoEventWireup="true" MasterPageFile="~/admin.Master" CodeBehind="deactivated.aspx.cs" Inherits="canteen_sign_up_admin.deactivated" Theme="ControlTheme" %>
 
 <asp:Content ID="cttPage" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
     <div style="width:fit-content;margin-left:auto;margin-right:auto;margin-top:40px;">
-        <asp:Label ID="lblDataHeading" runat="server" CssClass="dataHeading" Text="Bestätigte Registrierungen"/>
+        <asp:Label ID="lblDataHeading" runat="server" CssClass="dataHeading" Text="Deaktivierte Nutzer"/>
         <div style="display:flex;justify-content:space-between;">
             <div>
                 <asp:Button runat="server" ID="btnActivate" Text="Aktiv setzen" OnClick="btnActivate_Click" CssClass="ActionButton"/>

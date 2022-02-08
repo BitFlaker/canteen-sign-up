@@ -11,70 +11,79 @@ namespace canteen_sign_up_admin
 {
 
 
-    public partial class admin
+    public partial class deactivated
     {
 
         /// <summary>
-        /// head control.
+        /// lblDataHeading control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder head;
+        protected global::System.Web.UI.WebControls.Label lblDataHeading;
 
         /// <summary>
-        /// form1 control.
+        /// btnActivate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.WebControls.Button btnActivate;
 
         /// <summary>
-        /// btnPending control.
+        /// ddlEntriesPerPage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnPending;
+        protected global::System.Web.UI.WebControls.DropDownList ddlEntriesPerPage;
 
         /// <summary>
-        /// btnConfirmed control.
+        /// btnPrev control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnConfirmed;
+        protected global::System.Web.UI.WebControls.Button btnPrev;
 
         /// <summary>
-        /// btnActive control.
+        /// btnNext control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnActive;
+        protected global::System.Web.UI.WebControls.Button btnNext;
 
         /// <summary>
-        /// btnDeactivated control.
+        /// grdData control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnDeactivated;
+        protected global::System.Web.UI.WebControls.GridView grdData;
 
         /// <summary>
-        /// ContentPlaceHolder1 control.
+        /// lblPageInfo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder1;
+        protected global::System.Web.UI.WebControls.Label lblPageInfo;
+
+        /// <summary>
+        /// lblInfo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblInfo;
     }
 }

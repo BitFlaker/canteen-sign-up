@@ -18,13 +18,13 @@ using DynamicTables;
 
 namespace canteen_sign_up_admin
 {
-    public partial class active : System.Web.UI.Page
+    public partial class deactivated : System.Web.UI.Page
     {
         DynamicTable dynTable;
         Database db = new Database(WebConfigurationManager.ConnectionStrings["AppDbInt"].ConnectionString);
         string baseSql = " FROM signed_up_users INNER JOIN(SELECT email, ao_firstname, ao_lastname, MAX(revision) AS revision " +
                          "FROM signed_up_users GROUP BY email) b ON signed_up_users.email = b.email AND signed_up_users.revision = b.revision " +
-                         "LEFT JOIN students ON signed_up_users.email = students.email WHERE signed_up_users.state_id = 3";
+                         "LEFT JOIN students ON signed_up_users.email = students.email WHERE signed_up_users.state_id = 0";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -63,7 +63,7 @@ namespace canteen_sign_up_admin
             dynTable.PreviousPage();
         }
 
-        protected void btnDeactivate_Click(object sender, EventArgs e)
+        protected void btnActivate_Click(object sender, EventArgs e)
         {
             List<string> selectedEmails = dynTable.GetSelectedEntries(columnIndex: 0);
             // TODO activate user in db

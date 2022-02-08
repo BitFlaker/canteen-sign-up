@@ -24,22 +24,13 @@ namespace canteen_sign_up_admin
         protected global::System.Web.UI.WebControls.Label lblDataHeading;
 
         /// <summary>
-        /// btnUploadFile control.
+        /// btnDeactivate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnUploadFile;
-
-        /// <summary>
-        /// btnActivate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnActivate;
+        protected global::System.Web.UI.WebControls.Button btnDeactivate;
 
         /// <summary>
         /// ddlEntriesPerPage control.

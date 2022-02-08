@@ -39,10 +39,6 @@ namespace canteen_sign_up_admin
             else
             {
                 dynTable = (DynamicTable)ViewState["DynTable"];
-                if (ViewState["UploadDialogID"] != null)
-                {
-                    GenUploadDialog((string)ViewState["UploadDialogID"]);
-                }
             }
 
             dynTable.ObjInit(grdData, ViewState);
@@ -65,7 +61,7 @@ namespace canteen_sign_up_admin
             dynTable.PreviousPage();
         }
 
-        protected void btnAvtivate_Click(object sender, EventArgs e)
+        protected void btnActivate_Click(object sender, EventArgs e)
         {
             List<string> selectedEmails = dynTable.GetSelectedEntries(columnIndex: 0);
             // TODO activate user in db
@@ -82,124 +78,6 @@ namespace canteen_sign_up_admin
         protected void ddlEntriesPerPage_SelectedIndexChanged(object sender, EventArgs e)
         {
             dynTable.ChangeEntriesPerPageCount(int.Parse(ddlEntriesPerPage.SelectedValue));
-        }
-
-        protected void btnUploadFile_Click(object sender, EventArgs e)
-        {
-            GenUploadDialog();
-        }
-
-        private void GenUploadDialog(string id = null)
-        {
-            DialogBox dbox = (DialogBox)Page.LoadControl("DialogBox.ascx");
-            if (id != null) { dbox.ID = id; }
-            dbox.Title = "Anmeldeformulare hochladen";
-            dbox.setFileUploadSelect("Wählen Sie ein .pdf Dokument aus, in welchem<br/>sich die eingescannten Anmeldungsformulare befinden.");
-            dbox.DialogFinished += FormUploadFinished;
-            ((admin)this.Master).Form.Controls.Add(dbox);
-            ViewState["UploadDialogID"] = dbox.ID;
-        }
-
-        private void GenErrorDialog(string errorMessage)
-        {
-            DialogBox dbox = (DialogBox)Page.LoadControl("DialogBox.ascx");
-            dbox.Title = "Auswahl der Datei fehlgeschlagen!";
-            dbox.setFileUploadSelect(errorMessage);
-            ((admin)this.Master).Form.Controls.Add(dbox);
-        }
-
-        private void FormUploadFinished(object sender, DialogEventArgs e)
-        {
-            GetPathForQrCodeScan(sender, e);
-        }
-
-        private void GetPathForQrCodeScan(object sender, DialogEventArgs e)
-        {
-            if (e.Result == DialogEventArgs.EventResults.Ok)
-            {
-                DialogBox dbox = sender as DialogBox;
-                string extension;
-
-                if (dbox.FileUpload.HasFile == true)
-                {
-                    extension = System.IO.Path.GetExtension(dbox.FileUpload.PostedFile.FileName);
-                    if (extension == ".pdf")
-                    {
-                        Guid uuid = Guid.NewGuid();
-                        string filename = uuid.ToString() + ".pdf";
-                        string uploadedFile = dbox.FileUpload.FileName;
-                        string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-                        string tempPath = Path.GetTempPath();
-                        string baseDir = appData + @"\_CanteenRegistrations\";
-                        string tempImageName = default;
-
-                        if (!Directory.Exists(baseDir))
-                        {
-                            Directory.CreateDirectory(baseDir);
-                        }
-                        dbox.FileUpload.SaveAs(tempPath + uploadedFile);
-
-                        string ghostScriptPath = appData + @"\GSWIN";
-                        if (!Directory.Exists(ghostScriptPath))
-                        {
-                            // TODO: ERROR: inform user GhostScript is missing
-                            return;
-                        }
-                        MagickNET.SetGhostscriptDirectory(ghostScriptPath);
-                        MagickReadSettings settings = new MagickReadSettings();
-                        settings.Density = new Density(300);
-
-                        // scan qr code and assign pdf location here
-                        SplitPdfAndScanQrCode(ref uuid, uploadedFile, tempPath, baseDir, ref tempImageName, settings);
-                        File.Delete(tempPath + dbox.FileUpload.FileName);
-                    }
-                    else
-                    {
-                        GenErrorDialog("Sie müssen ein .pdf-Dokument wählen.");
-                    }
-                }
-                else
-                {
-                    GenErrorDialog("Sie müssen eine Datei auswählen.");
-                }
-            }
-        }
-
-        private void SplitPdfAndScanQrCode(ref Guid uuid, string uploadedFile, string tempPath, string baseDir, ref string tempImageName, MagickReadSettings settings)
-        {
-            PdfDocument inputPdfFile = PdfReader.Open(tempPath + uploadedFile, PdfDocumentOpenMode.Import);
-            int totalPagesInInputPdfFile = inputPdfFile.PageCount;
-            IBarcodeReader reader = new BarcodeReader();
-            Bitmap barcodeBitmap;
-            while (totalPagesInInputPdfFile != 0)
-            {
-                uuid = Guid.NewGuid();
-                PdfDocument outputPdfDocument = new PdfDocument();
-
-                outputPdfDocument.AddPage(inputPdfFile.Pages[totalPagesInInputPdfFile - 1]);
-                string outputPdfFilePath = Path.Combine(baseDir, uuid + ".pdf");
-                outputPdfDocument.Save(outputPdfFilePath);
-                totalPagesInInputPdfFile--;
-
-                tempImageName = Guid.NewGuid().ToString() + ".png";
-
-                using (MagickImageCollection images = new MagickImageCollection())
-                {
-                    images.Read(outputPdfFilePath, settings);
-                    using (var vertical = images.AppendVertically())
-                    {
-                        vertical.Write(tempPath + @"\CaReSc_" + tempImageName);
-
-                        barcodeBitmap = (Bitmap)Bitmap.FromFile(tempPath + @"\CaReSc_" + tempImageName);
-                        // detect and decode the barcode inside the bitmap
-                        string result = reader.Decode(barcodeBitmap).ToString();
-
-                        db.RunNonQuery("UPDATE signed_up_users " +
-                            "SET PDF_path = ? " +
-                            "WHERE email = ?; ", outputPdfFilePath, result);
-                    }
-                }
-            }
         }
     }
 }
