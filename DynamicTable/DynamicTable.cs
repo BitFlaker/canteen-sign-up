@@ -283,12 +283,10 @@ namespace DynamicTables
         {
             string querySql = "";
             args = new List<string>();
-            if (queries.Count > 0)
-            {
+            if (queries.Count > 0) {
                 if (!baseSql.Contains("WHERE")) { querySql += " WHERE "; }
                 else { querySql += " AND "; }
-                for (int i = 0; i < queries.Count; i++)
-                {
+                for (int i = 0; i < queries.Count; i++) {
                     querySql += queries[i].QueryTemplate;
                     if (i != queries.Count - 1) { querySql += "AND "; }
                     args.Add("%" + queries[i].Parameter + "%");

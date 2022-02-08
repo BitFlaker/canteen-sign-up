@@ -42,14 +42,14 @@
         <div class="Navigation">
             <asp:Image runat="server" ImageUrl="~/images/MensaLogo.png" CssClass="imageItem" />
             <br />
-            <asp:Button ID="btnPending" runat="server" Text="Ausstehend" Width="90%" OnClick="btnPending_Click" CssClass="sideNavButton" BorderStyle="None"/>
-            <asp:Button ID="btnConfirmed" runat="server" Text="Bestätigt" Width="90%" OnClick="btnConfirmed_Click" CssClass="sideNavButton" BorderStyle="None"/>
-            <asp:Button ID="btnActive" runat="server" Text="Aktiv" Width="90%" OnClick="btnActive_Click" CssClass="sideNavButton" BorderStyle="None"/>
+            <asp:Button ID="btnPending" runat="server" Text="Ausstehend" OnClick="btnPending_Click" CssClass="sideNavButton" BorderStyle="None"/>
+            <asp:Button ID="btnConfirmed" runat="server" Text="Bestätigt" OnClick="btnConfirmed_Click" CssClass="sideNavButton" BorderStyle="None"/>
+            <asp:Button ID="btnActive" runat="server" Text="Aktiv" OnClick="btnActive_Click" CssClass="sideNavButton" BorderStyle="None"/>
+            <asp:Button ID="btnInactive" runat="server" Text="Inaktiv" CssClass="sideNavButton" BorderStyle="None"/>
         </div>
 
-        <div class="Heading">
-
-        </div>
+        <!--<div class="Heading">
+        </div>-->
 
         <div class="PageContent">
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"/>

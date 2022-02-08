@@ -9,7 +9,7 @@
 
 .Navigation {
 	background-color: #505a64;
-	text-align: center;
+	text-align: start;
 	position: absolute;
 	width: 170px;
 	top: 0px;
@@ -18,9 +18,9 @@
 }
 
 .PageContent {
-	background-color: white;
+	background-color: rgba(231, 239, 241);
 	position: absolute;
-	top: 50px;
+	top: 0px;
 	left: 170px;
 	right: 0px;
 	bottom: 0px;
@@ -41,4 +41,12 @@
 	cursor: pointer;
 	background-color: white;
 	border-radius: 10px;
+	margin-right: 10px;
+	width: calc(100% - 10px);
+	border-top-right-radius: 50px;
+	border-bottom-right-radius: 50px;
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px;
+	text-align: start;
+	padding-left: 20px;
 }
