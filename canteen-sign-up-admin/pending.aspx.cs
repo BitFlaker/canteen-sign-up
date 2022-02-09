@@ -26,7 +26,7 @@ namespace canteen_sign_up_admin
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack) {
-                ((admin)this.Master).PendingButton.Attributes["class"] = "sideNavButton sideNavButtonActive";
+                ((admin)this.Master).ActivatePendingButtonClass();
                 SelectedColumns dataColumns = new SelectedColumns();
                 dataColumns.Add("signed_up_users.email", "E-Mail");
                 dataColumns.Add("students.student_id", "Schülerausweis-Nr.");

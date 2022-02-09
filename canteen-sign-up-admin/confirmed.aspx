@@ -2,8 +2,7 @@
 
 <asp:Content ID="cttPage" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
     <div style="width:fit-content;margin-left:auto;margin-right:auto;margin-top:40px;">
-        <asp:Label ID="lblDataHeading" runat="server" CssClass="dataHeading" Text="Bestätigte Registrierungen"/>
-        <div style="display:flex;justify-content:space-between;">
+        <div style="display:flex;justify-content:space-between;margin-top:50px;">
             <div>
                 <asp:Button runat="server" ID="btnActivate" Text="Aktiv setzen" OnClick="btnActivate_Click" CssClass="ActionButton"/>
             </div>

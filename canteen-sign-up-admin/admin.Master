@@ -42,14 +42,15 @@
         <div class="Navigation">
             <asp:Image runat="server" ImageUrl="~/images/MensaLogo.png" CssClass="imageItem" />
             <br />
-            <asp:Button ID="btnPending" runat="server" Text="Ausstehend" OnClick="btnPending_Click" CssClass="sideNavButton" BorderStyle="None"/>
-            <asp:Button ID="btnConfirmed" runat="server" Text="Bestätigt" OnClick="btnConfirmed_Click" CssClass="sideNavButton" BorderStyle="None"/>
-            <asp:Button ID="btnActive" runat="server" Text="Aktiv" OnClick="btnActive_Click" CssClass="sideNavButton" BorderStyle="None"/>
-            <asp:Button ID="btnDeactivated" runat="server" Text="Deaktiviert" OnClick="btnDeactivated_Click" CssClass="sideNavButton" BorderStyle="None"/>
+            <asp:Button ID="btnPending" runat="server" Text="Ausstehend" OnClick="btnPending_Click" BorderStyle="None"/>
+            <asp:Button ID="btnConfirmed" runat="server" Text="Bestätigt" OnClick="btnConfirmed_Click" BorderStyle="None"/>
+            <asp:Button ID="btnActive" runat="server" Text="Aktiv" OnClick="btnActive_Click" BorderStyle="None"/>
+            <asp:Button ID="btnDeactivated" runat="server" Text="Deaktiviert" OnClick="btnDeactivated_Click" BorderStyle="None"/>
         </div>
 
-        <!--<div class="Heading">
-        </div>-->
+        <div class="Heading">
+            <p style="margin-left: 20px;color: white;">Ausstehende Registrierungen</p>
+        </div>
 
         <div class="PageContent">
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"/>

@@ -90,6 +90,7 @@
     <Content Include="active.aspx" />
     <Content Include="confirmed.aspx" />
     <Content Include="DialogBox.ascx" />
+    <Content Include="images\Celtic.png" />
     <Content Include="images\MensaLogo.png" />
     <Content Include="images\UploadFileIcon.svg" />
     <Content Include="deactivated.aspx" />

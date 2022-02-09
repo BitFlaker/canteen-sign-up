@@ -10,6 +10,9 @@ namespace canteen_sign_up_admin
 {
     public partial class admin : System.Web.UI.MasterPage
     {
+        string activeButtonStyles = "sideNavButton sideNavButtonActive";
+        string inactiveButtonStyles = "sideNavButton";
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -17,37 +20,37 @@ namespace canteen_sign_up_admin
 
         protected void btnPending_Click(object sender, EventArgs e)
         {
-            DeactivateAllNavButtons(sender);
             Response.Redirect("pending.aspx");
         }
 
         protected void btnConfirmed_Click(object sender, EventArgs e)
         {
-            DeactivateAllNavButtons(sender);
             Response.Redirect("confirmed.aspx");
         }
         
         protected void btnActive_Click(object sender, EventArgs e)
         {
-            DeactivateAllNavButtons(sender);
             Response.Redirect("active.aspx");
         }
-
-        private void DeactivateAllNavButtons(object sender)
+        
+        protected void btnDeactivated_Click(object sender, EventArgs e)
         {
-            Button navButton = sender as Button;
-            btnActive.Attributes["class"] = "sideNavButton";
-            btnConfirmed.Attributes["class"] = "sideNavButton";
-            btnPending.Attributes["class"] = "sideNavButton";
-            btnDeactivated.Attributes["class"] = "sideNavButton";
+            Response.Redirect("deactivated.aspx");
+        }
+
+        private void DeactivateAllNavButtons(Button activeButton)
+        {
+            btnActive.Attributes["class"] = inactiveButtonStyles;
+            btnConfirmed.Attributes["class"] = inactiveButtonStyles;
+            btnPending.Attributes["class"] = inactiveButtonStyles;
+            btnDeactivated.Attributes["class"] = inactiveButtonStyles;
+            activeButton.Attributes["class"] = activeButtonStyles;
         }
 
         public HtmlForm Form { get { return form1; } }
-        public Button PendingButton { get { return btnPending; } }
-
-        protected void btnDeactivated_Click(object sender, EventArgs e)
-        {
-
-        }
+        public void ActivatePendingButtonClass() { DeactivateAllNavButtons(btnPending); }
+        public void ActivateConfirmedButtonClass() { DeactivateAllNavButtons(btnConfirmed); }
+        public void ActivateActiveButtonClass() { DeactivateAllNavButtons(btnActive); }
+        public void ActivateDeactivatedButtonClass() { DeactivateAllNavButtons(btnDeactivated); }
     }
 }

@@ -28,8 +28,8 @@ namespace canteen_sign_up_admin
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!Page.IsPostBack)
-            {
+            if (!Page.IsPostBack) {
+                ((admin)this.Master).ActivateDeactivatedButtonClass();
                 SelectedColumns dataColumns = new SelectedColumns();
                 dataColumns.Add("signed_up_users.email", "E-Mail");
                 dataColumns.Add("students.student_id", "Schülerausweis-Nr.");

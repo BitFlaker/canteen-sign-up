@@ -2,8 +2,7 @@
 
 <asp:Content ID="cttPage" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
     <div style="width:fit-content;margin-left:auto;margin-right:auto;margin-top:40px;">
-        <asp:Label ID="lblDataHeading" runat="server" CssClass="dataHeading" Text="Deaktivierte Nutzer"/>
-        <div style="display:flex;justify-content:space-between;">
+        <div style="display:flex;justify-content:space-between;margin-top:50px;">
             <div>
                 <asp:Button runat="server" ID="btnActivate" Text="Aktiv setzen" OnClick="btnActivate_Click" CssClass="ActionButton"/>
             </div>
@@ -20,7 +19,7 @@
                 <asp:Button runat="server" ID="btnNext" Text="Nächste Seite" OnClick="btnNext_Click" CssClass="ActionButton"/>
             </div>
         </div>
-        <asp:GridView runat="server" ID="grdData" AutoGenerateColumns="true" AutoGenerateSelectButton="true" CssClass="DynTable"/>
+        <asp:GridView runat="server" ID="grdData" AutoGenerateColumns="true" AutoGenerateSelectButton="true" CssClass="DynTable" BackColor="White"/>
         <asp:Label runat="server" ID="lblPageInfo" CssClass="PageInfo" />
         <asp:Label ID="lblInfo" runat="server" />
     </div>

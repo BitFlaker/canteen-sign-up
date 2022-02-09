@@ -28,6 +28,7 @@ namespace canteen_sign_up_admin
         {
             if (!Page.IsPostBack)
             {
+                ((admin)this.Master).ActivateConfirmedButtonClass();
                 SelectedColumns dataColumns = new SelectedColumns();
                 dataColumns.Add("signed_up_users.email", "E-Mail");
                 dataColumns.Add("students.student_id", "Schülerausweis-Nr.");

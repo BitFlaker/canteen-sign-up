@@ -2,7 +2,23 @@
 
 <asp:Content ID="cttPage" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
     <div style="width:fit-content;margin-left:auto;margin-right:auto;margin-top:40px;">
-        <asp:Label ID="lblDataHeading" runat="server" CssClass="dataHeading" Text="Ausstehende Registrierungen"/>
+        <div class="cardHolder">
+            <div class="card yellow">
+                <p class="cardPrimaryText">1237</p>
+                <p class="cardSecondaryText">Personen ausstehend</p>
+                <asp:Image runat="server" ImageUrl="~/images/Celtic.png" CssClass="cardOverlayImage"/>
+            </div>
+            <div class="card green">
+                <p class="cardPrimaryText">51</p>
+                <p class="cardSecondaryText">Personen aktiv</p>
+                <asp:Image runat="server" ImageUrl="~/images/Celtic.png" CssClass="cardOverlayImage"/>
+            </div>
+            <div class="card red">
+                <p class="cardPrimaryText">8395</p>
+                <p class="cardSecondaryText">Personen deaktiviert</p>
+                <asp:Image runat="server" ImageUrl="~/images/Celtic.png" CssClass="cardOverlayImage"/>
+            </div>
+        </div>
         <div style="display:flex;justify-content:space-between;margin-top:50px;">
             <div>
                 <asp:Button runat="server" ID="btnUploadFile" Text="Anmeldeformulare hochladen" OnClick="btnUploadFile_Click" CssClass="ActionButton" />
