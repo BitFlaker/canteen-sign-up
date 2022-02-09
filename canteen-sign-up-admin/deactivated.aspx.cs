@@ -66,7 +66,12 @@ namespace canteen_sign_up_admin
         protected void btnActivate_Click(object sender, EventArgs e)
         {
             List<string> selectedEmails = dynTable.GetSelectedEntries(columnIndex: 0);
-            // TODO activate user in db
+            foreach (string s in selectedEmails)
+            {
+                db.RunNonQuery($"UPDATE signed_up_users SET state_id = 3 WHERE email = ? AND revision = {db.RunQueryScalar($"SELECT MAX(revision) FROM signed_up_users WHERE email = ?", s)}", s);
+            }
+
+            lblInfo.Text = "Finished updateing statuses";
             dynTable.LoadData();
         }
 
