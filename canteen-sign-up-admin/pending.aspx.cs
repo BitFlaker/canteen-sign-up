@@ -11,6 +11,7 @@ using PdfSharp.Pdf.IO;
 using System.IO;
 using ZXing;
 using DynamicTables;
+using System.Data;
 
 namespace canteen_sign_up_admin
 {
@@ -65,7 +66,16 @@ namespace canteen_sign_up_admin
         {
             LinkButton lbGetDetails = sender as LinkButton;
             string email = lbGetDetails.Text;
-            // TODO Query database and display info
+            DialogBox studentInfo = (DialogBox)Page.LoadControl("DialogBox.ascx"); ;
+
+            string sqlCmd = DataFilter.GetSqlCmd(DataFilter.columnNamesEnglish, DataFilter.columnNamesGerman) + "WHERE signed_up_users.email = ?";
+            DataTable dt = db.RunQuery(sqlCmd, email);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                studentInfo.Title = "Information über Schüler";
+                studentInfo.SetStudentInformation(dt);
+                ((admin)this.Master).Form.Controls.Add(studentInfo);
+            }
         }
 
         protected void ddlEntriesPerPage_SelectedIndexChanged(object sender, EventArgs e)
@@ -108,7 +118,6 @@ namespace canteen_sign_up_admin
             {
                 DialogBox dbox = sender as DialogBox;
                 string extension;
-
                 if (dbox.FileUpload.HasFile == true)
                 {
                     extension = System.IO.Path.GetExtension(dbox.FileUpload.PostedFile.FileName);
@@ -121,13 +130,11 @@ namespace canteen_sign_up_admin
                         string tempPath = Path.GetTempPath();
                         string baseDir = appData + @"\_CanteenRegistrations\";
                         string tempImageName = default;
-
                         if (!Directory.Exists(baseDir))
                         {
                             Directory.CreateDirectory(baseDir);
                         }
                         dbox.FileUpload.SaveAs(tempPath + uploadedFile);
-
                         string ghostScriptPath = appData + @"\GSWIN";
                         if (!Directory.Exists(ghostScriptPath))
                         {
@@ -137,7 +144,6 @@ namespace canteen_sign_up_admin
                         MagickNET.SetGhostscriptDirectory(ghostScriptPath);
                         MagickReadSettings settings = new MagickReadSettings();
                         settings.Density = new Density(300);
-
                         // scan qr code and assign pdf location here
                         SplitPdfAndScanQrCode(ref uuid, uploadedFile, tempPath, baseDir, ref tempImageName, settings);
                         File.Delete(tempPath + dbox.FileUpload.FileName);
@@ -152,6 +158,7 @@ namespace canteen_sign_up_admin
                     GenErrorDialog("Sie müssen eine Datei auswählen.");
                 }
             }
+
         }
 
         private void SplitPdfAndScanQrCode(ref Guid uuid, string uploadedFile, string tempPath, string baseDir, ref string tempImageName, MagickReadSettings settings)

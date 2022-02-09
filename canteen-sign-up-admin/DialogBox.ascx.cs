@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -38,6 +39,33 @@ namespace canteen_sign_up_admin
             Control content = FindControlRecursive(this, "dialogContent");
             content.Controls.Add(lblDesc);
             content.Controls.Add(fu);
+        }
+
+        internal void SetStudentInformation(DataTable dt)
+        {
+            Label lblDesc = new Label();
+            string description = "<table class=\"underlinedTable\">";
+            for (int i = 0; i < dt.Columns.Count; i++)
+            {
+                if (i == dt.Columns.Count - 1 && dt.Rows[0][i] != DBNull.Value)
+                {
+                    string[] splittedPath = dt.Rows[0][i].ToString().Split('\\');
+                    description += "<tr><td><b>" + dt.Columns[i].ToString() + ":</b></td> <td>" + splittedPath[splittedPath.Length - 1] + "<br /></td></tr>";
+                }
+                else if (dt.Rows[0][i] == DBNull.Value || Convert.ToString(dt.Rows[0][i]) == "")
+                {
+                    description += "<tr><td><b>" + dt.Columns[i].ToString() + ":</b></td> <td> - <br /></td></tr>";
+                }
+                else
+                {
+                    description += "<tr><td><b>" + dt.Columns[i].ToString() + ":</b></td><td>" + dt.Rows[0][i].ToString() + "<br/></td></tr>";
+                }
+            }
+            lblDesc.Text = description + "</table>";
+            lblDesc.Attributes["style"] = "margin-bottom: 20px;";
+            lblDesc.Attributes["style"] = "text-align: left;";
+            Control content = FindControlRecursive(this, "dialogContent");
+            content.Controls.Add(lblDesc);
         }
 
         public FileUpload FileUpload { get { return fu; } }

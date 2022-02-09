@@ -78,8 +78,17 @@ namespace canteen_sign_up_admin
         private void DynTableLinkButtonClick(object sender, EventArgs e)
         {
             LinkButton lbGetDetails = sender as LinkButton;
-            string email = lbGetDetails.Text;
-            // TODO Query database and display info
+            string email = lbGetDetails.Text; 
+            DialogBox studentInfo = (DialogBox)Page.LoadControl("DialogBox.ascx"); ;
+
+            string sqlCmd = DataFilter.GetSqlCmd(DataFilter.columnNamesEnglish, DataFilter.columnNamesGerman) + "WHERE signed_up_users.email = ?";
+            DataTable dt = db.RunQuery(sqlCmd, email);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                studentInfo.Title = "Information über Schüler";
+                studentInfo.SetStudentInformation(dt);
+                ((admin)this.Master).Form.Controls.Add(studentInfo);
+            }
         }
 
         protected void ddlEntriesPerPage_SelectedIndexChanged(object sender, EventArgs e)

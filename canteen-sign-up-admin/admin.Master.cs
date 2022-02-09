@@ -51,5 +51,9 @@ namespace canteen_sign_up_admin
         public HtmlForm Form { get { return form1; } }
         public Button PendingButton { get { return btnPending; } }
 
+        protected void btnDeactivated_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
