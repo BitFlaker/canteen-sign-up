@@ -45,6 +45,20 @@ namespace canteen_sign_up_admin
             dynTable.ObjInit(grdData, ViewState);
             dynTable.OnLinkButtonClick += DynTableLinkButtonClick;
             lblPageInfo.Text = $"Seite {dynTable.CurrentPage} von {dynTable.PageCount}";
+            GenerateStats();
+        }
+
+        private void GenerateStats()
+        {
+            StatDisplayBox sdboxMostRecentEntries = (StatDisplayBox)Page.LoadControl("StatDisplayBox.ascx");
+            sdboxMostRecentEntries.SetData("Aktuelle Einträge", "202020", StatDisplayBox.Colors.Green);
+            pnlStats.Controls.Add(sdboxMostRecentEntries);
+            StatDisplayBox sdboxOutdatedEntries = (StatDisplayBox)Page.LoadControl("StatDisplayBox.ascx");
+            sdboxOutdatedEntries.SetData("Veraltete Einträge", "56", StatDisplayBox.Colors.Orange);
+            pnlStats.Controls.Add(sdboxOutdatedEntries);
+            StatDisplayBox sdboxLastChanges = (StatDisplayBox)Page.LoadControl("StatDisplayBox.ascx");
+            sdboxLastChanges.SetData("Letzte Änderung", "01.01.1985", StatDisplayBox.Colors.Blue);
+            pnlStats.Controls.Add(sdboxLastChanges);
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
@@ -70,8 +84,7 @@ namespace canteen_sign_up_admin
 
             string sqlCmd = DataFilter.GetSqlCmd(DataFilter.columnNamesEnglish, DataFilter.columnNamesGerman) + "WHERE signed_up_users.email = ?";
             DataTable dt = db.RunQuery(sqlCmd, email);
-            if (dt != null && dt.Rows.Count > 0)
-            {
+            if (dt != null && dt.Rows.Count > 0) {
                 studentInfo.Title = "Information über Schüler";
                 studentInfo.SetStudentInformation(dt);
                 ((admin)this.Master).Form.Controls.Add(studentInfo);
