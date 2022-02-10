@@ -340,5 +340,16 @@ namespace canteen_sign_up
 
             return lines;
         }
+
+        protected void custValIban_ServerValidate(object source, ServerValidateEventArgs args)
+        { 
+            IbanValidator iv = new IbanValidator();
+            ValidationResult vr = iv.Validate(txtIban.Text);
+
+            if (vr.IsValid)
+                args.IsValid = true;
+            else
+                args.IsValid = false;
+        }
     }
 }

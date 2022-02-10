@@ -33,6 +33,15 @@ namespace canteen_sign_up
         protected global::System.Web.UI.WebControls.TextBox txtFirstname;
 
         /// <summary>
+        /// reqFldValFirstname control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator reqFldValFirstname;
+
+        /// <summary>
         /// txtLastname control.
         /// </summary>
         /// <remarks>
@@ -40,6 +49,15 @@ namespace canteen_sign_up
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtLastname;
+
+        /// <summary>
+        /// reqFldValLastname control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator reqFldValLastname;
 
         /// <summary>
         /// txtZipCode control.
@@ -51,6 +69,15 @@ namespace canteen_sign_up
         protected global::System.Web.UI.WebControls.TextBox txtZipCode;
 
         /// <summary>
+        /// reqFldValZipCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator reqFldValZipCode;
+
+        /// <summary>
         /// txtCity control.
         /// </summary>
         /// <remarks>
@@ -58,6 +85,15 @@ namespace canteen_sign_up
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtCity;
+
+        /// <summary>
+        /// redFldValCity control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator redFldValCity;
 
         /// <summary>
         /// txtStreet control.
@@ -69,6 +105,15 @@ namespace canteen_sign_up
         protected global::System.Web.UI.WebControls.TextBox txtStreet;
 
         /// <summary>
+        /// reqFldValStreet control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator reqFldValStreet;
+
+        /// <summary>
         /// txtHouseNumber control.
         /// </summary>
         /// <remarks>
@@ -76,6 +121,15 @@ namespace canteen_sign_up
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtHouseNumber;
+
+        /// <summary>
+        /// reqFldValHouseNumber control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator reqFldValHouseNumber;
 
         /// <summary>
         /// txtIban control.
@@ -87,6 +141,24 @@ namespace canteen_sign_up
         protected global::System.Web.UI.WebControls.TextBox txtIban;
 
         /// <summary>
+        /// reqFldValIban control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator reqFldValIban;
+
+        /// <summary>
+        /// custValIban control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CustomValidator custValIban;
+
+        /// <summary>
         /// txtBic control.
         /// </summary>
         /// <remarks>
@@ -94,6 +166,15 @@ namespace canteen_sign_up
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtBic;
+
+        /// <summary>
+        /// validationSummary control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ValidationSummary validationSummary;
 
         /// <summary>
         /// btnSendAndPrint control.

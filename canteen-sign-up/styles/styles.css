@@ -19,10 +19,10 @@
     margin-top: 20px;
 }
 
-#overallHeading{
+#overallHeading {
     color: black;
     text-align: center;
-    font-family: Gadugi, Arial, 'Times New Roman';
+    font-family: Gadugi, sans-serif, Arial;
     font-size: larger;
     margin-bottom: 10px;
 }
@@ -39,7 +39,7 @@
     border-style: solid;
     padding-left: 15px;
     padding-right: 15px;
-    font-family: Gadugi, Arial, 'Times New Roman';
+    font-family: Gadugi, sans-serif,Arial;
     font-size: medium;
 }
 
@@ -166,4 +166,11 @@ input, select, textarea {
 
 #checkActions {
     margin-top: 30px;
+}
+
+.validationSummary {
+    font-family: Gadugi, sans-serif, Arial;
+    font-size: medium;
+    color: #FC4141;
+    margin-top: 25px;
 }
