@@ -88,7 +88,6 @@
     <Content Include="inprogress.aspx" />
     <Content Include="register.aspx" />
     <Content Include="images\HTLHeader.png" />
-    <Content Include="images\htlvb.jpg" />
     <Content Include="images\HTLVB_Logo.png" />
     <Content Include="images\MensaLogo.png" />
     <Content Include="images\Progress1.svg" />

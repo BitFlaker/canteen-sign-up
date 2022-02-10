@@ -1,8 +1,9 @@
 ﻿<%@ Page Title="" Language="C#" AutoEventWireup="true" MasterPageFile="~/admin.Master" CodeBehind="deactivated.aspx.cs" Inherits="canteen_sign_up_admin.deactivated" Theme="ControlTheme" %>
 
 <asp:Content ID="cttPage" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
-    <div style="width:fit-content;margin-left:auto;margin-right:auto;margin-top:40px;">
-        <div style="display:flex;justify-content:space-between;margin-top:50px;">
+    <div style="width:fit-content;margin-left:auto;margin-right:auto;margin-top:60px;">
+        <asp:Panel ID="pnlStats" runat="server" CssClass="cardHolder"/>
+        <div style="display:flex;justify-content:space-between;margin-top:100px;">
             <div>
                 <asp:Button runat="server" ID="btnActivate" Text="Aktiv setzen" OnClick="btnActivate_Click" CssClass="ActionButton"/>
             </div>

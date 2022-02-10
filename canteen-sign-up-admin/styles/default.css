@@ -9,6 +9,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	z-index: 30;
 }
 
 #dialogWindow {
@@ -22,6 +23,7 @@
 	padding-right: 50px;
 	padding-top: 10px;
 	padding-bottom: 10px;
+	box-shadow: #474d4e 2px 2px 8px;
 }
 
 .cornerRadius {
