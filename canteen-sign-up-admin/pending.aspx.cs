@@ -109,11 +109,6 @@ namespace canteen_sign_up_admin
 
         private void FormUploadFinished(object sender, DialogEventArgs e)
         {
-            GetPathForQrCodeScan(sender, e);
-        }
-
-        private void GetPathForQrCodeScan(object sender, DialogEventArgs e)
-        {
             if (e.Result == DialogEventArgs.EventResults.Ok)
             {
                 DialogBox dbox = sender as DialogBox;
@@ -158,7 +153,10 @@ namespace canteen_sign_up_admin
                     GenErrorDialog("Sie müssen eine Datei auswählen.");
                 }
             }
-
+            else
+            {
+                ViewState["UploadDialogID"] = null;
+            }
         }
 
         private void SplitPdfAndScanQrCode(ref Guid uuid, string uploadedFile, string tempPath, string baseDir, ref string tempImageName, MagickReadSettings settings)
@@ -191,7 +189,7 @@ namespace canteen_sign_up_admin
                         string result = reader.Decode(barcodeBitmap).ToString();
 
                         db.RunNonQuery("UPDATE signed_up_users " +
-                            "SET PDF_name = ? " +
+                            "SET PDF_name = ? SET state_id = 2 " +
                             "WHERE email = ?; ", outputPdfFilePath, result);
                     }
                 }
