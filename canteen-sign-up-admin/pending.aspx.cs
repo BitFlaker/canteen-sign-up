@@ -202,7 +202,7 @@ namespace canteen_sign_up_admin
                         string result = reader.Decode(barcodeBitmap).ToString();
 
                         db.RunNonQuery("UPDATE signed_up_users " +
-                            "SET PDF_name = ? SET state_id = 2 " +
+                            "SET PDF_name = ?, state_id = 2 " +
                             "WHERE email = ?; ", outputPdfFilePath, result);
                     }
                 }
