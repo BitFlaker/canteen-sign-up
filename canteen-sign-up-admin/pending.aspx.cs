@@ -34,6 +34,7 @@ namespace canteen_sign_up_admin
                 dataColumns.Add("students.lastname", "Nachname");
                 dataColumns.Add("signed_up_users.revision", "Überarbeitungsnummer");
                 dynTable = new DynamicTable(dataColumns, baseSql, int.Parse(ddlEntriesPerPage.SelectedValue), grdData, ViewState);
+                lblCurrPage.Text = "Ausstehende Registrierungen";
             }
             else {
                 dynTable = (DynamicTable)ViewState["DynTable"];
@@ -50,11 +51,11 @@ namespace canteen_sign_up_admin
 
         private void GenerateStats()
         {
-            int latestEntriesCount = Convert.ToInt32(db.RunQueryScalar("SELECT COUNT(*)" + baseSql));
-            int entriesCount = Convert.ToInt32(db.RunQueryScalar("SELECT COUNT(*) FROM signed_up_users WHERE signed_up_users.state_id = 1"));
-            int outdatedEntriesCount = entriesCount - latestEntriesCount;
+            long latestEntriesCount = (long)db.RunQueryScalar("SELECT COUNT(*)" + baseSql);
+            long entriesCount = (long)db.RunQueryScalar("SELECT COUNT(*) FROM signed_up_users WHERE signed_up_users.state_id = 1");
+            long outdatedEntriesCount = entriesCount - latestEntriesCount;
 
-            string date = Convert.ToString(db.RunQueryScalar("SELECT MAX(change_date) FROM signed_up_users WHERE state_id = 1;"));
+            DateTime date = (DateTime)db.RunQueryScalar("SELECT MAX(change_date) FROM signed_up_users WHERE state_id = 1;");
 
             StatDisplayBox sdboxMostRecentEntries = (StatDisplayBox)Page.LoadControl("StatDisplayBox.ascx");
             sdboxMostRecentEntries.SetData("Aktuelle Einträge", latestEntriesCount.ToString(), StatDisplayBox.Colors.Green);
@@ -63,7 +64,7 @@ namespace canteen_sign_up_admin
             sdboxOutdatedEntries.SetData("Veraltete Einträge", outdatedEntriesCount.ToString(), StatDisplayBox.Colors.Orange);
             pnlStats.Controls.Add(sdboxOutdatedEntries);
             StatDisplayBox sdboxLastChanges = (StatDisplayBox)Page.LoadControl("StatDisplayBox.ascx");
-            sdboxLastChanges.SetData("Letzte Änderung", date, StatDisplayBox.Colors.Blue);
+            sdboxLastChanges.SetData("Letzte Änderung", date.ToString("HH:mm"), date.ToString("dd.MM.yyyy"), StatDisplayBox.Colors.Blue);
             pnlStats.Controls.Add(sdboxLastChanges);
         }
 

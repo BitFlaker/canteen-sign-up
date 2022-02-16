@@ -5,11 +5,12 @@
     <div style="width:fit-content;margin-left:auto;margin-right:auto;margin-top:60px;">
         <asp:Panel ID="pnlStats" runat="server" CssClass="cardHolder"/>
         <div style="margin-top: 100px;background-color: white;border-radius: 10px;box-shadow: rgba(0,0,0,0.2) 2px 2px 10px;padding-bottom: 20px;">
-            <div style="display:flex;justify-content:space-between;padding:20px;border-bottom: 1px solid #d7d7d7">
-                <div>
-                    <asp:Button runat="server" ID="btnUploadFile" Text="Anmeldeformulare hochladen" OnClick="btnUploadFile_Click" CssClass="ActionButton" />
+            <div style="display:flex;justify-content:space-between;padding:20px;border-bottom:2px solid rgb(230, 233, 236);">
+                <div style="display:flex;align-items:center;">
+                    <asp:Label runat="server" ID="lblCurrPage" CssClass="TableHeading"/>
                 </div>
                 <div>
+                    <asp:Button runat="server" ID="btnUploadFile" Text="Anmeldeformulare hochladen" OnClick="btnUploadFile_Click" CssClass="ActionButton UploadButton" />
                     <asp:DropDownList runat="server" ID="ddlEntriesPerPage" AutoPostBack="True" OnSelectedIndexChanged="ddlEntriesPerPage_SelectedIndexChanged" CssClass="ActionSelect">
                         <asp:ListItem Value="10"></asp:ListItem>
                         <asp:ListItem Selected="True" Value="50"></asp:ListItem>
@@ -23,8 +24,8 @@
                 </div>
             </div>
             <asp:GridView runat="server" ID="grdData" AutoGenerateColumns="true" AutoGenerateSelectButton="true" CssClass="DynTable" BackColor="White"/>
+            <asp:Label runat="server" ID="lblPageInfo" CssClass="PageInfo" />
         </div>
-        <asp:Label runat="server" ID="lblPageInfo" CssClass="PageInfo" />
         <asp:Label ID="lblInfo" runat="server" />
     </div>
 </asp:Content>

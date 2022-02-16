@@ -5,14 +5,15 @@
 .imageItem {
 	width: 80%;
 	margin-bottom: 30px;
+	margin-top: 15px;
 }
 
 .mainColor {
-	background-color: rgb(74, 88, 100) !important;
+	background-color: rgb(35, 38, 60) !important;
 }
 
 .Navigation {
-	text-align: start;
+	text-align: center;
 	position: absolute;
 	width: 170px;
 	top: 0px;
@@ -23,7 +24,7 @@
 .PageContent {
 	background-color: rgba(231, 239, 241);
 	position: absolute;
-	top: 50px;
+	top: 0px;
 	left: 170px;
 	right: 0px;
 	bottom: 0px;
@@ -74,9 +75,9 @@
 }
 
 .sideNavButtonActive {
-	background-color: rgba(50,50,50,0.45);
-	mix-blend-mode: luminosity;
+	background-color: rgb(59, 63, 87);
 	font-weight: bold;
+	color: #7bb3f7;
 }
 
 .SmallPadding{
@@ -124,6 +125,11 @@
 	z-index: 4;
 	font-weight: bold;
 	position: relative;
+}
+
+.subheading {
+	font-size: medium;
+	margin-top: -3px;
 }
 
 .cardSecondaryText {

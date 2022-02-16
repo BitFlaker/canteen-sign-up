@@ -39,7 +39,7 @@ namespace canteen_sign_up
                     ((user)this.Master).ProgressImage = "~/images/Progress1.svg";
                     PageSelector.RedirectToCorrectPage(PageSelector.RegState.NotRegistered, this);
                     WritingUsernameInStartPage("fülle die nachfolgenden Daten aus, " +
-                    "um dich bei der Mensa zu registrieren. Nach dem Absenden des Formulars muss eien Bestätigung " +
+                    "um dich bei der Mensa zu registrieren. Nach dem Absenden des Formulars muss eine Bestätigung " +
                     "gedruckt, unterschrieben und abschließend abgegeben werden.");
                 }
             }
@@ -81,8 +81,8 @@ namespace canteen_sign_up
             UserData user = new UserData(Environment.UserName + "@htlvb.at");
             // TODO: iban check!
             db.RunNonQuery($"INSERT INTO signed_up_users " +
-                            $"(email, revision, state_id, ao_firstname, ao_lastname, street, house_number, zipcode, city, IBAN, BIC, PDF_name)" +
-                            $"VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)", user.UserMail, GetNextRevision(user).ToString(), 1.ToString(), txtFirstname.Text, txtLastname.Text, txtStreet.Text, txtHouseNumber.Text, txtZipCode.Text, txtCity.Text, txtIban.Text, txtBic.Text);
+                            $"(email, revision, state_id, ao_firstname, ao_lastname, street, house_number, zipcode, city, IBAN, BIC, PDF_name, change_date)" +
+                            $"VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?)", user.UserMail, GetNextRevision(user).ToString(), 1.ToString(), txtFirstname.Text, txtLastname.Text, txtStreet.Text, txtHouseNumber.Text, txtZipCode.Text, txtCity.Text, txtIban.Text, txtBic.Text, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
         }
 
         private bool isIbanValid()

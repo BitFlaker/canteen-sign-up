@@ -44,9 +44,9 @@ namespace canteen_sign_up_admin
         }
 
         public HtmlForm Form { get { return form1; } }
-        public void ActivatePendingButtonClass() { DeactivateAllNavButtons(btnPending); lblCurrPage.Text = "Ausstehende Registrierungen"; }
-        public void ActivateConfirmedButtonClass() { DeactivateAllNavButtons(btnConfirmed); lblCurrPage.Text = "Bestätigte Registrierungen"; }
-        public void ActivateActiveButtonClass() { DeactivateAllNavButtons(btnActive); lblCurrPage.Text = "Aktive Nutzer"; }
-        public void ActivateDeactivatedButtonClass() { DeactivateAllNavButtons(btnDeactivated); lblCurrPage.Text = "Deaktivierte Nutzer"; }
+        public void ActivatePendingButtonClass() { DeactivateAllNavButtons(btnPending); /*lblCurrPage.Text = "Ausstehende Registrierungen";*/ }
+        public void ActivateConfirmedButtonClass() { DeactivateAllNavButtons(btnConfirmed); /*lblCurrPage.Text = "Bestätigte Registrierungen";*/ }
+        public void ActivateActiveButtonClass() { DeactivateAllNavButtons(btnActive); /*lblCurrPage.Text = "Aktive Nutzer";*/ }
+        public void ActivateDeactivatedButtonClass() { DeactivateAllNavButtons(btnDeactivated); /*lblCurrPage.Text = "Deaktivierte Nutzer";*/ }
     }
 }

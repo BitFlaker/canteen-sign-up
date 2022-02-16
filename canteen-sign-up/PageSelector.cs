@@ -26,8 +26,9 @@ namespace canteen_sign_up
             else {
                 currentState = RegState.NotRegistered;
             }
-            if (callingPageState == currentState || callingPageState == RegState.Confirmed && (currentState == RegState.Active || currentState == RegState.Deactivated)) { return; }
+            if (callingPageState == currentState || callingPageState == RegState.Confirmed && currentState == RegState.Active || callingPageState == RegState.NotRegistered && currentState == RegState.Deactivated) { return; }
             switch (currentState) {
+                case RegState.Deactivated:
                 case RegState.NotRegistered:
                     page.Response.Redirect("register.aspx");
                     break;
@@ -35,7 +36,6 @@ namespace canteen_sign_up
                     page.Response.Redirect("inprogress.aspx");
                     break;
                 case RegState.Active:
-                case RegState.Deactivated:
                 case RegState.Confirmed:
                     page.Response.Redirect("confirmed.aspx");
                     break;
