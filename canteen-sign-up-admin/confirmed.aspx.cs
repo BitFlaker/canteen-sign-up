@@ -50,14 +50,20 @@ namespace canteen_sign_up_admin
 
         private void GenerateStats()
         {
+            int latestEntriesCount = Convert.ToInt32(db.RunQueryScalar("SELECT COUNT(*)" + baseSql));
+            int entriesCount = Convert.ToInt32(db.RunQueryScalar("SELECT COUNT(*) FROM signed_up_users WHERE signed_up_users.state_id = 2"));
+            int outdatedEntriesCount = entriesCount - latestEntriesCount;
+
+            string date = Convert.ToString(db.RunQueryScalar("SELECT MAX(change_date) FROM signed_up_users WHERE state_id = 2;"));
+
             StatDisplayBox sdboxMostRecentEntries = (StatDisplayBox)Page.LoadControl("StatDisplayBox.ascx");
-            sdboxMostRecentEntries.SetData("Aktuelle Einträge", "202020", StatDisplayBox.Colors.Green);
+            sdboxMostRecentEntries.SetData("Aktuelle Einträge", latestEntriesCount.ToString(), StatDisplayBox.Colors.Green);
             pnlStats.Controls.Add(sdboxMostRecentEntries);
             StatDisplayBox sdboxOutdatedEntries = (StatDisplayBox)Page.LoadControl("StatDisplayBox.ascx");
-            sdboxOutdatedEntries.SetData("Veraltete Einträge", "56", StatDisplayBox.Colors.Orange);
+            sdboxOutdatedEntries.SetData("Veraltete Einträge", outdatedEntriesCount.ToString(), StatDisplayBox.Colors.Orange);
             pnlStats.Controls.Add(sdboxOutdatedEntries);
             StatDisplayBox sdboxLastChanges = (StatDisplayBox)Page.LoadControl("StatDisplayBox.ascx");
-            sdboxLastChanges.SetData("Letzte Änderung", "01.01.1985", StatDisplayBox.Colors.Blue);
+            sdboxLastChanges.SetData("Letzte Änderung", date, StatDisplayBox.Colors.Blue);
             pnlStats.Controls.Add(sdboxLastChanges);
         }
 
@@ -79,12 +85,11 @@ namespace canteen_sign_up_admin
         protected void btnActivate_Click(object sender, EventArgs e)
         {
             List<string> selectedEmails = dynTable.GetSelectedEntries(columnIndex: 0);
-            foreach(string s in selectedEmails)
+            foreach (string s in selectedEmails)
             {
                 db.RunNonQuery($"UPDATE signed_up_users SET state_id = 3 WHERE email = ? AND revision = {db.RunQueryScalar($"SELECT MAX(revision) FROM signed_up_users WHERE email = ?", s)}", s);
             }
 
-            lblInfo.Text = "Finished updating statuses";
             dynTable.LoadData();
         }
 

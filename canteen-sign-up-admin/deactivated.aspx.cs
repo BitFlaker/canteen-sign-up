@@ -1,5 +1,4 @@
 ﻿using System;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -51,14 +50,20 @@ namespace canteen_sign_up_admin
 
         private void GenerateStats()
         {
+            int latestEntriesCount = Convert.ToInt32(db.RunQueryScalar("SELECT COUNT(*)" + baseSql));
+            int entriesCount = Convert.ToInt32(db.RunQueryScalar("SELECT COUNT(*) FROM signed_up_users WHERE signed_up_users.state_id = 0"));
+            int outdatedEntriesCount = entriesCount - latestEntriesCount;
+
+            string date = Convert.ToString(db.RunQueryScalar("SELECT MAX(change_date) FROM signed_up_users WHERE state_id = 0;"));
+
             StatDisplayBox sdboxMostRecentEntries = (StatDisplayBox)Page.LoadControl("StatDisplayBox.ascx");
-            sdboxMostRecentEntries.SetData("Aktuelle Einträge", "202020", StatDisplayBox.Colors.Green);
+            sdboxMostRecentEntries.SetData("Aktuelle Einträge", latestEntriesCount.ToString(), StatDisplayBox.Colors.Green);
             pnlStats.Controls.Add(sdboxMostRecentEntries);
             StatDisplayBox sdboxOutdatedEntries = (StatDisplayBox)Page.LoadControl("StatDisplayBox.ascx");
-            sdboxOutdatedEntries.SetData("Veraltete Einträge", "56", StatDisplayBox.Colors.Orange);
+            sdboxOutdatedEntries.SetData("Veraltete Einträge", outdatedEntriesCount.ToString(), StatDisplayBox.Colors.Orange);
             pnlStats.Controls.Add(sdboxOutdatedEntries);
             StatDisplayBox sdboxLastChanges = (StatDisplayBox)Page.LoadControl("StatDisplayBox.ascx");
-            sdboxLastChanges.SetData("Letzte Änderung", "01.01.1985", StatDisplayBox.Colors.Blue);
+            sdboxLastChanges.SetData("Letzte Änderung", date, StatDisplayBox.Colors.Blue);
             pnlStats.Controls.Add(sdboxLastChanges);
         }
 
