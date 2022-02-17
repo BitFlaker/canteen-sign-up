@@ -150,3 +150,18 @@
 	position: relative;
 	opacity: 0.05;
 }
+
+.tableContainer {
+	margin-top: 100px;
+	background-color: white;
+	border-radius: 10px;
+	box-shadow: rgba(0,0,0,0.2) 2px 2px 10px;
+	padding-bottom: 20px;
+}
+
+.topPanelContainer {
+	display: flex;
+	justify-content: space-between;
+	padding: 20px;
+	border-bottom: 2px solid rgb(230, 233, 236);
+}

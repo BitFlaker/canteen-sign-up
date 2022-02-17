@@ -154,6 +154,7 @@
     <Compile Include="StatDisplayBox.ascx.designer.cs">
       <DependentUpon>StatDisplayBox.ascx</DependentUpon>
     </Compile>
+    <Compile Include="UserData.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Themes\ControlTheme\Skin1.skin" />

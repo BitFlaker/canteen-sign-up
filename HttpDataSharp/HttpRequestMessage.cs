@@ -31,7 +31,7 @@ namespace HttpData
             HttpHeader contentLengthHeader = headers.Find(httpHeader => httpHeader.Name.Equals("Content-Length", StringComparison.InvariantCultureIgnoreCase));
             if (contentLengthHeader == null) { return new HttpRequestMessage(statusLine, headers); }
             if (!int.TryParse(contentLengthHeader.Value, out int contentLength)) { throw new Exception("Can't parse content length header as int"); }
-            requestReader.Encoding = Encoding.UTF8;    // TODO get from Content-Type header
+            requestReader.Encoding = Encoding.UTF8;
             string body = requestReader.ReadBytesAsText(contentLength);
             return new HttpRequestMessage(statusLine, headers, body);
         }

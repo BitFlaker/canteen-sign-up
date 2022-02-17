@@ -1,11 +1,10 @@
 ﻿<%@ Page Title="" Language="C#" AutoEventWireup="true" MasterPageFile="~/admin.Master" CodeBehind="pending.aspx.cs" Inherits="canteen_sign_up_admin.pending" Theme="ControlTheme" %>
-<%@ Register TagPrefix="sdb" TagName="StatDisplayBox" Src="~/StatDisplayBox.ascx" %>
 
 <asp:Content ID="cttPage" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
     <div style="width:fit-content;margin-left:auto;margin-right:auto;margin-top:60px;">
         <asp:Panel ID="pnlStats" runat="server" CssClass="cardHolder"/>
-        <div style="margin-top: 100px;background-color: white;border-radius: 10px;box-shadow: rgba(0,0,0,0.2) 2px 2px 10px;padding-bottom: 20px;">
-            <div style="display:flex;justify-content:space-between;padding:20px;border-bottom:2px solid rgb(230, 233, 236);">
+        <div class="tableContainer">
+            <div class="topPanelContainer">
                 <div style="display:flex;align-items:center;">
                     <asp:Label runat="server" ID="lblCurrPage" CssClass="TableHeading"/>
                 </div>

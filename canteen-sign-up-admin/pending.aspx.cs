@@ -41,6 +41,9 @@ namespace canteen_sign_up_admin
                 if (ViewState["UploadDialogID"] != null) {
                     GenUploadDialog((string)ViewState["UploadDialogID"]);
                 }
+                if (ViewState["UserInfoDialogID"] != null && ViewState["UserInfoDialogEmail"] != null) {
+                    GenerateUserInfo((string)ViewState["UserInfoDialogEmail"], (string)ViewState["UserInfoDialogID"]);
+                }
             }
 
             dynTable.ObjInit(grdData, ViewState);
@@ -87,15 +90,31 @@ namespace canteen_sign_up_admin
         {
             LinkButton lbGetDetails = sender as LinkButton;
             string email = lbGetDetails.Text;
-            DialogBox studentInfo = (DialogBox)Page.LoadControl("DialogBox.ascx"); ;
+            GenerateUserInfo(email);
+        }
+
+        private void GenerateUserInfo(string email, string id = null)
+        {
+            DialogBox studentInfo = (DialogBox)Page.LoadControl("DialogBox.ascx");
+            if (id != null) { studentInfo.ID = id; }
 
             string sqlCmd = DataFilter.GetSqlCmd(DataFilter.columnNamesEnglish, DataFilter.columnNamesGerman) + "WHERE signed_up_users.email = ?";
             DataTable dt = db.RunQuery(sqlCmd, email);
-            if (dt != null && dt.Rows.Count > 0) {
+            if (dt != null && dt.Rows.Count > 0)
+            {
                 studentInfo.Title = "Information über Schüler";
                 studentInfo.SetStudentInformation(dt);
+                studentInfo.DialogFinished += StudentInfo_DialogFinished;
                 ((admin)this.Master).Form.Controls.Add(studentInfo);
+                ViewState["UserInfoDialogID"] = studentInfo.ID;
+                ViewState["UserInfoDialogEmail"] = email;
             }
+        }
+
+        private void StudentInfo_DialogFinished(object sender, DialogEventArgs e)
+        {
+            ViewState["UserInfoDialogID"] = null;
+            ViewState["UserInfoDialogEmail"] = null;
         }
 
         protected void ddlEntriesPerPage_SelectedIndexChanged(object sender, EventArgs e)
@@ -122,8 +141,8 @@ namespace canteen_sign_up_admin
         private void GenErrorDialog(string errorMessage)
         {
             DialogBox dbox = (DialogBox)Page.LoadControl("DialogBox.ascx");
-            dbox.Title = "Auswahl der Datei fehlgeschlagen!";
-            dbox.setFileUploadSelect(errorMessage);
+            dbox.Title = "Fehler!";
+            dbox.setErrorMessage(errorMessage);
             ((admin)this.Master).Form.Controls.Add(dbox);
         }
 
@@ -139,8 +158,7 @@ namespace canteen_sign_up_admin
                     if (extension == ".pdf")
                     {
                         Guid uuid = Guid.NewGuid();
-                        string filename = uuid.ToString() + ".pdf";
-                        string uploadedFile = dbox.FileUpload.FileName;
+                        string uploadedFile = uuid.ToString();
                         string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
                         string tempPath = Path.GetTempPath();
                         string baseDir = appData + @"\_CanteenRegistrations\";
@@ -161,7 +179,7 @@ namespace canteen_sign_up_admin
                         settings.Density = new Density(300);
                         // scan qr code and assign pdf location here
                         SplitPdfAndScanQrCode(ref uuid, uploadedFile, tempPath, baseDir, ref tempImageName, settings);
-                        File.Delete(tempPath + dbox.FileUpload.FileName);
+                        File.Delete(tempPath + uploadedFile);
                     }
                     else
                     {
@@ -185,7 +203,7 @@ namespace canteen_sign_up_admin
             int totalPagesInInputPdfFile = inputPdfFile.PageCount;
             IBarcodeReader reader = new BarcodeReader();
             Bitmap barcodeBitmap;
-            while (totalPagesInInputPdfFile != 0)
+            while (totalPagesInInputPdfFile > 0)
             {
                 uuid = Guid.NewGuid();
                 PdfDocument outputPdfDocument = new PdfDocument();
@@ -210,7 +228,7 @@ namespace canteen_sign_up_admin
 
                         db.RunNonQuery("UPDATE signed_up_users " +
                             "SET PDF_name = ?, state_id = 2 " +
-                            "WHERE email = ?; ", outputPdfFilePath, result);
+                            "WHERE email = ?; ", uuid + ".pdf", result);
                     }
                 }
             }

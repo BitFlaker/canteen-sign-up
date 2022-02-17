@@ -36,10 +36,14 @@ namespace canteen_sign_up_admin
                 dataColumns.Add("students.lastname", "Nachname");
                 dataColumns.Add("signed_up_users.revision", "Überarbeitungsnummer");
                 dynTable = new DynamicTable(dataColumns, baseSql, int.Parse(ddlEntriesPerPage.SelectedValue), grdData, ViewState);
+                lblCurrPage.Text = "Aktive Nutzer";
             }
             else
             {
                 dynTable = (DynamicTable)ViewState["DynTable"];
+                if (ViewState["UserInfoDialogID"] != null && ViewState["UserInfoDialogEmail"] != null) {
+                    GenerateUserInfo((string)ViewState["UserInfoDialogEmail"], (string)ViewState["UserInfoDialogID"]);
+                }
             }
 
             dynTable.ObjInit(grdData, ViewState);
@@ -50,11 +54,11 @@ namespace canteen_sign_up_admin
 
         private void GenerateStats()
         {
-            int latestEntriesCount = Convert.ToInt32(db.RunQueryScalar("SELECT COUNT(*)" + baseSql));
-            int entriesCount = Convert.ToInt32(db.RunQueryScalar("SELECT COUNT(*) FROM signed_up_users WHERE signed_up_users.state_id = 3"));
-            int outdatedEntriesCount = entriesCount - latestEntriesCount;
+            long latestEntriesCount = (long)db.RunQueryScalar("SELECT COUNT(*)" + baseSql);
+            long entriesCount = (long)db.RunQueryScalar("SELECT COUNT(*) FROM signed_up_users WHERE signed_up_users.state_id = 3");
+            long outdatedEntriesCount = entriesCount - latestEntriesCount;
 
-            string date = Convert.ToString(db.RunQueryScalar("SELECT MAX(change_date) FROM signed_up_users WHERE state_id = 3;"));
+            DateTime date = (DateTime)db.RunQueryScalar("SELECT MAX(change_date) FROM signed_up_users WHERE state_id = 3;");
 
             StatDisplayBox sdboxMostRecentEntries = (StatDisplayBox)Page.LoadControl("StatDisplayBox.ascx");
             sdboxMostRecentEntries.SetData("Aktuelle Einträge", latestEntriesCount.ToString(), StatDisplayBox.Colors.Green);
@@ -63,7 +67,7 @@ namespace canteen_sign_up_admin
             sdboxOutdatedEntries.SetData("Veraltete Einträge", outdatedEntriesCount.ToString(), StatDisplayBox.Colors.Orange);
             pnlStats.Controls.Add(sdboxOutdatedEntries);
             StatDisplayBox sdboxLastChanges = (StatDisplayBox)Page.LoadControl("StatDisplayBox.ascx");
-            sdboxLastChanges.SetData("Letzte Änderung", date, StatDisplayBox.Colors.Blue);
+            sdboxLastChanges.SetData("Letzte Änderung", date.ToString("HH:mm"), date.ToString("dd.MM.yyyy"), StatDisplayBox.Colors.Blue);
             pnlStats.Controls.Add(sdboxLastChanges);
         }
 
@@ -98,7 +102,13 @@ namespace canteen_sign_up_admin
         {
             LinkButton lbGetDetails = sender as LinkButton;
             string email = lbGetDetails.Text;
-            DialogBox studentInfo = (DialogBox)Page.LoadControl("DialogBox.ascx"); ;
+            GenerateUserInfo(email);
+        }
+
+        private void GenerateUserInfo(string email, string id = null)
+        {
+            DialogBox studentInfo = (DialogBox)Page.LoadControl("DialogBox.ascx");
+            if (id != null) { studentInfo.ID = id; }
 
             string sqlCmd = DataFilter.GetSqlCmd(DataFilter.columnNamesEnglish, DataFilter.columnNamesGerman) + "WHERE signed_up_users.email = ?";
             DataTable dt = db.RunQuery(sqlCmd, email);
@@ -106,8 +116,17 @@ namespace canteen_sign_up_admin
             {
                 studentInfo.Title = "Information über Schüler";
                 studentInfo.SetStudentInformation(dt);
+                studentInfo.DialogFinished += StudentInfo_DialogFinished;
                 ((admin)this.Master).Form.Controls.Add(studentInfo);
+                ViewState["UserInfoDialogID"] = studentInfo.ID;
+                ViewState["UserInfoDialogEmail"] = email;
             }
+        }
+
+        private void StudentInfo_DialogFinished(object sender, DialogEventArgs e)
+        {
+            ViewState["UserInfoDialogID"] = null;
+            ViewState["UserInfoDialogEmail"] = null;
         }
 
         protected void ddlEntriesPerPage_SelectedIndexChanged(object sender, EventArgs e)

@@ -255,8 +255,16 @@ namespace canteen_sign_up
 
             SendUserData();
 
-            // TODO starts at server? if so, change to send to user
-            Process.Start(filename);
+            FileInfo file = new FileInfo(filename);
+            Response.Clear();
+            Response.ClearHeaders();
+            Response.ClearContent();
+            Response.AddHeader("Content-Disposition", $"attachment; filename=Mensa-Registrierung {user.Firstname} {user.Lastname}.pdf");
+            Response.AddHeader("Content-Length", file.Length.ToString());
+            Response.ContentType = "text/plain";
+            Response.Flush();
+            Response.TransmitFile(file.FullName);
+            Response.End();
 
             PageSelector.RedirectToCorrectPage(PageSelector.RegState.NotRegistered, this);
         }
