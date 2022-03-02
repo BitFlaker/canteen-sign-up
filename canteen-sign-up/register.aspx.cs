@@ -154,9 +154,9 @@ namespace canteen_sign_up
             MemoryStream memoryStream = new MemoryStream();
             qrCodeImage.Save(memoryStream, ImageFormat.Png);
             XImage image = XImage.FromStream(memoryStream);
-            double width = image.PixelWidth * 40 / image.HorizontalResolution;
-            double height = image.PixelHeight * 40 / image.HorizontalResolution;
-            gfx.DrawImage(image, page.Width - width - qrIndent, 185, width, height);
+            double width = image.PixelWidth * 75 / image.HorizontalResolution;
+            double height = image.PixelHeight * 75 / image.HorizontalResolution;
+            gfx.DrawImage(image, page.Width - width - qrIndent, 165, width, height);
 
             // Get and draw Creditor-ID and Mandate Reference
             string mandateReference = "Mandatsreferenz: " + GetNextUniqueMandateReference();
@@ -172,7 +172,7 @@ namespace canteen_sign_up
             tf.DrawString("SEPA Lastschrift-Mandat", fontBold, XBrushes.Black, new XRect(pageIndent, 180, page.Width - 2 * pageIndent, 0), XStringFormats.TopLeft);
             tf.DrawString("für die HTL-Ausspeisung", fontBold, XBrushes.Black, new XRect(pageIndent, 180 + boldLineHeight, page.Width - 2 * pageIndent, 0), XStringFormats.TopLeft);
 
-            double topMargin = 270;
+            double topMargin = 300;
             double spaceHeight = 20;
             string textBlock1 = "Ich ermächtige/ Wir ermächtigen die HTL Vöcklabruck, Zahlungen von meinem/ unserem Konto mittels SEPA-Lastschrift einzuziehen. Zugleich weise ich mein/ weisen wir unser Kreditinstitut an, die von dem Bildungszentrum HTL-Vöcklabruck auf mein/ unser Konto gezogenen SEPA-Lastschriften einzulösen.";
             string textBlock2 = "Ich kann/ Wir können innerhalb von acht Wochen, beginnend mit dem Belastungsdatum, die Erstattung des belasteten Betrages verlangen. Es gelten dabei die mit meinem/ unserem Kreditinstitut vereinbarten Bedingungen.";
